@@ -9,11 +9,13 @@ To create the env for a new developer, run `make dev_env`.
 
 
 ## Requirements
-
+Each of the main requirements will corespond to an API endpoint.
 
 ## Front-End Design
-
-Each of the main requirements will corespond to an API endpoint.
+Page for user account
+* Cryptocurrencies they follow
+* trends/potential realtime graph of above
+* Investors they follow
 
 ## Back-End Design
 
