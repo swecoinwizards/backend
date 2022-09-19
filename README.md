@@ -28,7 +28,11 @@ Investor/Cryptocurrency Page
 
 
 ## Back-End Design
-
+Users and Systems
+* Login and registration authentication
+* Subscriptions for alerts (e.g. texts, emails)
+* Customized alerts based on prices and activity of followed investors
+* Send alerts/messages
 
 ## Database
 
