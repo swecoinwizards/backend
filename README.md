@@ -17,6 +17,16 @@ Page for user account
 * trends/potential realtime graph of above
 * Investors they follow
 
+Search Page
+* search crypto/investor option
+* leading trends (e.g price change)
+
+Investor/Cryptocurrency Page
+* info on it
+* price change
+* market news 
+
+
 ## Back-End Design
 
 
