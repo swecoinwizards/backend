@@ -34,5 +34,9 @@ Users and Systems
 * Customized alerts based on prices and activity of followed investors
 * Send alerts/messages
 
+Data Processing
+* Get data from APIs chosen
+* Process and analyze data for different use cases
+
 ## Database
 
