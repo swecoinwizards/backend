@@ -40,3 +40,5 @@ Data Processing
 
 ## Database
 
+* Store user data, e.g. account info
+* Query user data, e.g. get the number of accounts
