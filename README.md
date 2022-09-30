@@ -7,6 +7,8 @@ To create the env for a new developer, run `make dev_env`.
 
 ## Target Audience/Goal
 
+The target audiences are primarily crypto investors based on their investment portfolio
+
 
 ## Requirements
 Each of the main requirements will corespond to an API endpoint.
