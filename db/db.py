@@ -59,3 +59,9 @@ def update_alert():
     Update alert associated with a user
     """
     return
+
+def find_account():
+    """
+    Retrieves a particular account from the database
+    """
+    return
