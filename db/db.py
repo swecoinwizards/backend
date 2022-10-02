@@ -29,3 +29,9 @@ def delete_account():
     Remove an account from the database
     """""
     return
+
+def update_account():
+    """""
+    Send updates to the database, e.g. change username
+    """""
+    return
