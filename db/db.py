@@ -16,25 +16,25 @@ def get_accounts():
     """""
     Get a list of accounts from the database
     """""
-    return
+    return {"01", "02", "03"}
 
 
 def add_account():
     """""
     Add a new account to the database
     """""
-    return
+    return False
 
 
 def delete_account():
     """""
     Remove an account from the database
     """""
-    return
+    return False
 
 
 def update_account():
     """""
     Send updates to the database, e.g. change username
     """""
-    return
+    return False
