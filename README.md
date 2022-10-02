@@ -11,7 +11,8 @@ The target audiences are primarily crypto investors based on their investment po
 
 
 ## Requirements
-Each of the main requirements will corespond to an API endpoint.
+* Each of the main requirements will corespond to an API endpoint.
+* Main focus is on the coinmarket API
 
 ## Front-End Design
 Page for user account
