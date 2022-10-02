@@ -38,3 +38,24 @@ def update_account():
     Send updates to the database, e.g. change username
     """""
     return False
+
+
+def add_alert():
+    """
+    Add new alerts to user
+    """
+    return
+
+
+def delete_alert():
+    """
+    Delete alert associated with a user
+    """
+    return
+
+
+def update_alert():
+    """
+    Update alert associated with a user
+    """
+    return
