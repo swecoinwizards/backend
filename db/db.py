@@ -18,17 +18,20 @@ def get_accounts():
     """""
     return
 
+
 def add_account():
     """""
     Add a new account to the database
     """""
     return
 
+
 def delete_account():
     """""
     Remove an account from the database
     """""
     return
+
 
 def update_account():
     """""
