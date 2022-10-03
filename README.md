@@ -45,3 +45,4 @@ Data Processing
 
 * Store user data, e.g. account info
 * Query user data, e.g. get the number of accounts
+* ER Diagram: [Draw.io Design](https://drive.google.com/file/d/1_9ncNf8hwSNbuxS2CsFDgUAu4zlofcJg/view?usp=sharing) 
