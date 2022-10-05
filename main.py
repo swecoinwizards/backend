@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 @app.route("/")
-@app.route("/home", methods=['GET','POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def home():
     """
     The `get()` method will return a list of available endpoints.

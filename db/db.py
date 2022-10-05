@@ -60,6 +60,7 @@ def update_alert():
     """
     return
 
+
 def find_account():
     """
     Retrieves a particular account from the database
