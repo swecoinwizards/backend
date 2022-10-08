@@ -15,11 +15,6 @@ The target audiences are primarily crypto investors based on their investment po
 * Main focus is on the coinmarket API
 
 ## Front-End Design
-Page for user account
-* Cryptocurrencies they follow
-* trends/potential realtime graph of above
-* Investors they follow
-
 Home Page - Logged In
 * User personalized
 * Investor/crypto movements
@@ -27,6 +22,20 @@ Home Page - Logged In
 
 Home Page - Not Logged In
 * Latests Trends
+
+Investor/User Profile
+* Follow github UI
+* Use twitter api for tweets
+* follow button
+* include net worth
+* show socials
+
+User Account (logged in)
+* when first logging show "Hello Name"
+* Drop down settings option
+* Followers/ following
+* Users can follow other users
+* include net worth
 
 Search Page
 * search crypto/investor option
