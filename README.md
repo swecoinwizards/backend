@@ -15,6 +15,11 @@ The target audiences are primarily crypto investors based on their investment po
 * Main focus is on the coinmarket API
 
 ## Front-End Design
+Login Page
+* Use mongodb for logging in
+* database stores username/account data
+* account recovery
+
 Home Page - Logged In
 * User personalized
 * Investor/crypto movements
@@ -59,6 +64,9 @@ Data Processing
 * Process and analyze data for different use cases
 
 ## Database
+Database design update:
+* include who users follows
+* include who follows user
 
 * Store user data, e.g. account info
 * Query user data, e.g. get the number of accounts
