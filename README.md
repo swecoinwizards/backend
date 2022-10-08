@@ -20,6 +20,9 @@ Login Page
 * database stores username/account data
 * account recovery
 
+Sign up
+* include node for buttons/activate database
+
 Home Page - Logged In
 * User personalized
 * Investor/crypto movements
@@ -42,9 +45,17 @@ User Account (logged in)
 * Users can follow other users
 * include net worth
 
+Search bar
+* include filter for user to choose what they search for
+* include auto ending?
+
 Search Page
 * search crypto/investor option
 * leading trends (e.g price change)
+* shows what user search for
+* shows similar things with same name/searched term
+* includes market cap/ popular crypto trends
+* include filter
 
 Investor/Cryptocurrency Page
 * info on it
