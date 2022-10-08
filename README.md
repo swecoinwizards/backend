@@ -20,6 +20,14 @@ Page for user account
 * trends/potential realtime graph of above
 * Investors they follow
 
+Home Page - Logged In
+* User personalized
+* Investor/crypto movements
+* Include graph based on what they follow
+
+Home Page - Not Logged In
+* Latests Trends
+
 Search Page
 * search crypto/investor option
 * leading trends (e.g price change)
