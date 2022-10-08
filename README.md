@@ -15,6 +15,8 @@ The target audiences are primarily crypto investors based on their investment po
 * Main focus is on the coinmarket API
 
 ## Front-End Design
+[Figma Design](https://www.figma.com/file/C6YwbGFcm2Hhb01uTOMcQB/FinTech?node-id=0%3A1)
+
 Login Page
 * Use mongodb for logging in
 * database stores username/account data
