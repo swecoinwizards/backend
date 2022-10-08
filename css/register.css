@@ -1,0 +1,13 @@
+body {
+    background-color: white;
+    color: black;
+}
+
+#user {
+    background-color: blue;
+    color: black;
+}
+
+#pass {
+    color: black;
+}
