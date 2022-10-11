@@ -18,3 +18,7 @@ def home():
     The `get()` method will return a list of available endpoints.
     """
     return render_template("home.html")
+   
+
+if __name__ == '__main__':
+    app.run()
