@@ -19,6 +19,25 @@ def home():
     """
     return render_template("home.html")
    
+@app.route("/")
+@app.route("/userPage", methods=['GET', 'POST'])
+def userPage():
+    return render_template("userPage.html")
+
+@app.route("/")
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    return render_template("register.html")
+    
+@app.route("/")
+@app.route("/searchPage", methods=['GET', 'POST'])
+def searchPage():
+    return render_template("searchPage.html")
+
+@app.route("/")
+@app.route("/recoveryPage", methods=['GET', 'POST'])
+def recoveryPage():
+    return render_template("recoveryPage.html")
 
 if __name__ == '__main__':
     app.run()
