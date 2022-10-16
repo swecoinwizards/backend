@@ -17,8 +17,15 @@ def home():
     """
     The `get()` method will return a list of available endpoints.
     """
+    print("in here")
     return render_template("home.html")
    
+@app.route("/userPage", methods=['GET', 'POST'])
+def userPage():
+    tempUserName = 'User01'
+    # return render_template("home.html",user=tempUserName)
+    print("going to user page")
+    return render_template("userPage.html", user=tempUserName)
 
 if __name__ == '__main__':
     app.run()

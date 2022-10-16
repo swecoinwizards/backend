@@ -1,0 +1,8 @@
+body{
+    background-color: antiquewhite;
+}
+
+#UserName{
+    display: flex;
+    justify-content: center;
+}
