@@ -21,3 +21,23 @@ def test_delete_account():
 def test_update_account():
     status = dbs.update_account()
     assert isinstance(status, bool)
+
+
+def test_get_user_followers():
+    followers = dbs.get_user_followers("test")
+    assert isinstance(followers, list)
+
+
+def test_get_user_following():
+    following = dbs.get_user_following("test")
+    assert isinstance(following, list)
+
+
+def test_add_user_post():
+    status = dbs.add_user_post("test")
+    assert isinstance(status, bool)
+
+
+def test_get_user_posts():
+    posts = dbs.get_user_posts("test")
+    assert isinstance(posts, list)

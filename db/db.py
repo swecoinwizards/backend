@@ -66,3 +66,32 @@ def find_account():
     Retrieves a particular account from the database
     """
     return
+
+
+def get_user_followers(username):
+    """
+    Returns a list of followers given a username
+    """
+    return {"John Smith", "Jane Doe"}
+
+
+def get_user_following(username):
+    """
+    Returns a list of users followed given a username
+    """
+    return {"John Smith, Jane Doe"}
+
+
+def add_user_post(username, post):
+    """
+    Returns a list of posts made by a user
+    """
+    return False
+
+
+def get_user_posts(username):
+    """
+    Returns all posts made by a user
+    """
+    # posts should probably be an object with timestamps?
+    return {"post1", "post2"}
