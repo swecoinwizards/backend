@@ -1,7 +1,8 @@
 Investor = 'Investor'
 Follower = 'Follower'
 
-user_types= {Investor, Follower}
+user_types = {Investor, Follower}
+
 
 def get_user_types():
     return
@@ -17,4 +18,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
