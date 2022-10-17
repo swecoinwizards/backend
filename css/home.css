@@ -15,3 +15,23 @@ body {
     top:0;
     right:0;
 }
+
+.box {
+    background-color:Chartreuse;
+    width:31%;
+    display:inline-block;
+    margin:11px 0;
+    border-radius:6px;
+}
+ 
+.text {
+    padding:11px 0;
+    color:rgb(7, 7, 7);
+    font-weight:bold;
+    text-align:center;
+}
+ 
+#container {
+    white-space:nowrap;
+    text-align:center;
+}
