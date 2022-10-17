@@ -8,7 +8,7 @@ from flask import Flask, render_template
 # import db.db as db
 
 app = Flask(__name__)
-# api = Api(app)
+
 
 
 @app.route("/")
