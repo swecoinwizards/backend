@@ -16,6 +16,7 @@ body {
     right:0;
 }
 
+
 .box {
     background-color:Chartreuse;
     width:31%;
@@ -23,7 +24,8 @@ body {
     margin:11px 0;
     border-radius:6px;
 }
- 
+
+
 .text {
     padding:11px 0;
     color:rgb(7, 7, 7);
@@ -31,7 +33,9 @@ body {
     text-align:center;
 }
  
+
 #container {
     white-space:nowrap;
     text-align:center;
 }
+
