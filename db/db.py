@@ -66,3 +66,17 @@ def find_account():
     Retrieves a particular account from the database
     """
     return
+
+
+def get_user_followers(username):
+    """
+    Returns a list of followers given a username
+    """
+    return {"John Smith", "Jane Doe"}
+
+
+def get_user_following(username):
+    """
+    Returns a list of users followed given a username
+    """
+    return {"John Smith, Jane Doe"}
