@@ -11,6 +11,7 @@ app = Flask(__name__)
 # api = Api(app)
 
 loggedIn = False
+# loggedIn = True
 
 @app.route("/")
 @app.route("/home", methods=['GET', 'POST'])

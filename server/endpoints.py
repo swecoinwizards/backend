@@ -3,21 +3,23 @@ This is the file containing all of the endpoints for our flask app.
 The endpoint called `endpoints` will return all available endpoints.
 """
 
-from flask import Flask
-from flask_restx import Resource, Api
-# import db.db as db
+from flask import Flask, request
+from flask_restx import Resource, Api, fields
+import db.user_types as user
 
 app = Flask(__name__)
 api = Api(app)
 
 LIST = 'list'
+DETAILS = 'details'
+ADD = 'add'
 HELLO = '/hello'
 MESSAGE = 'message'
-CHAR_TYPE_LIST = f'/character_types/{LIST}'
-CHAR_TYPE_LIST_NM = 'character_types_list'
-
-A_CHAR_TYPE = 'Wizard'
-ANOTHER_CHAR_TYPE = 'Warrior'
+USERS_NS = 'users'
+USER_LIST = f'/{USERS_NS}/{LIST}'
+USER_LIST_NM = f'{USERS_NS}_list'
+USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
+USER_ADD = f'/{USERS_NS}/{ADD}'
 
 
 @api.route(HELLO)
@@ -34,16 +36,39 @@ class HelloWorld(Resource):
         return {MESSAGE: 'hello world'}
 
 
-@api.route(CHAR_TYPE_LIST)
-class CharacterTypeList(Resource):
+@api.route(USER_LIST)
+class UserList(Resource):
     """
-    This will get a list of character types.
+    This will get a list of currrent users.
     """
     def get(self):
         """
-        Returns a list of character types.
+        Returns a list of current users.
         """
-        return {CHAR_TYPE_LIST_NM: [A_CHAR_TYPE, ANOTHER_CHAR_TYPE]}
+        return {USER_LIST_NM: user.get_users()}
+
+
+user_fields = api.model('NewUser', {
+    user.NAME: fields.String,
+    user.FOLLOWERS: fields.Integer,
+    user.FOLLOWING: fields.Integer,
+})
+
+
+@api.route(USER_ADD)
+class AddUser(Resource):
+    """
+    Add a user.
+    """
+    @api.expect(user_fields)
+    def post(self):
+        """
+        Add a user.
+        """
+        print(f'{request.json=}')
+        name = request.json[user.NAME]
+        # del request.json[user.NAME]
+        user.add_user(name, request.json)
 
 
 @api.route('/endpoints')
