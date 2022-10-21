@@ -10,6 +10,8 @@ TEST_CLIENT = ep.app.test_client()
 SAMPLE_USER_NM = 'SampleUser'
 SAMPLE_USER = {
     user.NAME: SAMPLE_USER_NM,
+    user.PASSWORD: '***',
+    user.EMAIL: '1@gmail.com',
     user.FOLLOWERS: 10,
     user.FOLLOWING: 10,
 }

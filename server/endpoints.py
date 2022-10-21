@@ -70,6 +70,7 @@ class AddUser(Resource):
         print(f'{request.json=}')
         name = request.json[user.NAME]
         # del request.json[user.NAME]
+        print(user_fields)
         user.add_user(name, request.json)
 
 
