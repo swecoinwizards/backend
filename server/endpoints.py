@@ -50,6 +50,8 @@ class UserList(Resource):
 
 user_fields = api.model('NewUser', {
     user.NAME: fields.String,
+    user.PASSWORD: fields.String,
+    user.EMAIL: fields.String,
     user.FOLLOWERS: fields.Integer,
     user.FOLLOWING: fields.Integer,
 })

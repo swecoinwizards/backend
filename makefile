@@ -16,6 +16,7 @@ all_tests: lint unit
 
 unit: FORCE
 	cd $(API_DIR); pytest $(PYTESTFLAGS)
+	cd $(DB_DIR); pytest $(PYTESTFLAGS)
 
 lint: FORCE
 	$(LINTER) $(API_DIR)/*.py
