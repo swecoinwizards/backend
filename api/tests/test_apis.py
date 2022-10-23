@@ -1,5 +1,6 @@
 import api.coinmarket as cm
 
-def testCoinmarketApi (): 
+
+def testCoinmarketApi():
     status = cm.dummyGetApiToWork(cm.coinApiLink)
     assert isinstance(status, bool)

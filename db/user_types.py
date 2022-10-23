@@ -1,6 +1,7 @@
 Investor = 'Investor'
 Investor2 = 'Investor2'
 Investor3 = 'Investor3'
+SampleUser = 'SampleUser'
 NAME = 'name'
 FOLLOWERS = 'Followers'
 FOLLOWING = 'Following'
@@ -12,7 +13,9 @@ user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               Investor2: {NAME: 'user2', PASSWORD: '****',
               EMAIL: 'user2@gmail.com', FOLLOWERS: [], FOLLOWING: [Investor]},
               Investor3: {NAME: 'user3', PASSWORD: '****',
-              EMAIL: 'user3@gmail.com', FOLLOWERS: [], FOLLOWING: []}}
+              EMAIL: 'user3@gmail.com', FOLLOWERS: [], FOLLOWING: []},
+              SampleUser: {NAME: 'sample', PASSWORD: '****',
+              EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [], FOLLOWING: []}}
 
 
 def user_exists(name):

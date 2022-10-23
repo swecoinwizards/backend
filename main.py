@@ -13,6 +13,7 @@ app = Flask(__name__)
 loggedIn = False
 # loggedIn = True
 
+
 @app.route("/")
 @app.route("/home", methods=['GET', 'POST'])
 def home():
@@ -20,10 +21,11 @@ def home():
     The `get()` method will return a list of available endpoints.
     """
     print("in here")
-    if loggedIn == True:
+    if loggedIn:
         return render_template("home.html")
     return render_template("homeAnon.html")
-   
+
+
 @app.route("/userPage", methods=['GET', 'POST'])
 def userPage():
     tempUserName = 'User01'
@@ -31,9 +33,11 @@ def userPage():
     print("going to user page")
     return render_template("userPage.html", user=tempUserName)
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     return render_template("login.html")
+
 
 if __name__ == '__main__':
     app.run()

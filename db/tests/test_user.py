@@ -1,7 +1,7 @@
 import pytest
 
 import db.user_types as usr
-from server.tests.test_endpoints import TEST_CLIENT
+# from server.tests.test_endpoints import TEST_CLIENT
 
 
 def test_get_users():
@@ -29,17 +29,18 @@ def test_add_missing_field():
     with pytest.raises(ValueError):
         usr.add_user('a new user', {'foo': 'bar'})
 
+
 def test_add_follower():
     usr.add_follower(usr.Investor, usr.Investor3)
-    assert usr.follower_exists(usr.Investor,usr.Investor3)
-    
+    assert usr.follower_exists(usr.Investor, usr.Investor3)
+
 
 def test_add_user():
     TEST_USER_NAME = 'testName'
     details = {}
     for field in usr.REQUIRED_FIELDS:
-        if field==usr.FOLLOWERS or field==usr.FOLLOWING:
-            details[field]=[]
+        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
+            details[field] = []
         details[field] = 2
     usr.add_user(TEST_USER_NAME, details)
     assert usr.user_exists(TEST_USER_NAME)

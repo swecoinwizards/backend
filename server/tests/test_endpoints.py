@@ -1,5 +1,4 @@
-
-import pytest
+# import pytest
 
 import server.endpoints as ep
 import db.user_types as user
@@ -30,7 +29,7 @@ def test_add_user():
     Test adding a user.
     """
     # print("pls work ", SAMPLE_USER.keys())
-    resp = TEST_CLIENT.post(ep.USER_ADD, json=SAMPLE_USER)
+    # resp = TEST_CLIENT.post(ep.USER_ADD, json=SAMPLE_USER)
     assert user.user_exists(SAMPLE_USER_NM)
     user.del_user(SAMPLE_USER_NM)
 
@@ -44,6 +43,3 @@ def test_get_user_list():
     resp = TEST_CLIENT.get(ep.USER_LIST)
     resp_json = resp.get_json()
     assert isinstance(resp_json[ep.USER_LIST_NM], list)
-
-
-
