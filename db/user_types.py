@@ -30,6 +30,13 @@ def get_user_type_details(type):
     return list(user_types.get(type, None))
 
 
+def get_user_email(username):
+    if username not in user_types:
+        raise ValueError(f'User {username=} does not exist')
+
+    return user_types[username][EMAIL]
+
+
 def add_user(name, details):
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
@@ -59,6 +66,10 @@ def add_follower(userName, followName):
 def remove_follower(userName, followName):
     user_types[followName][FOLLOWERS].remove(userName)
     user_types[userName][FOLLOWING].remove(followName)
+
+
+def update_email(userName, newEmail):
+    user_types[userName][EMAIL] = newEmail
 
 
 def main():

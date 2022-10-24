@@ -45,3 +45,17 @@ def test_add_user():
     usr.add_user(TEST_USER_NAME, details)
     assert usr.user_exists(TEST_USER_NAME)
     usr.del_user(TEST_USER_NAME)
+
+
+def test_update_email():
+    TEST_USER_NAME = 'testName'
+    TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
+    details = {}
+    for field in usr.REQUIRED_FIELDS:
+        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
+            details[field] = []
+        details[field] = 2
+    usr.add_user(TEST_USER_NAME, details)
+    usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
+    assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
+    usr.del_user(TEST_USER_NAME)
