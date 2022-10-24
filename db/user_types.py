@@ -26,6 +26,13 @@ def get_users():
     return list(user_types.keys())
 
 
+def get_user(username):
+    if username not in user_types:
+        raise ValueError(f'User {username=} does not exist')
+
+    return user_types[username]
+
+
 def get_user_type_details(type):
     return list(user_types.get(type, None))
 

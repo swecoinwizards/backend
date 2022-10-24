@@ -59,3 +59,15 @@ def test_update_email():
     usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
     assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
     usr.del_user(TEST_USER_NAME)
+
+
+def test_get_user():
+    TEST_USER_NAME = 'testName'
+    details = {}
+    for field in usr.REQUIRED_FIELDS:
+        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
+            details[field] = []
+        details[field] = 2
+    usr.add_user(TEST_USER_NAME, details)
+    assert usr.get_user(TEST_USER_NAME) is not None
+    usr.del_user(TEST_USER_NAME)
