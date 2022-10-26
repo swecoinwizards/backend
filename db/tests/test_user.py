@@ -12,7 +12,7 @@ def test_get_users():
 
 def test_get_user_details():
     usr_dets = usr.get_user_type_details(usr.Investor)
-    assert isinstance(usr_dets, list)
+    assert isinstance(usr_dets, dict)
 
 
 def test_add_wrong_name_type():

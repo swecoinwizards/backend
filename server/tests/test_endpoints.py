@@ -5,6 +5,7 @@ import db.user_types as user
 
 TEST_CLIENT = ep.app.test_client()
 
+TEST_USER_TYPE = 'Investor'
 
 SAMPLE_USER_NM = 'SampleUser'
 SAMPLE_USER = {
@@ -16,12 +17,22 @@ SAMPLE_USER = {
 }
 
 
-def test_hello():
+# def test_hello():
+#     """
+#     See if Hello works.
+#     """
+#     resp_json = TEST_CLIENT.get(ep.HELLO).get_json()
+#     assert isinstance(resp_json[ep.MESSAGE], str)
+
+
+def test_get_user_list():
     """
-    See if Hello works.
+    See if we can get a user list properly.
+    Return should look like:
+        {USER_LIST_NM: [list of users types...]}
     """
-    resp_json = TEST_CLIENT.get(ep.HELLO).get_json()
-    assert isinstance(resp_json[ep.MESSAGE], str)
+    resp_json = TEST_CLIENT.get(ep.USER_LIST).get_json()
+    assert isinstance(resp_json[ep.USER_LIST_NM], list)
 
 
 def test_add_user():
@@ -34,12 +45,10 @@ def test_add_user():
     user.del_user(SAMPLE_USER_NM)
 
 
-def test_get_user_list():
+def test_get_user_type_details():
     """
-    See if we can get a user list properly.
-    Return should look like:
-        {USER_LIST_NM: [list of users types...]}
     """
-    resp = TEST_CLIENT.get(ep.USER_LIST)
-    resp_json = resp.get_json()
-    assert isinstance(resp_json[ep.USER_LIST_NM], list)
+    resp_json = TEST_CLIENT.get(f'{ep.USER_DETAILS}/{TEST_USER_TYPE}'
+                                ).get_json()
+    assert TEST_USER_TYPE in resp_json
+    assert isinstance(resp_json[TEST_USER_TYPE], dict)

@@ -20,7 +20,6 @@ def home():
     """
     The `get()` method will return a list of available endpoints.
     """
-    print("in here")
     if loggedIn:
         return render_template("home.html")
     return render_template("homeAnon.html")
@@ -37,6 +36,21 @@ def userPage():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     return render_template("login.html")
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    return render_template("register.html")
+
+
+@app.route("/searchPage", methods=['GET', 'POST'])
+def searchPage():
+    return render_template("searchPage.html")
+
+
+@app.route("/recoveryPage", methods=['GET', 'POST'])
+def recoveryPage():
+    return render_template("recoveryPage.html")
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ def get_user(username):
 
 
 def get_user_type_details(type):
-    return list(user_types.get(type, None))
+    return user_types.get(type, None)
 
 
 def get_user_email(username):

@@ -4,11 +4,15 @@ The endpoint called `endpoints` will return all available endpoints.
 """
 
 from flask import Flask, request
-from flask_restx import Resource, Api, fields
+from flask_restx import Resource, Api, fields, Namespace
 import db.user_types as user
+import werkzeug.exceptions as wz
+from http import HTTPStatus
+
 
 app = Flask(__name__)
 api = Api(app)
+
 
 LIST = 'list'
 DETAILS = 'details'
@@ -20,6 +24,10 @@ USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
+
+
+user_types = Namespace(USER_LIST_NM, 'Character Types')
+api.add_namespace(user_types)
 
 
 @api.route(HELLO)
@@ -46,6 +54,24 @@ class UserList(Resource):
         Returns a list of current users.
         """
         return {USER_LIST_NM: user.get_users()}
+
+
+@api.route(f'{USER_DETAILS}/<user_type>')
+class UserTypeDetails(Resource):
+    """
+    This will return details on a character type.
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, user_type):
+        """
+        This will return details on a character type.
+        """
+        ct = user.get_user_type_details(user_type)
+        if ct is not None:
+            return {user_type: user.get_user_type_details(user_type)}
+        else:
+            raise wz.NotFound(f'{user_type} not found.')
 
 
 user_fields = api.model('NewUser', {
