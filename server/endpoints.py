@@ -4,7 +4,7 @@ The endpoint called `endpoints` will return all available endpoints.
 """
 
 from flask import Flask, request
-from flask_restx import Resource, Api, fields, Namespace
+from flask_restx import Resource, Api, fields  # , Namespace
 import db.user_types as user
 import werkzeug.exceptions as wz
 from http import HTTPStatus
@@ -17,17 +17,23 @@ api = Api(app)
 LIST = 'list'
 DETAILS = 'details'
 ADD = 'add'
+REMOVE = 'remove'
+MAIN_MENU = '/main_menu'
+MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
+FOLLOW = 'follow'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
+USER_REMOVE = f'/{USERS_NS}/{REMOVE}'
+USER_FOLLOW = f'/{USERS_NS}/{FOLLOW}'
 
 
-user_types = Namespace(USER_LIST_NM, 'Character Types')
-api.add_namespace(user_types)
+# user_types = Namespace(USER_LIST_NM, 'Character Types')
+# api.add_namespace(user_types)
 
 
 @api.route(HELLO)
@@ -98,6 +104,38 @@ class AddUser(Resource):
         # del request.json[user.NAME]
         print(user_fields)
         user.add_user(name, request.json)
+
+
+@api.route(f'{USER_REMOVE}/<user_type>')
+class UserRemove(Resource):
+    """
+    Remove User
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, user_type):
+        """
+        This will return details on a character type.
+        """
+        ct = user.get_user_type_details(user_type)
+        if ct is not None:
+            return user.del_user(user_type)
+        else:
+            raise wz.NotFound(f'{user_type} not found.')
+
+
+@api.route(f'{USER_FOLLOW}/<user_type>/<user_type2>')
+class UserFollow(Resource):
+    """
+    Follow User
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+    def get(self, user_type, user_type2):
+        """
+        Add a user.
+        """
+        return user.add_follower(user_type, user_type2)
 
 
 @api.route('/endpoints')

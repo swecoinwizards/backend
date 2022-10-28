@@ -57,17 +57,27 @@ def add_user(name, details):
 
 
 def del_user(name):
+    if name not in user_types:
+        raise TypeError(f'User: {type(name)=} does not exist.')
     del user_types[name]
 
 
 def follower_exists(userName, followName):
-    return ((userName in user_types[followName][FOLLOWERS])
-            and (followName in user_types[userName][FOLLOWING]))
+    print(user_types[userName])
+    isFollower = userName in user_types[followName][FOLLOWERS]
+    isFollowing = followName in user_types[userName][FOLLOWING]
+    return (isFollower and isFollowing)
 
 
 def add_follower(userName, followName):
+    if userName == followName:
+        raise ValueError("Use two different users")
+    if follower_exists(userName, followName):
+        raise ValueError("Follower exists")
+
     user_types[followName][FOLLOWERS].append(userName)
     user_types[userName][FOLLOWING].append(followName)
+    return {userName: user_types[userName], followName: user_types[followName]}
 
 
 def remove_follower(userName, followName):
@@ -77,6 +87,10 @@ def remove_follower(userName, followName):
 
 def update_email(userName, newEmail):
     user_types[userName][EMAIL] = newEmail
+
+
+def get_password(userName):
+    return user_types[userName][PASSWORD]
 
 
 def main():
