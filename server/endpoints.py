@@ -18,6 +18,7 @@ LIST = 'list'
 DETAILS = 'details'
 ADD = 'add'
 REMOVE = 'remove'
+UPDATE = 'update'
 MAIN_MENU = '/main_menu'
 MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
@@ -30,6 +31,7 @@ USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
 USER_REMOVE = f'/{USERS_NS}/{REMOVE}'
 USER_FOLLOW = f'/{USERS_NS}/{FOLLOW}'
+USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
 
 
 # user_types = Namespace(USER_LIST_NM, 'Character Types')
@@ -89,6 +91,12 @@ user_fields = api.model('NewUser', {
 })
 
 
+user_update_email_fields = api.model('UpdateUserEmail', {
+    user.NAME: fields.String,
+    user.EMAIL: fields.String,
+})
+
+
 @api.route(USER_ADD)
 class AddUser(Resource):
     """
@@ -136,6 +144,24 @@ class UserFollow(Resource):
         Add a user.
         """
         return user.add_follower(user_type, user_type2)
+
+
+@api.route(USER_UPDATE_EMAIL)
+class UserUpdateEmail(Resource):
+    """
+    Update a user's email
+    """
+    @api.expect(user_update_email_fields)
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+    def put(self):
+        """
+        Update email
+        """
+        print(f'{request.json=}')
+        print(user_update_email_fields)
+        return user.update_email(request.json[user.NAME],
+                                 request.json[user.EMAIL])
 
 
 @api.route('/endpoints')

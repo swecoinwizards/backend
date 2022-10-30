@@ -86,7 +86,13 @@ def remove_follower(userName, followName):
 
 
 def update_email(userName, newEmail):
+    currentEmail = user_types[userName][EMAIL]
+
+    if currentEmail == newEmail:
+        raise ValueError("New email cannot be the same as the old")
+
     user_types[userName][EMAIL] = newEmail
+    return {userName: user_types[userName]}
 
 
 def get_password(userName):
