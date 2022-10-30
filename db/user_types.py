@@ -89,7 +89,7 @@ def update_email(userName, newEmail):
     currentEmail = user_types[userName][EMAIL]
 
     if currentEmail == newEmail:
-        raise ValueError("New email cannot be the same as the old")
+        raise ValueError("New email must be different from the previous!")
 
     user_types[userName][EMAIL] = newEmail
     return {userName: user_types[userName]}
@@ -97,6 +97,16 @@ def update_email(userName, newEmail):
 
 def get_password(userName):
     return user_types[userName][PASSWORD]
+
+
+def update_password(userName, newPassword):
+    currentPassword = user_types[userName][PASSWORD]
+
+    if currentPassword == newPassword:
+        raise ValueError("New password must be different from the previous!")
+
+    user_types[userName][PASSWORD] = newPassword
+    return {userName: user_types[userName]}
 
 
 def main():

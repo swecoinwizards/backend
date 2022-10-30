@@ -38,10 +38,9 @@ def test_add_follower():
 def test_add_user():
     TEST_USER_NAME = 'testName'
     details = {}
+
     for field in usr.REQUIRED_FIELDS:
-        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
-            details[field] = []
-        details[field] = 2
+        details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     assert usr.user_exists(TEST_USER_NAME)
     usr.del_user(TEST_USER_NAME)
@@ -51,10 +50,9 @@ def test_del_user():
     # adding temp user
     TEST_USER_NAME = 'testName'
     details = {}
+
     for field in usr.REQUIRED_FIELDS:
-        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
-            details[field] = []
-        details[field] = 2
+        details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     # deleting user
     usr.del_user(TEST_USER_NAME)
@@ -66,10 +64,9 @@ def test_update_email():
     TEST_USER_NAME = 'testName'
     TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
     details = {}
+
     for field in usr.REQUIRED_FIELDS:
-        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
-            details[field] = []
-        details[field] = 2
+        details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
     assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
@@ -79,10 +76,9 @@ def test_update_email():
 def test_get_user():
     TEST_USER_NAME = 'testName'
     details = {}
+
     for field in usr.REQUIRED_FIELDS:
-        if field == usr.FOLLOWERS or field == usr.FOLLOWING:
-            details[field] = []
-        details[field] = 2
+        details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     assert usr.get_user(TEST_USER_NAME) is not None
     usr.del_user(TEST_USER_NAME)
@@ -91,3 +87,16 @@ def test_get_user():
 def test_get_password():
     credentials = usr.get_password(usr.Investor)
     assert isinstance(credentials, str)
+
+
+def test_update_password():
+    TEST_USER_NAME = 'testName'
+    TEST_NEW_PASSWORD = 'abc123'
+    details = {}
+    for field in usr.REQUIRED_FIELDS:
+        details[field] = []
+
+    usr.add_user(TEST_USER_NAME, details)
+    usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
+    assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
+    usr.del_user(TEST_USER_NAME)
