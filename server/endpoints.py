@@ -52,6 +52,25 @@ class HelloWorld(Resource):
         return {MESSAGE: 'hello world'}
 
 
+@api.route(MAIN_MENU)
+class MainMenu(Resource):
+    """
+    This will deliver our main menu.
+    """
+    def get(self):
+        """
+        Gets the main game menu.
+        """
+        return {'Title': MAIN_MENU_NM,
+                'Default': 0,
+                'Choices': {
+                    '1': {'text': 'List User Types'},
+                    '2': {'url': '/users/list',
+                          'method': 'get', 'text': 'List Active Users'},
+                    'X': {'text': 'Exit'},
+                }}
+
+
 @api.route(USER_LIST)
 class UserList(Resource):
     """
