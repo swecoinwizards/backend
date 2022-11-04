@@ -9,6 +9,8 @@ TEST_USER_TYPE = 'Investor'
 
 TEST_USER_TYPE2 = 'Investor2'
 
+TEST_COIN_TYPE = 'Bitcoin'
+
 SAMPLE_USER_NM = 'SampleUser'
 SAMPLE_USER = {
     user.NAME: SAMPLE_USER_NM,
@@ -16,6 +18,7 @@ SAMPLE_USER = {
     user.EMAIL: '1@gmail.com',
     user.FOLLOWERS: [],
     user.FOLLOWING: [],
+    user.COINS: [],
 }
 
 
@@ -26,6 +29,7 @@ SAMPLE_USER2 = {
     user.EMAIL: '1@gmail.com',
     user.FOLLOWERS: [],
     user.FOLLOWING: [],
+    user.COINS: [],
 }
 
 
@@ -80,5 +84,44 @@ def test_add_follower():
     user.add_user(SAMPLE_USER_NM2, SAMPLE_USER2)
     resp_json = TEST_CLIENT.get(
         f'{ep.USER_FOLLOW}/{SAMPLE_USER}/{SAMPLE_USER2}').get_json()
-    print(resp_json)
+    # print(resp_json)
+    assert isinstance(resp_json, dict)
+
+
+def test_remove_follower():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER}/{SAMPLE_USER2}').get_json()
+    assert isinstance(resp_json, dict)
+
+
+def test_coin_type_details():
+    """
+    """
+    resp_json = TEST_CLIENT.get(f'{ep.COIN_DETAILS}/{TEST_COIN_TYPE}'
+                                ).get_json()
+    assert TEST_COIN_TYPE in resp_json
+    assert isinstance(resp_json[TEST_COIN_TYPE], dict)
+
+
+def test_get_coin_list():
+    """
+    See if we can get a user list properly.
+    Return should look like:
+        {USER_LIST_NM: [list of users types...]}
+    """
+    resp_json = TEST_CLIENT.get(ep.COIN_LIST).get_json()
+    assert isinstance(resp_json[ep.COIN_LIST_NM], list)
+
+
+def test_add_coin():
+    user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
+    resp_json = TEST_CLIENT.get(
+        f'{ep.COIN_FOLLOW}/{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
+    # print(resp_json)
+    assert isinstance(resp_json, dict)
+
+
+def test_remove_coin():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.COIN_REMOVE_FOLLOW}/{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
     assert isinstance(resp_json, dict)

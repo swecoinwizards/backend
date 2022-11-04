@@ -7,6 +7,7 @@ ID = 'id'
 NAME = 'name'
 SYMBOL = 'symbol'
 PRICE = 'price'
+TEST_COIN = 'Bitcoin'
 REQUIRED_FIELDS = [ID, NAME, SYMBOL, PRICE]
 
 # database will use

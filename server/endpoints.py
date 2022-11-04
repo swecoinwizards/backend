@@ -6,6 +6,7 @@ The endpoint called `endpoints` will return all available endpoints.
 from flask import Flask, request
 from flask_restx import Resource, Api, fields  # , Namespace
 import db.user_types as user
+import db.coins as coin
 import werkzeug.exceptions as wz
 from http import HTTPStatus
 
@@ -31,7 +32,15 @@ USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
 USER_REMOVE = f'/{USERS_NS}/{REMOVE}'
 USER_FOLLOW = f'/{USERS_NS}/{FOLLOW}'
+USER_REMOVE_FOLLOW = f'/{USERS_NS}/{REMOVE}/{FOLLOW}'
 USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
+COINS_NS = 'coins'
+COIN_LIST = f'/{COINS_NS}/{LIST}'
+COIN_LIST_NM = f'{COINS_NS}_list'
+COIN_DETAILS = f'/{COINS_NS}/{DETAILS}'
+COIN_REMOVE = f'/{COINS_NS}/{REMOVE}'
+COIN_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{FOLLOW}'
+COIN_REMOVE_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{REMOVE}/{FOLLOW}'
 
 
 # user_types = Namespace(USER_LIST_NM, 'Character Types')
@@ -107,6 +116,7 @@ user_fields = api.model('NewUser', {
     user.EMAIL: fields.String,
     user.FOLLOWERS: fields.Integer,
     user.FOLLOWING: fields.Integer,
+    user.COINS: fields.Integer,
 })
 
 
@@ -165,6 +175,20 @@ class UserFollow(Resource):
         return user.add_follower(user_type, user_type2)
 
 
+@api.route(f'{USER_REMOVE_FOLLOW}/<user_type>/<user_type2>')
+class UserRemoveFollow(Resource):
+    """
+    Remove follow
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+    def get(self, user_type, user_type2):
+        """
+        Add a user.
+        """
+        return user.remove_follower(user_type, user_type2)
+
+
 @api.route(USER_UPDATE_EMAIL)
 class UserUpdateEmail(Resource):
     """
@@ -181,6 +205,72 @@ class UserUpdateEmail(Resource):
         print(user_update_email_fields)
         return user.update_email(request.json[user.NAME],
                                  request.json[user.EMAIL])
+
+
+@api.route(COIN_LIST)
+class CoinList(Resource):
+    """
+    This will get a list of currrent users.
+    """
+    def get(self):
+        """
+        Returns a list of current users.
+        """
+        return {COIN_LIST_NM: coin.get_coins()}
+
+
+@api.route(f'{COIN_DETAILS}/<coin_type>')
+class CoinTypeDetails(Resource):
+    """
+    This will return details on a character type.
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, coin_type):
+        """
+        This will return details on a character type.
+        """
+        ct = coin.coin_details(coin_type)
+        if ct is not None:
+            return {coin_type: ct}
+        else:
+            raise wz.NotFound(f'{coin_type} not found.')
+
+
+@api.route(f'{COIN_FOLLOW}/<user_type>/<coin_type>')
+class CoinFollow(Resource):
+    """
+    Follow Coin
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
+    def get(self, user_type, coin_type):
+        if (not coin.coin_exists(coin_type)):
+            raise wz.NotFound(f'{coin_type} not found.')
+        elif (not user.user_exists(user_type)):
+            raise wz.NotAcceptable("User does not exists")
+        elif (user.user_coin_exists(user_type, coin_type)):
+            raise wz.NotAcceptable("Already following coin")
+        else:
+            return user.add_coin(user_type, coin_type)
+
+
+@api.route(f'{COIN_REMOVE_FOLLOW}/<user_type>/<coin_type>')
+class CoinRemoveFollow(Resource):
+    """
+    Remove follow
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
+    def get(self, user_type, coin_type):
+        if (not coin.coin_exists(coin_type)):
+            raise wz.NotFound(f'{coin_type} not found.')
+        elif (not user.user_exists(user_type)):
+            raise wz.NotAcceptable("User does not exists")
+        elif (not user.user_coin_exists(user_type, coin_type)):
+            raise wz.NotAcceptable("Not following coin")
+        else:
+            return user.remove_coin(user_type, coin_type)
 
 
 @api.route('/endpoints')

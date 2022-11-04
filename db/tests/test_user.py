@@ -1,6 +1,7 @@
 import pytest
 
 import db.user_types as usr
+import db.coins as cn
 # from server.tests.test_endpoints import TEST_CLIENT
 
 
@@ -100,3 +101,12 @@ def test_update_password():
     usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
     assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
     usr.del_user(TEST_USER_NAME)
+
+
+def test_add_coin():
+    usr.add_coin(usr.Investor, cn.coin_type['Bitcoin'])
+    assert usr.user_coin_exists(usr.Investor, cn.coin_type['Bitcoin'])
+
+
+def test_remove_coin():
+    pass

@@ -7,15 +7,20 @@ FOLLOWERS = 'Followers'
 FOLLOWING = 'Following'
 EMAIL = 'email'
 PASSWORD = 'password'
-REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING]
+COINS = 'coins'
+REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
-              EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2], FOLLOWING: []},
+              EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
+              FOLLOWING: [], COINS: []},
               Investor2: {NAME: 'user2', PASSWORD: '****',
-              EMAIL: 'user2@gmail.com', FOLLOWERS: [], FOLLOWING: [Investor]},
+              EMAIL: 'user2@gmail.com', FOLLOWERS: [],
+              FOLLOWING: [Investor], COINS: []},
               Investor3: {NAME: 'user3', PASSWORD: '****',
-              EMAIL: 'user3@gmail.com', FOLLOWERS: [], FOLLOWING: []},
+              EMAIL: 'user3@gmail.com', FOLLOWERS: [],
+              FOLLOWING: [], COINS: []},
               SampleUser: {NAME: 'sample', PASSWORD: '****',
-              EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [], FOLLOWING: []}}
+              EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
+              FOLLOWING: [], COINS: []}}
 
 
 def user_exists(name):
@@ -81,8 +86,11 @@ def add_follower(userName, followName):
 
 
 def remove_follower(userName, followName):
+    if not follower_exists(userName, followName):
+        raise ValueError("Follower does not exists")
     user_types[followName][FOLLOWERS].remove(userName)
     user_types[userName][FOLLOWING].remove(followName)
+    return {userName: user_types[userName], followName: user_types[followName]}
 
 
 def update_email(userName, newEmail):
@@ -106,6 +114,28 @@ def update_password(userName, newPassword):
         raise ValueError("New password must be different from the previous!")
 
     user_types[userName][PASSWORD] = newPassword
+    return {userName: user_types[userName]}
+
+
+def user_coin_exists(userName, coin):
+    return coin in user_types[userName][COINS]
+
+
+def add_coin(userName, coin):
+    if not user_exists(userName):
+        raise ValueError("User does not exists")
+    if coin in user_types[userName][COINS]:
+        raise ValueError("Already Following Coin")
+    user_types[userName][COINS].append(coin)
+    return {userName: user_types[userName]}
+
+
+def remove_coin(userName, coin):
+    if not user_exists(userName):
+        raise ValueError("User does not exists")
+    if coin not in user_types[userName][COINS]:
+        raise ValueError("Not Following Coin")
+    user_types[userName][COINS].remove(coin)
     return {userName: user_types[userName]}
 
 
