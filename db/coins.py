@@ -45,6 +45,9 @@ def coin_details(name):
 def get_coins():
     return list(coin_type.keys())
 
+def count_coins():
+    return len(coin_type.keys())
+   
 
 def main():
     coinapi_setup()
