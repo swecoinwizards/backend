@@ -163,11 +163,13 @@ def user_coin_valuation(userName):
     return value
 
 
-def user_profile_add_post(content):
+def user_profile_add_post(userName, content):
+    if not user_exists(userName):
+        raise ValueError("User does not exists")
     if content == "":
         raise ValueError("There is no content in the post")
-    USER_POSTS.insert(0, content)
-    return USER_POSTS
+    user_types[userName][USER_POSTS].append(content)
+    return {userName: user_types[userName]}
 
 
 def main():
