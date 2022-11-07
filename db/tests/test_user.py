@@ -119,6 +119,7 @@ def test_user_coin_evaluation():
     assert usr.user_coin_valuation(usr.Investor) >= 0
     usr.remove_coin(usr.Investor, cn.coin_type['Bitcoin'])
 
+
 def test_user_profile_add_post():
     TEST_USER_NAME = 'testName'
     TEST_POST = "Buy Bitcoin NOW!"
@@ -129,6 +130,7 @@ def test_user_profile_add_post():
     usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
     assert usr.USER_POSTS[0] == TEST_POST
     usr.del_user(TEST_USER_NAME)
+
 
 def test_remove_coin():
     pass
