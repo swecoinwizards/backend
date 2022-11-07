@@ -24,8 +24,9 @@ def test_get_coins():
     assert isinstance(coins, list)
     assert len(coins) > 1
 
-#test
+
+# test
 def test_count_coins():
     num = cn.count_coins()
     assert num == 2
-    #....
+    # ....
