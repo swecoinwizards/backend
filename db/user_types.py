@@ -139,6 +139,13 @@ def remove_coin(userName, coin):
     return {userName: user_types[userName]}
 
 
+def follower_count(userName, followName):
+    print(user_types[userName])
+    isFollowers = followName in user_types[userName][FOLLOWERS]
+    return (isFollowers.count())
+
+
+
 def main():
     users = get_users()
     print(f'{users=}')
