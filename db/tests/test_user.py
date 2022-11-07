@@ -128,7 +128,7 @@ def test_user_profile_add_post():
         details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
-    assert usr.USER_POSTS[0] == TEST_POST
+    assert usr.USER_POSTS == TEST_POST
     usr.del_user(TEST_USER_NAME)
 
 

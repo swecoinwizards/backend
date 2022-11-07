@@ -9,7 +9,7 @@ EMAIL = 'email'
 PASSWORD = 'password'
 COINS = 'coins'
 REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
-USER_POSTS = []
+USER_POSTS = ""
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
               FOLLOWING: [], COINS: []},
