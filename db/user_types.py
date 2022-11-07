@@ -144,6 +144,11 @@ def follower_count(userName, followName):
     isFollowers = followName in user_types[userName][FOLLOWERS]
     return (isFollowers.count())
 
+def following_count(userName, followName):
+    print(user_types[userName])
+    isFollowing = followName in user_types[userName][FOLLOWING]
+    return (isFollowing.count())
+
 
 
 def main():
