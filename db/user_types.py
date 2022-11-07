@@ -1,5 +1,3 @@
-from db.coins import coin_type
-
 Investor = 'Investor'
 Investor2 = 'Investor2'
 Investor3 = 'Investor3'
@@ -13,7 +11,7 @@ COINS = 'coins'
 REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
-              FOLLOWING: [], COINS: [{'Bitcoin': 3}]},
+              FOLLOWING: [], COINS: []},
               Investor2: {NAME: 'user2', PASSWORD: '****',
               EMAIL: 'user2@gmail.com', FOLLOWERS: [],
               FOLLOWING: [Investor], COINS: []},
@@ -155,13 +153,11 @@ def following_count(userName, followName):
 
 def user_coin_valuation(userName):
     if not user_exists(userName):
-        raise ValueError("User does not exists")
+        raise ValueError("User does not exist")
 
     value = 0
     for coin in user_types[userName][COINS]:
-        coin_name = coin[0]
-        count = coin[1]
-        value += coin_type[coin_name]['price'] * count
+        print(coin)
 
     return value
 

@@ -104,8 +104,20 @@ def test_update_password():
 
 
 def test_add_coin():
+    # Might need to change how coins are stored into the user,
+    # currently storing an instance of 'Bitcoin' dict
+    # which will be hard to keep track of as its attributes like price
+    # change, (e.g. can't remove if price updates from API call as
+    # everything stored will be outdated)
     usr.add_coin(usr.Investor, cn.coin_type['Bitcoin'])
     assert usr.user_coin_exists(usr.Investor, cn.coin_type['Bitcoin'])
+    usr.remove_coin(usr.Investor, cn.coin_type['Bitcoin'])
+
+
+def test_user_coin_evaluation():
+    usr.add_coin(usr.Investor, cn.coin_type['Bitcoin'])
+    assert usr.user_coin_valuation(usr.Investor) >= 0
+    usr.remove_coin(usr.Investor, cn.coin_type['Bitcoin'])
 
 
 def test_remove_coin():
