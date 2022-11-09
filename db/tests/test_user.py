@@ -140,3 +140,17 @@ def test_user_profile_add_post():
 
 def test_remove_coin():
     pass
+
+
+def test_user_login():
+    assert usr.user_login(usr.SampleUser, '****')
+
+
+def test_get_user_password():
+    pass
+
+
+def test_user_login_fail():
+    with pytest.raises(Exception) as e:
+        usr.user_login(usr.SampleUser, 'WRONGPASSWORD')
+    assert str(e.value) == "Wrong Password"

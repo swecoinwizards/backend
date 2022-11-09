@@ -25,6 +25,7 @@ MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
 FOLLOW = 'follow'
+LOGIN = 'login'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
@@ -34,6 +35,8 @@ USER_REMOVE = f'/{USERS_NS}/{REMOVE}'
 USER_FOLLOW = f'/{USERS_NS}/{FOLLOW}'
 USER_REMOVE_FOLLOW = f'/{USERS_NS}/{REMOVE}/{FOLLOW}'
 USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
+USER_LOGIN = f'/{USERS_NS}/{LOGIN}'
+USER_LOGIN_MN = f'/{USERS_NS}'
 COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
@@ -81,6 +84,8 @@ class MainMenu(Resource):
                           'method': 'get', 'text': 'List Active Users'},
                     '3': {'url': '/coins/list',
                           'method': 'get', 'text': 'List Active Coins'},
+                    # '4': {'url': f'{USER_LOGIN_MN}',
+                    #       'method': 'get', 'text': 'User Login'},       
                     'X': {'text': 'Exit'},
                 }}
 
@@ -291,6 +296,30 @@ class CoinRemoveFollow(Resource):
             raise wz.NotAcceptable("Not following coin")
         else:
             return user.remove_coin(user_type, coin_type)
+
+
+@api.route(f'{USER_LOGIN}/<username>/<password>')
+class UserLogin(Resource):
+    """
+    Follow User
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
+    def get(self, username, password):
+        """
+        Login
+        """
+        try:
+            """
+            Returns a list of current users.
+            """
+            return {'Data': user.user_login(username, password),
+                    'Type': 'Data',
+                    'Title': 'User Login'}
+        except Exception as e:
+            return {'Data': f"Cannot login: {e}",
+                    'Type': 'Form',
+                    'Title': 'User Login'}
 
 
 @api.route('/endpoints')

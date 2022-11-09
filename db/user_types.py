@@ -53,8 +53,13 @@ def get_user_type_details(type):
 def get_user_email(username):
     if username not in user_types:
         raise ValueError(f'User {username=} does not exist')
-
     return user_types[username][EMAIL]
+
+
+def get_user_password(username):
+    if username not in user_types:
+        raise ValueError(f'User {username=} does not exist')
+    return user_types[username][PASSWORD]
 
 
 def add_user(name, details):
@@ -177,6 +182,12 @@ def user_profile_add_post(userName, content):
         raise ValueError("There is no content in the post")
     user_types[userName][USER_POSTS].append(content)
     return {userName: user_types[userName]}
+
+
+def user_login(userName, password):
+    if get_user_password(userName) == password:
+        return get_user_type_details(userName)
+    raise Exception("Wrong Password")
 
 
 def main():

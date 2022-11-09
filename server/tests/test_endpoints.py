@@ -100,6 +100,21 @@ def test_remove_follower():
     assert isinstance(resp_json, dict)
 
 
+def test_user_login():
+    password = '***'
+    resp_json = TEST_CLIENT.get(
+        f'{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
+    assert isinstance(resp_json, dict)
+
+
+def test_user_login_fail():
+    # with pytest.raises(Exception) as e:
+    password = "WRONGPASSWORD"
+    resp_json = TEST_CLIENT.get(
+        f'{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
+    assert resp_json['Data'] == "Cannot login: Wrong Password"
+
+
 def test_coin_type_details():
     """
     """
