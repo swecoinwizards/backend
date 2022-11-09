@@ -11,6 +11,11 @@ def test_get_users():
     assert len(usrs) > 1
 
 
+def test_get_users_dict():
+    usrs = usr.get_users_dict()
+    assert isinstance(usrs, dict)
+
+
 def test_get_user_details():
     usr_dets = usr.get_user_type_details(usr.Investor)
     assert isinstance(usr_dets, dict)

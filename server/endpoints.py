@@ -42,6 +42,9 @@ COIN_REMOVE = f'/{COINS_NS}/{REMOVE}'
 COIN_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{FOLLOW}'
 COIN_REMOVE_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{REMOVE}/{FOLLOW}'
 
+DICT = 'dict'
+USER_DICT = f'/{DICT}'
+
 
 # user_types = Namespace(USER_LIST_NM, 'Character Types')
 # api.add_namespace(user_types)
@@ -71,11 +74,13 @@ class MainMenu(Resource):
         Gets the main game menu.
         """
         return {'Title': MAIN_MENU_NM,
-                'Default': 0,
+                'Default': 1,
                 'Choices': {
                     '1': {'text': 'List User Types'},
-                    '2': {'url': '/users/list',
+                    '2': {'url': f'/{USER_DICT}',
                           'method': 'get', 'text': 'List Active Users'},
+                    '3': {'url': '/coins/list',
+                          'method': 'get', 'text': 'List Active Coins'},
                     'X': {'text': 'Exit'},
                 }}
 
@@ -90,6 +95,21 @@ class UserList(Resource):
         Returns a list of current users.
         """
         return {USER_LIST_NM: user.get_users()}
+
+
+@api.route(USER_DICT)
+class ActiveUsers(Resource):
+    """
+    FOR MENU
+    This will get a list of currrent users in db.
+    """
+    def get(self):
+        """
+        Returns a list of current users.
+        """
+        return {'Data': user.get_users_dict(),
+                'Type': 'Data',
+                'Title': 'Active Users'}
 
 
 @api.route(f'{USER_DETAILS}/<user_type>')

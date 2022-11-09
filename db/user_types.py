@@ -31,6 +31,13 @@ def get_users():
     return list(user_types.keys())
 
 
+def get_users_dict():
+    '''
+    FOR MENU
+    '''
+    return user_types
+
+
 def get_user(username):
     if username not in user_types:
         raise ValueError(f'User {username=} does not exist')
