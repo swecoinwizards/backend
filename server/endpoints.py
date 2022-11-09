@@ -25,6 +25,7 @@ MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
 FOLLOW = 'follow'
+FOLLOWERS = 'followers'
 LOGIN = 'login'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
@@ -33,10 +34,12 @@ USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
 USER_REMOVE = f'/{USERS_NS}/{REMOVE}'
 USER_FOLLOW = f'/{USERS_NS}/{FOLLOW}'
+USER_FOLLOWERS = f'/{USERS_NS}/{FOLLOWERS}'
 USER_REMOVE_FOLLOW = f'/{USERS_NS}/{REMOVE}/{FOLLOW}'
 USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
 USER_LOGIN = f'/{USERS_NS}/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
+
 COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
@@ -79,13 +82,14 @@ class MainMenu(Resource):
         return {'Title': MAIN_MENU_NM,
                 'Default': 1,
                 'Choices': {
-                    '1': {'text': 'List User Types'},
-                    '2': {'url': f'/{USER_DICT}',
+                    '1': {'url': f'/{USER_DICT}',
                           'method': 'get', 'text': 'List Active Users'},
-                    '3': {'url': '/coins/list',
+                    '2': {'url': '/coins/list',
                           'method': 'get', 'text': 'List Active Coins'},
-                    # '4': {'url': f'{USER_LOGIN_MN}',
-                    #       'method': 'get', 'text': 'User Login'},
+                    '3': {'url': f'{USER_LOGIN}/Investor/****',
+                          'method': 'get', 'text': 'User Investor Login'},
+                    '4': {'url': f'{USER_FOLLOWERS}/Investor',
+                          'method': 'get', 'text': 'User Investor Followers'},
                     'X': {'text': 'Exit'},
                 }}
 
@@ -300,9 +304,6 @@ class CoinRemoveFollow(Resource):
 
 @api.route(f'{USER_LOGIN}/<username>/<password>')
 class UserLogin(Resource):
-    """
-    Follow User
-    """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
     def get(self, username, password):
@@ -311,15 +312,31 @@ class UserLogin(Resource):
         """
         try:
             """
-            Returns a list of current users.
+            Login to user
             """
-            return {'Data': user.user_login(username, password),
+            return {'Data': {username: user.user_login(username, password)},
                     'Type': 'Data',
                     'Title': 'User Login'}
         except Exception as e:
             return {'Data': f"Cannot login: {e}",
                     'Type': 'Form',
                     'Title': 'User Login'}
+
+
+@api.route(f'{USER_FOLLOWERS}/<username>')
+class UserFollowers(Resource):
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
+    def get(self, username):
+        try:
+            return {'Data': {username:
+                    {"followers": user.get_followers(username)}},
+                    'Type': 'Data',
+                    'Title': 'User Followers'}
+        except Exception as e:
+            return {'Data': f"Error: {e}",
+                    'Type': 'Form',
+                    'Title': 'User Followers'}
 
 
 @api.route('/endpoints')

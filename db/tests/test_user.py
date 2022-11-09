@@ -154,3 +154,7 @@ def test_user_login_fail():
     with pytest.raises(Exception) as e:
         usr.user_login(usr.SampleUser, 'WRONGPASSWORD')
     assert str(e.value) == "Wrong Password"
+
+
+def test_get_followers():
+    assert isinstance(usr.get_followers(usr.SampleUser), list)

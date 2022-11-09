@@ -164,6 +164,12 @@ def following_count(userName, followName):
     return (isFollowing.count())
 
 
+def get_followers(userName):
+    if user_exists(userName):
+        return user_types[userName][FOLLOWERS]
+    raise Exception("User does not exist")
+
+
 def user_coin_valuation(userName):
     if not user_exists(userName):
         raise ValueError("User does not exist")

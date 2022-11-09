@@ -100,6 +100,12 @@ def test_remove_follower():
     assert isinstance(resp_json, dict)
 
 
+def test_user_followers():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.USER_FOLLOWERS}/{SAMPLE_USER}').get_json()
+    assert isinstance(resp_json, dict)
+
+
 def test_user_login():
     password = '***'
     resp_json = TEST_CLIENT.get(
