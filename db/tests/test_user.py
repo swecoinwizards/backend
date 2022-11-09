@@ -147,7 +147,7 @@ def test_user_login():
 
 
 def test_get_user_password():
-    pass
+    assert isinstance(usr.get_password(usr.SampleUser), str)
 
 
 def test_user_login_fail():

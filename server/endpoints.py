@@ -85,7 +85,7 @@ class MainMenu(Resource):
                     '3': {'url': '/coins/list',
                           'method': 'get', 'text': 'List Active Coins'},
                     # '4': {'url': f'{USER_LOGIN_MN}',
-                    #       'method': 'get', 'text': 'User Login'},       
+                    #       'method': 'get', 'text': 'User Login'},
                     'X': {'text': 'Exit'},
                 }}
 
