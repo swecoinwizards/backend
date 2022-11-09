@@ -9,6 +9,7 @@ EMAIL = 'email'
 PASSWORD = 'password'
 COINS = 'coins'
 REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
+USER_POSTS = ""
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
               FOLLOWING: [], COINS: []},
@@ -143,6 +144,38 @@ def remove_coin(userName, coin):
     if coin not in user_types[userName][COINS]:
         raise ValueError("Not Following Coin")
     user_types[userName][COINS].remove(coin)
+    return {userName: user_types[userName]}
+
+
+def follower_count(userName, followName):
+    print(user_types[userName])
+    isFollowers = followName in user_types[userName][FOLLOWERS]
+    return (isFollowers.count())
+
+
+def following_count(userName, followName):
+    print(user_types[userName])
+    isFollowing = followName in user_types[userName][FOLLOWING]
+    return (isFollowing.count())
+
+
+def user_coin_valuation(userName):
+    if not user_exists(userName):
+        raise ValueError("User does not exist")
+
+    value = 0
+    for coin in user_types[userName][COINS]:
+        print(coin)
+
+    return value
+
+
+def user_profile_add_post(userName, content):
+    if not user_exists(userName):
+        raise ValueError("User does not exists")
+    if content == "":
+        raise ValueError("There is no content in the post")
+    user_types[userName][USER_POSTS].append(content)
     return {userName: user_types[userName]}
 
 

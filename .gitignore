@@ -133,3 +133,4 @@ dmypy.json
 
 # keys
 db/config.py
+.vscode/settings.json
