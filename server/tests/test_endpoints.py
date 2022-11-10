@@ -152,3 +152,9 @@ def test_remove_coin():
     resp_json = TEST_CLIENT.get(
         f'{ep.COIN_REMOVE_FOLLOW}/{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
     assert isinstance(resp_json, dict)
+
+
+def test_get_coin_dict():
+    resp_json = TEST_CLIENT.get(f'{ep.COIN_DICT}'
+                                ).get_json()
+    assert isinstance(resp_json, dict)

@@ -46,6 +46,13 @@ def get_coins():
     return list(coin_type.keys())
 
 
+def get_coin_dict():
+    '''
+    FOR MENU
+    '''
+    return coin_type
+
+
 def count_coins():
     return len(coin_type.keys())
 

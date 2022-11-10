@@ -25,6 +25,11 @@ def test_get_coins():
     assert len(coins) > 1
 
 
+def test_get_coins_dict():
+    coins = cn.get_coin_dict()
+    assert isinstance(coins, dict)
+
+
 # test
 def test_count_coins():
     num = cn.count_coins()

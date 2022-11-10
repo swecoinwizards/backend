@@ -49,7 +49,8 @@ COIN_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{FOLLOW}'
 COIN_REMOVE_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{REMOVE}/{FOLLOW}'
 
 DICT = 'dict'
-USER_DICT = f'/{DICT}'
+USER_DICT = f'/{USERS_NS}/{DICT}'
+COIN_DICT = f'/{COINS_NS}/{DICT}'
 
 
 # user_types = Namespace(USER_LIST_NM, 'Character Types')
@@ -84,7 +85,7 @@ class MainMenu(Resource):
                 'Choices': {
                     '1': {'url': f'/{USER_DICT}',
                           'method': 'get', 'text': 'List Active Users'},
-                    '2': {'url': '/coins/list',
+                    '2': {'url': f'/{COIN_DICT}',
                           'method': 'get', 'text': 'List Active Coins'},
                     '3': {'url': f'{USER_LOGIN}/Investor/****',
                           'method': 'get', 'text': 'User Investor Login'},
@@ -246,6 +247,21 @@ class CoinList(Resource):
         Returns a list of current users.
         """
         return {COIN_LIST_NM: coin.get_coins()}
+
+
+@api.route(COIN_DICT)
+class CoinsDict(Resource):
+    """
+    FOR MENU
+    This will get a list of currrent coins in db.
+    """
+    def get(self):
+        """
+        Returns a list of current coins.
+        """
+        return {'Data': coin.get_coin_dict(),
+                'Type': 'Data',
+                'Title': 'Active Coins'}
 
 
 @api.route(f'{COIN_DETAILS}/<coin_type>')
