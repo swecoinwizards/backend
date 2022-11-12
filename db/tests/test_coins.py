@@ -34,4 +34,7 @@ def test_get_coins_dict():
 def test_count_coins():
     num = cn.count_coins()
     assert num == 2
-    # ....
+
+
+def test_coint_price():
+    assert cn.coin_price('Bitcoin') == 20237.84301693455

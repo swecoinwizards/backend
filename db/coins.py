@@ -57,6 +57,10 @@ def count_coins():
     return len(coin_type.keys())
 
 
+def coin_price(name):
+    return coin_type[name]['price']
+
+
 def main():
     coinapi_setup()
     print(coin_type)
