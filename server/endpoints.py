@@ -27,6 +27,7 @@ MESSAGE = 'message'
 FOLLOW = 'follow'
 FOLLOWERS = 'followers'
 LOGIN = 'login'
+TICKERS = 'tickers'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
@@ -43,6 +44,8 @@ USER_LOGIN_MN = f'/{USERS_NS}'
 COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
+COIN_TICKERS_LIST = f'/{COINS_NS}/{TICKERS}/{LIST}'
+COIN_TICKERS_LIST_NM = f'{COINS_NS}_{TICKERS}_list'
 COIN_DETAILS = f'/{COINS_NS}/{DETAILS}'
 COIN_REMOVE = f'/{COINS_NS}/{REMOVE}'
 COIN_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{FOLLOW}'
@@ -250,6 +253,18 @@ class CoinList(Resource):
         Returns a list of current users.
         """
         return {COIN_LIST_NM: coin.get_coins()}
+
+
+@api.route(COIN_TICKERS_LIST)
+class CoinTickersList(Resource):
+    """
+    This will get a list of the tickers associated with current coins
+    """
+    def get(self):
+        """
+        Returns a list of coin tickers
+        """
+        return {COIN_TICKERS_LIST_NM: coin.get_all_coin_tickers()}
 
 
 @api.route(COIN_DICT)
