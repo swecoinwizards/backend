@@ -1,5 +1,6 @@
 import db.coins as cn
 TEST_COIN = 'Bitcoin'
+TEST_COIN_TICKER = 'BTC'
 
 
 def test_coinapi_setup():
@@ -34,6 +35,17 @@ def test_get_coins_dict():
 def test_count_coins():
     num = cn.count_coins()
     assert num == 2
+
+
+def test_get_coin_ticker():
+    ticker = cn.get_coin_ticker(TEST_COIN)
+    assert ticker == TEST_COIN_TICKER
+
+
+def test_get_all_coin_tickers():
+    tickers = cn.get_all_coin_tickers()
+    assert isinstance(tickers, list)
+    assert len(tickers) > 0
 
 
 def test_coint_price():

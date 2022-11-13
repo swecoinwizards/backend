@@ -61,6 +61,17 @@ def coin_price(name):
     return coin_type[name]['price']
 
 
+def get_coin_ticker(name):
+    return coin_type[name]['symbol']
+
+
+def get_all_coin_tickers():
+    tickers = []
+    for coin in coin_type.keys():
+        tickers.append(coin_type[coin]['symbol'])
+    return tickers
+
+
 def main():
     coinapi_setup()
     print(coin_type)
