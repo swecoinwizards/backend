@@ -91,6 +91,8 @@ class MainMenu(Resource):
                           'method': 'get', 'text': 'User Investor Login'},
                     '4': {'url': f'{USER_FOLLOWERS}/Investor',
                           'method': 'get', 'text': 'User Investor Followers'},
+                    '5': {'url': f'{USER_DETAILS}/Investor',
+                          'method': 'get', 'text': 'User Investor Details'},
                     'X': {'text': 'Exit'},
                 }}
 
@@ -135,7 +137,8 @@ class UserTypeDetails(Resource):
         """
         ct = user.get_user_type_details(user_type)
         if ct is not None:
-            return {user_type: user.get_user_type_details(user_type)}
+            return {'Data': {user_type: {"Name": user.get_user(user_type)}},
+                    'Type': 'Data', 'Title': 'User Type Details'}
         else:
             raise wz.NotFound(f'{user_type} not found.')
 

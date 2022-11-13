@@ -75,8 +75,8 @@ def test_get_user_type_details():
     """
     resp_json = TEST_CLIENT.get(f'{ep.USER_DETAILS}/{TEST_USER_TYPE}'
                                 ).get_json()
-    assert TEST_USER_TYPE in resp_json
-    assert isinstance(resp_json[TEST_USER_TYPE], dict)
+    assert TEST_USER_TYPE in resp_json['Data']
+    assert isinstance(resp_json['Data'][TEST_USER_TYPE], dict)
 
 
 def test_get_users_dict():
