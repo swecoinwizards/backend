@@ -133,17 +133,16 @@ def test_get_password():
 
 
 def test_update_password():
-    if not RUNNING_ON_CICD_SERVER:
-        TEST_USER_NAME = 'testName'
-        TEST_NEW_PASSWORD = 'abc123'
-        details = {'name': TEST_USER_NAME}
-        for field in usr.REQUIRED_FIELDS[1:]:
-            details[field] = []
+    TEST_USER_NAME = 'testName'
+    TEST_NEW_PASSWORD = 'abc123'
+    details = {'name': TEST_USER_NAME}
+    for field in usr.REQUIRED_FIELDS[1:]:
+        details[field] = []
 
-        usr.add_user(TEST_USER_NAME, details)
-        usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
-        assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
-        usr.del_user(TEST_USER_NAME)
+    usr.add_user(TEST_USER_NAME, details)
+    usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
+    assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
+    usr.del_user(TEST_USER_NAME)
 
 
 def test_add_coin():
