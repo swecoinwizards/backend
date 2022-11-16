@@ -40,6 +40,7 @@ USER_REMOVE_FOLLOW = f'/{USERS_NS}/{REMOVE}/{FOLLOW}'
 USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
 USER_LOGIN = f'/{USERS_NS}/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
+USER_UPDATE_PASSWORD = f'/{USERS_NS}/{LOGIN}/{UPDATE}'
 
 COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
@@ -164,6 +165,12 @@ user_update_email_fields = api.model('UpdateUserEmail', {
 })
 
 
+user_update_password_field = api.model('UpdateUserPassword', {
+    user.NAME: fields.String,
+    user.PASSWORD: fields.String,
+})
+
+
 @api.route(USER_ADD)
 class AddUser(Resource):
     """
@@ -243,6 +250,23 @@ class UserUpdateEmail(Resource):
         print(user_update_email_fields)
         return user.update_email(request.json[user.NAME],
                                  request.json[user.EMAIL])
+
+
+@api.route(f'{USER_UPDATE_PASSWORD}')
+class UserUpdatePassword(Resource):
+    """
+    Update a user's email
+    """
+    @api.expect(user_update_password_field)
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+    def put(self):
+        """
+        Update password
+        """
+        print(f'{request.json=}')
+        return user.update_password(request.json[user.NAME],
+                                    request.json[user.PASSWORD])
 
 
 @api.route(COIN_LIST)

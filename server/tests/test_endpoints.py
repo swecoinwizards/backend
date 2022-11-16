@@ -130,6 +130,13 @@ def test_user_login_fail():
     assert resp_json['Data'] == "Cannot login: Wrong Password"
 
 
+def test_user_update_password():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.USER_UPDATE_PASSWORD}', json={}).get_json()
+    print(resp_json)
+    assert isinstance(resp_json, dict)
+
+
 def test_coin_type_details():
     """
     """
@@ -149,12 +156,12 @@ def test_get_coin_list():
     assert isinstance(resp_json[ep.COIN_LIST_NM], list)
 
 
-# def test_add_coin():
-#     user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
-#     resp_json = TEST_CLIENT.get(
-#         f'{ep.COIN_FOLLOW}/{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
-#     # print(resp_json)
-#     assert isinstance(resp_json, dict)
+def test_add_coin():
+    # user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
+    resp_json = TEST_CLIENT.get(
+        f'{ep.COIN_FOLLOW}/{user.Investor2}/{TEST_COIN_TYPE}').get_json()
+    # print(resp_json)
+    assert isinstance(resp_json, dict)
 
 
 def test_remove_coin():
