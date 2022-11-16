@@ -1,6 +1,5 @@
 LINTER = flake8
 SERVER_DIR = server
-API_DIR = api
 DB_DIR = db
 REQ_DIR = .
 PYTESTFLAGS = -vv --verbose --tb=short
@@ -17,10 +16,9 @@ all_tests: FORCE
 	$(LINTER) *.py
 	cd $(DB_DIR); make tests
 	cd $(SERVER_DIR); make tests
-	cd $(API_DIR); make tests
 
 dev_env: FORCE
 	pip install -r $(REQ_DIR)/requirements-dev.txt
 
 docs: FORCE
-	cd $(API_DIR); make docs
+	cd $(SERVER_DIR); make docs
