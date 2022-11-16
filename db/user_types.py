@@ -1,13 +1,18 @@
+import db.db_connect as dbc
+
 Investor = 'Investor'
 Investor2 = 'Investor2'
 Investor3 = 'Investor3'
 SampleUser = 'SampleUser'
+TEST_USER_NAME = "RANDOMUSER"
 NAME = 'name'
 FOLLOWERS = 'Followers'
 FOLLOWING = 'Following'
 EMAIL = 'email'
 PASSWORD = 'password'
 COINS = 'coins'
+USERS_COLLECT = 'users'
+USER_KEY = 'name'
 REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
 USER_POSTS = ""
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
@@ -22,6 +27,17 @@ user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               SampleUser: {NAME: 'sample', PASSWORD: '****',
               EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
               FOLLOWING: [], COINS: []}}
+
+
+def get_users_dict_db():
+    dbc.connect_db()
+    return dbc.fetch_all_as_dict(USER_KEY, USERS_COLLECT)
+
+
+def get_users_db():
+    dbc.connect_db()
+    data = dbc.fetch_all(USERS_COLLECT)
+    return data  # dbc.fetch_all(USERS_COLLECT)
 
 
 def user_exists(name):
@@ -63,6 +79,7 @@ def get_user_password(username):
 
 
 def add_user(name, details):
+    # doc = details
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
     if not isinstance(details, dict):
@@ -72,6 +89,9 @@ def add_user(name, details):
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
     user_types[name] = details
+    dbc.connect_db()
+    # doc[USER_KEY] = name
+    return dbc.insert_one(USERS_COLLECT, user_types[name])
 
 
 def del_user(name):

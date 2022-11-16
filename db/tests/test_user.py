@@ -1,8 +1,41 @@
 import pytest
+import os
 
 import db.user_types as usr
 import db.coins as cn
 # from server.tests.test_endpoints import TEST_CLIENT
+
+RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
+NEW_USER_TYPE = 'RANDOM'
+NEW_USER_DET = {'name': 'RANDOM', 'password': '****',
+                'email': 'sampleuser@gmail.com', 'Followers': [],
+                'Following': [], 'coins': []}
+
+
+@pytest.fixture(scope='function')
+def temp_game():
+    if not RUNNING_ON_CICD_SERVER:
+        usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
+        yield
+        return True
+        # gm.del_game(gm.TEST_GAME_NAME)
+    else:
+        yield
+        return True
+
+
+def test_get_users_db():
+    if not RUNNING_ON_CICD_SERVER:
+        usrs = usr.get_users_db()
+        assert isinstance(usrs, list)
+        assert len(usrs) > 1
+
+
+def test_get_games_dict_db():
+    if not RUNNING_ON_CICD_SERVER:
+        usrs = usr.get_users_dict_db()
+        assert isinstance(usrs, dict)
+        assert len(usrs) > 1
 
 
 def test_get_users():
@@ -43,9 +76,9 @@ def test_add_follower():
 
 def test_add_user():
     TEST_USER_NAME = 'testName'
-    details = {}
+    details = {'name': TEST_USER_NAME}
 
-    for field in usr.REQUIRED_FIELDS:
+    for field in usr.REQUIRED_FIELDS[1:]:
         details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     assert usr.user_exists(TEST_USER_NAME)
@@ -55,11 +88,11 @@ def test_add_user():
 def test_del_user():
     # adding temp user
     TEST_USER_NAME = 'testName'
-    details = {}
+    details = {'name': TEST_USER_NAME}
 
-    for field in usr.REQUIRED_FIELDS:
+    for field in usr.REQUIRED_FIELDS[1:]:
         details[field] = []
-    usr.add_user(TEST_USER_NAME, details)
+    usr.add_user(TEST_USER_NAME, NEW_USER_DET)
     # deleting user
     usr.del_user(TEST_USER_NAME)
     # if user not found -> PASS
@@ -69,9 +102,9 @@ def test_del_user():
 def test_update_email():
     TEST_USER_NAME = 'testName'
     TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
-    details = {}
+    details = {'name': TEST_USER_NAME}
 
-    for field in usr.REQUIRED_FIELDS:
+    for field in usr.REQUIRED_FIELDS[1:]:
         details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
@@ -81,9 +114,9 @@ def test_update_email():
 
 def test_get_user():
     TEST_USER_NAME = 'testName'
-    details = {}
+    details = {'name': TEST_USER_NAME}
 
-    for field in usr.REQUIRED_FIELDS:
+    for field in usr.REQUIRED_FIELDS[1:]:
         details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     assert usr.get_user(TEST_USER_NAME) is not None
@@ -98,8 +131,8 @@ def test_get_password():
 def test_update_password():
     TEST_USER_NAME = 'testName'
     TEST_NEW_PASSWORD = 'abc123'
-    details = {}
-    for field in usr.REQUIRED_FIELDS:
+    details = {'name': TEST_USER_NAME}
+    for field in usr.REQUIRED_FIELDS[1:]:
         details[field] = []
 
     usr.add_user(TEST_USER_NAME, details)
@@ -129,8 +162,8 @@ def test_user_coin_evaluation():
 def test_user_profile_add_post():
     TEST_USER_NAME = 'testName'
     TEST_POST = "Buy Bitcoin NOW!"
-    details = {}
-    for field in usr.REQUIRED_FIELDS:
+    details = {'name': TEST_USER_NAME}
+    for field in usr.REQUIRED_FIELDS[1:]:
         details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)

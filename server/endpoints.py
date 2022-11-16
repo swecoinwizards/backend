@@ -109,7 +109,9 @@ class UserList(Resource):
         """
         Returns a list of current users.
         """
-        return {USER_LIST_NM: user.get_users()}
+        data = user.get_users_db()
+        print(data)
+        return {USER_LIST_NM: data}
 
 
 @api.route(USER_DICT)
