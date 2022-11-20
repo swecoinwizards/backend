@@ -50,3 +50,8 @@ def test_get_all_coin_tickers():
 
 def test_coint_price():
     assert cn.coin_price('Bitcoin') == 20237.84301693455
+
+
+def test_change_coin_price():
+    new_price = cn.change_coin_price('Litecoin', 62.06)
+    assert new_price == 62.06

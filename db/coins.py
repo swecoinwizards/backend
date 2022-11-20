@@ -72,6 +72,11 @@ def get_all_coin_tickers():
     return tickers
 
 
+def change_coin_price(name, new_price):
+    coin_type[name]['price'] = new_price
+    return coin_type[name]['price']
+
+
 def main():
     coinapi_setup()
     print(coin_type)
