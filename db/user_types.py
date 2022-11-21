@@ -14,19 +14,20 @@ COINS = 'coins'
 USERS_COLLECT = 'users'
 USER_KEY = 'name'
 REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
-USER_POSTS = ""
+POSTS = 'posts'
+
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
-              FOLLOWING: [], COINS: []},
+              FOLLOWING: [], COINS: [], POSTS: []},
               Investor2: {NAME: 'user2', PASSWORD: '****',
               EMAIL: 'user2@gmail.com', FOLLOWERS: [],
-              FOLLOWING: [Investor], COINS: []},
+              FOLLOWING: [Investor], COINS: [], POSTS: []},
               Investor3: {NAME: 'user3', PASSWORD: '****',
               EMAIL: 'user3@gmail.com', FOLLOWERS: [],
-              FOLLOWING: [], COINS: []},
+              FOLLOWING: [], COINS: [], POSTS: []},
               SampleUser: {NAME: 'sample', PASSWORD: '****',
               EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
-              FOLLOWING: [], COINS: []}}
+              FOLLOWING: [], COINS: [], POSTS: []}}
 
 
 def get_users_dict_db():
@@ -201,13 +202,23 @@ def user_coin_valuation(userName):
     return value
 
 
-def user_profile_add_post(userName, content):
+def profile_add_post(userName, content):
     if not user_exists(userName):
         raise ValueError("User does not exists")
     if content == "":
         raise ValueError("There is no content in the post")
-    user_types[userName][USER_POSTS].append(content)
+    user_types[userName][POSTS].append(content)
     return {userName: user_types[userName]}
+
+
+def profile_delete_post(userName, postNumber):
+    if not user_exists(userName):
+        raise ValueError("User does not exists")
+    if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
+        raise ValueError("Post not found")
+
+    del user_types[userName][POSTS][postNumber]
+    return True
 
 
 def user_login(userName, password):

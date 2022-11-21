@@ -9,7 +9,7 @@ RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 NEW_USER_TYPE = 'RANDOM'
 NEW_USER_DET = {'name': 'RANDOM', 'password': '****',
                 'email': 'sampleuser@gmail.com', 'Followers': [],
-                'Following': [], 'coins': []}
+                'Following': [], 'coins': [], 'posts': []}
 
 
 @pytest.fixture(scope='function')
@@ -164,7 +164,7 @@ def test_user_coin_evaluation():
 
 
 @pytest.mark.skip(reason="Will come back to it after")
-def test_user_profile_add_post():
+def test_profile_add_post():
     TEST_USER_NAME = 'testName'
     TEST_POST = "Buy Bitcoin NOW!"
     details = {'name': TEST_USER_NAME}
@@ -174,6 +174,17 @@ def test_user_profile_add_post():
     usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
     assert usr.USER_POSTS == TEST_POST
     usr.del_user(TEST_USER_NAME)
+
+
+def test_profile_remove_post():
+    TEST_USER_NAME = 'testName'
+    TEST_POST = "Buy Bitcoin NOW!"
+    details = {'name': TEST_USER_NAME}
+    for field in usr.REQUIRED_FIELDS[1:]:
+        details[field] = []
+    usr.add_user(TEST_USER_NAME, details)
+    usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
+    assert usr.user_profile_delete_post(TEST_USER_NAME, 0)
 
 
 def test_remove_coin():
