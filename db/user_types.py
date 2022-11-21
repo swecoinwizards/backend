@@ -49,6 +49,10 @@ def get_users():
     return list(user_types.keys())
 
 
+def get_posts(userName):
+    return user_types[userName][POSTS]
+
+
 def get_users_dict():
     '''
     FOR MENU

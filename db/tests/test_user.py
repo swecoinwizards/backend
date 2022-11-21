@@ -44,6 +44,11 @@ def test_get_users():
     assert len(usrs) > 1
 
 
+def test_get_posts():
+    posts = usr.get_posts(usr.Investor)
+    assert isinstance(posts, list)
+
+
 def test_get_users_dict():
     usrs = usr.get_users_dict()
     assert isinstance(usrs, dict)
@@ -172,7 +177,7 @@ def test_profile_add_post():
         details[field] = []
     usr.add_user(TEST_USER_NAME, details)
     usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
-    assert usr.USER_POSTS == TEST_POST
+    assert len(usr.get_posts(TEST_USER_NAME)) > 0
     usr.del_user(TEST_USER_NAME)
 
 

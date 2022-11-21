@@ -28,6 +28,7 @@ FOLLOW = 'follow'
 FOLLOWERS = 'followers'
 LOGIN = 'login'
 TICKERS = 'tickers'
+POSTS = 'posts'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
@@ -41,6 +42,7 @@ USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
 USER_LOGIN = f'/{USERS_NS}/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
 USER_UPDATE_PASSWORD = f'/{USERS_NS}/{LOGIN}/{UPDATE}'
+USER_POSTS = f'/{USERS_NS}/{POSTS}'
 
 COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
@@ -397,6 +399,22 @@ class UserFollowers(Resource):
             return {'Data': f"Error: {e}",
                     'Type': 'Form',
                     'Title': 'User Followers'}
+
+
+@api.route(f'{USER_POSTS}')
+class UserPosts(Resource):
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, user_type):
+        """
+        This will return details on a user post.
+        """
+        posts = user.get_posts(user_type)
+        if posts is not None:
+            return {'Data': {'Posts:': {posts}},
+                    'Type': 'Data', 'Title': 'Post History'}
+        else:
+            raise wz.NotFound(f'{user_type} not found.')
 
 
 @api.route('/endpoints')
