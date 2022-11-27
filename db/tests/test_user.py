@@ -188,7 +188,7 @@ def test_profile_remove_post():
 
 
 def test_user_login(temp_user):
-    assert usr.user_login(usr.TEST_USER_NAME, 'abc123')
+    assert usr.user_login(usr.TEST_USER_NAME, '****')
 
 
 def test_get_user_password(temp_user):
