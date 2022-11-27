@@ -42,7 +42,10 @@ def get_users_db():
 
 
 def user_exists(name):
-    return name in user_types
+    dbc.connect_db()
+    temp = dbc.fetch_one(USERS_COLLECT,
+                         {"name": name})
+    return name in user_types and temp is not None
 
 
 def get_users():
@@ -96,12 +99,18 @@ def add_user(name, details):
     user_types[name] = details
     dbc.connect_db()
     # doc[USER_KEY] = name
-    return dbc.insert_one(USERS_COLLECT, user_types[name])
+    dbc.insert_one(USERS_COLLECT, user_types[name])
+    return True
 
 
 def del_user(name):
+    dbc.connect_db()
+    print(dbc.fetch_one(USERS_COLLECT, {"name": name}), name)
+    if dbc.fetch_one(USERS_COLLECT, {"name": name}) is None:
+        raise TypeError(f'User: {type(name)=} does not exist in db.')
     if name not in user_types:
         raise TypeError(f'User: {type(name)=} does not exist.')
+    dbc.remove_one(USERS_COLLECT, {"name": name})
     del user_types[name]
 
 

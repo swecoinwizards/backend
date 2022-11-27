@@ -33,13 +33,15 @@ def insert_one(collection, doc, db=USER_DB):
     client[db][collection].insert_one(doc)
 
 
-# def remove_one(collection, doc, db=USER_DB):
-#     db.collection.deleteOne()
+def remove_one(collection, doc, db=USER_DB):
+    client[db][collection].delete_one(doc)
+
 
 def fetch_one(collection, filt, db=USER_DB):
     """
     Find with a filter and return on the first doc found.
     """
+    print("filt", filt)
     for doc in client[db][collection].find(filt):
         return doc
 
@@ -56,5 +58,6 @@ def fetch_all_as_dict(key, collection, db=USER_DB):
     ret = {}
     for doc in client[db][collection].find():
         del doc['_id']
+        print(doc)
         ret[doc[key]] = doc
     return ret

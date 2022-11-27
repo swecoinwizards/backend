@@ -3,59 +3,55 @@ import os
 
 import db.user_types as usr
 import db.coins as cn
+# import db.db_connect as dbc
 # from server.tests.test_endpoints import TEST_CLIENT
 
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
-NEW_USER_TYPE = 'RANDOM'
-NEW_USER_DET = {'name': 'RANDOM', 'password': '****',
+NEW_USER_DET = {'name': usr.TEST_USER_NAME, 'password': '****',
                 'email': 'sampleuser@gmail.com', 'Followers': [],
                 'Following': [], 'coins': [], 'posts': []}
 
 
 @pytest.fixture(scope='function')
-def temp_game():
-    if not RUNNING_ON_CICD_SERVER:
-        usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
-        yield
-        return True
-        # gm.del_game(gm.TEST_GAME_NAME)
-    else:
-        yield
-        return True
+def temp_user():
+    usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
+    yield
+    usr.del_user(usr.TEST_USER_NAME)
 
 
-def test_get_users_db():
+def test_get_users_db(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         usrs = usr.get_users_db()
         assert isinstance(usrs, list)
         assert len(usrs) > 1
 
 
-def test_get_games_dict_db():
+def test_get_users_dict_db(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         usrs = usr.get_users_dict_db()
         assert isinstance(usrs, dict)
         assert len(usrs) > 1
 
 
-def test_get_users():
+def test_get_users(temp_user):
     usrs = usr.get_users()
     assert isinstance(usrs, list)
     assert len(usrs) > 1
 
 
-def test_get_posts():
-    posts = usr.get_posts(usr.Investor)
+def test_get_posts(temp_user):
+    posts = usr.get_posts(usr.TEST_USER_NAME)
     assert isinstance(posts, list)
 
 
-def test_get_users_dict():
+# can remove this bc already have db one
+def test_get_users_dict(temp_user):
     usrs = usr.get_users_dict()
     assert isinstance(usrs, dict)
 
 
-def test_get_user_details():
-    usr_dets = usr.get_user_type_details(usr.Investor)
+def test_get_user_details(temp_user):
+    usr_dets = usr.get_user_type_details(usr.TEST_USER_NAME)
     assert isinstance(usr_dets, dict)
 
 
@@ -74,98 +70,92 @@ def test_add_missing_field():
         usr.add_user('a new user', {'foo': 'bar'})
 
 
-def test_add_follower():
-    usr.add_follower(usr.Investor, usr.Investor3)
-    assert usr.follower_exists(usr.Investor, usr.Investor3)
+def test_add_follower(temp_user):
+    usr.add_follower(usr.TEST_USER_NAME, usr.Investor3)
+    assert usr.follower_exists(usr.TEST_USER_NAME, usr.Investor3)
 
 
-def test_add_user():
+def test_add_user(temp_user):
     if not RUNNING_ON_CICD_SERVER:
-        TEST_USER_NAME = 'testName'
-        details = {'name': TEST_USER_NAME}
+        # TEST_USER_NAME = 'testName'
+        # details = {'name': TEST_USER_NAME}
 
-        for field in usr.REQUIRED_FIELDS[1:]:
-            details[field] = []
-        usr.add_user(TEST_USER_NAME, details)
-        assert usr.user_exists(TEST_USER_NAME)
-        usr.del_user(TEST_USER_NAME)
+        # for field in usr.REQUIRED_FIELDS[1:]:
+        #     details[field] = []
+        # usr.add_user(TEST_USER_NAME, details)
+        assert usr.user_exists(usr.TEST_USER_NAME)
+        # usr.del_user(TEST_USER_NAME)
 
 
-def test_del_user():
+def test_del_user(temp_user):
     if not RUNNING_ON_CICD_SERVER:
-        # adding temp user
-        TEST_USER_NAME = 'testName'
-        details = {'name': TEST_USER_NAME}
-
-        for field in usr.REQUIRED_FIELDS[1:]:
-            details[field] = []
-        usr.add_user(TEST_USER_NAME, NEW_USER_DET)
         # deleting user
-        usr.del_user(TEST_USER_NAME)
+        usr.del_user(usr.TEST_USER_NAME)
         # if user not found -> PASS
-        assert not usr.user_exists(TEST_USER_NAME)
+        assert usr.user_exists(usr.TEST_USER_NAME) is False
+        usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
 
 
-def test_update_email():
+def test_update_email(temp_user):
     if not RUNNING_ON_CICD_SERVER:
-        TEST_USER_NAME = 'testName'
+        # TEST_USER_NAME = 'testName'
         TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
-        details = {'name': TEST_USER_NAME}
+        # details = {'name': TEST_USER_NAME}
 
-        for field in usr.REQUIRED_FIELDS[1:]:
-            details[field] = []
-        usr.add_user(TEST_USER_NAME, details)
-        usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
-        assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
-        usr.del_user(TEST_USER_NAME)
+        # for field in usr.REQUIRED_FIELDS[1:]:
+        #     details[field] = []
+        # usr.add_user(TEST_USER_NAME, details)
+        usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
+        assert usr.get_user_email(usr.TEST_USER_NAME) == TEST_NEW_EMAIL
+        # usr.del_user(usr.TEST_USER_NAME)
 
 
-def test_get_user():
+def test_get_user(temp_user):
     if not RUNNING_ON_CICD_SERVER:
-        TEST_USER_NAME = 'testName'
-        details = {'name': TEST_USER_NAME}
+        # TEST_USER_NAME = 'testName'
+        # details = {'name': TEST_USER_NAME}
 
-        for field in usr.REQUIRED_FIELDS[1:]:
-            details[field] = []
-        usr.add_user(TEST_USER_NAME, details)
-        assert usr.get_user(TEST_USER_NAME) is not None
-        usr.del_user(TEST_USER_NAME)
+        # for field in usr.REQUIRED_FIELDS[1:]:
+        #     details[field] = []
+        # usr.add_user(TEST_USER_NAME, details)
+        assert usr.get_user(usr.TEST_USER_NAME) is not None
+        # usr.del_user(usr.TEST_USER_NAME)
 
 
-def test_get_password():
-    credentials = usr.get_password(usr.Investor)
+def test_get_password(temp_user):
+    credentials = usr.get_password(usr.TEST_USER_NAME)
     assert isinstance(credentials, str)
 
 
-def test_update_password():
+def test_update_password(temp_user):
     if not RUNNING_ON_CICD_SERVER:
-        TEST_USER_NAME = 'testName'
+        # TEST_USER_NAME = 'testName'
         TEST_NEW_PASSWORD = 'abc123'
-        details = {'name': TEST_USER_NAME}
-        for field in usr.REQUIRED_FIELDS[1:]:
-            details[field] = []
+        # details = {'name': TEST_USER_NAME}
+        # for field in usr.REQUIRED_FIELDS[1:]:
+        #     details[field] = []
 
-        usr.add_user(TEST_USER_NAME, details)
-        usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
-        assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
-        usr.del_user(TEST_USER_NAME)
+        # usr.add_user(TEST_USER_NAME, details)
+        usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD)
+        assert usr.get_password(usr.TEST_USER_NAME) == TEST_NEW_PASSWORD
+        # usr.del_user(usr.TEST_USER_NAME)
 
 
-def test_add_coin():
+def test_add_coin(temp_user):
     # Might need to change how coins are stored into the user,
     # currently storing an instance of 'Bitcoin' dict
     # which will be hard to keep track of as its attributes like price
     # change, (e.g. can't remove if price updates from API call as
     # everything stored will be outdated)
-    usr.add_coin(usr.Investor, cn.coin_type['Bitcoin'])
-    assert usr.user_coin_exists(usr.Investor, cn.coin_type['Bitcoin'])
-    usr.remove_coin(usr.Investor, cn.coin_type['Bitcoin'])
+    usr.add_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
+    assert usr.user_coin_exists(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
+    usr.remove_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
 
 
-def test_user_coin_evaluation():
-    usr.add_coin(usr.Investor, cn.coin_type['Bitcoin'])
-    assert usr.user_coin_valuation(usr.Investor) >= 0
-    usr.remove_coin(usr.Investor, cn.coin_type['Bitcoin'])
+def test_user_coin_evaluation(temp_user):
+    usr.add_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
+    assert usr.user_coin_valuation(usr.TEST_USER_NAME) >= 0
+    usr.remove_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
 
 
 @pytest.mark.skip(reason="Will come back to it after")
@@ -193,23 +183,23 @@ def test_profile_remove_post():
     assert usr.user_profile_delete_post(TEST_USER_NAME, 0)
 
 
-def test_remove_coin():
-    pass
+# def test_remove_coin():
+#     pass
 
 
-def test_user_login():
-    assert usr.user_login(usr.SampleUser, '****')
+def test_user_login(temp_user):
+    assert usr.user_login(usr.TEST_USER_NAME, 'abc123')
 
 
-def test_get_user_password():
-    assert isinstance(usr.get_password(usr.SampleUser), str)
+def test_get_user_password(temp_user):
+    assert isinstance(usr.get_password(usr.TEST_USER_NAME), str)
 
 
-def test_user_login_fail():
+def test_user_login_fail(temp_user):
     with pytest.raises(Exception) as e:
-        usr.user_login(usr.SampleUser, 'WRONGPASSWORD')
+        usr.user_login(usr.TEST_USER_NAME, 'WRONGPASSWORD')
     assert str(e.value) == "Wrong Password"
 
 
-def test_get_followers():
-    assert isinstance(usr.get_followers(usr.SampleUser), list)
+def test_get_followers(temp_user):
+    assert isinstance(usr.get_followers(usr.TEST_USER_NAME), list)
