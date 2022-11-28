@@ -86,7 +86,7 @@ def test_add_follower(temp_user, temp_user2):
 
 
 def test_remove_follower(temp_user, temp_user2):
-    usr.add_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
+    # usr.add_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
     usr.remove_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
     assert not usr.follower_exists(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
 
