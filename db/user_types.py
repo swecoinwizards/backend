@@ -5,6 +5,7 @@ Investor2 = 'Investor2'
 Investor3 = 'Investor3'
 SampleUser = 'SampleUser'
 TEST_USER_NAME = "RANDOMUSER"
+TEST_USER_NAME2 = "RANDOMUSER2"
 NAME = 'name'
 FOLLOWERS = 'Followers'
 FOLLOWING = 'Following'

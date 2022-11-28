@@ -27,9 +27,15 @@ def coinapi_setup():
         # print(metaData.data)
         quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
         price = quote.data[line['symbol']]['quote']['USD']['price']
-        coin_type[line['name']] = {ID: line['id'], NAME: line['name'],
-                                   SYMBOL: line['symbol'], PRICE: price}
-    # print(coin_type)
+        # coin_type[line['name']] = {ID: line['id'], NAME: line['name'],
+        #                            SYMBOL: line['symbol'], PRICE: price}
+        return save_coin(line['name'], {ID: line['id'], NAME: line['name'],
+                                        SYMBOL: line['symbol'], PRICE: price})
+
+
+def save_coin(name, dets):
+    coin_type[name] = dets
+    return True
 
 
 def coin_exists(name):
