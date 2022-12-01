@@ -186,7 +186,6 @@ class AddUser(Resource):
         print(f'{request.json=}')
         name = request.json[user.NAME]
         # del request.json[user.NAME]
-        
         request.json["Followers"] = []
         request.json["Following"] = []
         request.json["coins"] = []
