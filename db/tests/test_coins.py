@@ -1,6 +1,17 @@
+import pytest
 import db.coins as cn
-TEST_COIN = 'Bitcoin'
-TEST_COIN_TICKER = 'BTC'
+
+TEST_COIN = 'Ethereum'
+TEST_COIN_TICKER = 'ETH'
+TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
+                  'price': 1282.32}
+
+
+@pytest.fixture(scope='function')
+def temp_coin():
+    cn.save_coin(TEST_COIN, TEST_COIN_DETS)
+    yield
+    cn.remove_coin(TEST_COIN)
 
 
 def test_coinapi_setup():
@@ -11,11 +22,11 @@ def test_coinapi_setup():
     return True
 
 
-def test_coin_exists():
+def test_coin_exists(temp_coin):
     assert cn.coin_exists(TEST_COIN)
 
 
-def test_coin_details():
+def test_coin_details(temp_coin):
     coin_dets = cn.coin_details(TEST_COIN)
     assert isinstance(coin_dets, dict)
 
@@ -37,7 +48,7 @@ def test_count_coins():
     assert num == 2
 
 
-def test_get_coin_ticker():
+def test_get_coin_ticker(temp_coin):
     ticker = cn.get_coin_ticker(TEST_COIN)
     assert ticker == TEST_COIN_TICKER
 

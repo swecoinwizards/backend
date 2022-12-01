@@ -38,6 +38,11 @@ def save_coin(name, dets):
     return True
 
 
+def remove_coin(name):
+    del coin_type[name]
+    return True
+
+
 def coin_exists(name):
     return name in coin_type
 
