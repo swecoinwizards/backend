@@ -8,11 +8,9 @@ import db.coins as cn
 
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 NEW_USER_DET = {'name': usr.TEST_USER_NAME, 'password': '****',
-                'email': 'sampleuser@gmail.com', 'Followers': [],
-                'Following': [], 'coins': [], 'posts': []}
+                'email': 'sampleuser@gmail.com'}
 NEW_USER_DET2 = {'name': usr.TEST_USER_NAME2, 'password': '****',
-                 'email': 'sampleuser@gmail.com', 'Followers': [],
-                 'Following': [], 'coins': [], 'posts': []}
+                 'email': 'sampleuser@gmail.com'}
 
 
 @pytest.fixture(scope='function')
@@ -29,13 +27,6 @@ def temp_user2():
     usr.del_user(usr.TEST_USER_NAME2)
 
 
-def test_get_users_dict_db(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        usrs = usr.get_users_dict_db()
-        assert isinstance(usrs, dict)
-        assert len(usrs) >= 1
-
-
 def test_get_users(temp_user):
     usrs = usr.get_users()
     assert isinstance(usrs, list)
@@ -50,6 +41,7 @@ def test_get_posts(temp_user):
 def test_get_users_dict(temp_user):
     usrs = usr.get_users_dict()
     assert isinstance(usrs, dict)
+    assert len(usrs) >= 1
 
 
 def test_add_wrong_name_type():
@@ -60,6 +52,15 @@ def test_add_wrong_name_type():
 def test_add_wrong_details_type():
     with pytest.raises(TypeError):
         usr.add_user('a new user', [])
+
+
+def test_add_user_wrong_email():
+    with pytest.raises(ValueError):
+        usr.add_user('a new user', {
+            'name': 'a new user',
+            'password': '123',
+            'email': 'invalidemail',
+        })
 
 
 def test_add_missing_field():
@@ -74,6 +75,7 @@ def test_add_follower(temp_user, temp_user2):
 
 def test_remove_follower(temp_user, temp_user2):
     # usr.add_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
+    usr.add_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
     usr.remove_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
     assert not usr.follower_exists(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
 
@@ -199,7 +201,9 @@ def test_user_login(temp_user):
 
 
 def test_get_user_password(temp_user):
-    assert isinstance(usr.get_password(usr.TEST_USER_NAME), str)
+    passw = usr.get_password(usr.TEST_USER_NAME)
+    assert isinstance(passw, str)
+    assert passw == '****'
 
 
 def test_user_login_fail(temp_user):

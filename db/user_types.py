@@ -14,7 +14,7 @@ PASSWORD = 'password'
 COINS = 'coins'
 USERS_COLLECT = 'users'
 USER_KEY = 'name'
-REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL, FOLLOWERS, FOLLOWING, COINS]
+REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]  # FOLLOWERS, FOLLOWING, COINS]
 POSTS = 'posts'
 
 user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
@@ -29,11 +29,6 @@ user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
               SampleUser: {NAME: 'sample', PASSWORD: '****',
               EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
               FOLLOWING: [], COINS: [], POSTS: []}}
-
-
-def get_users_dict_db():
-    dbc.connect_db()
-    return dbc.fetch_all_as_dict(USER_KEY, USERS_COLLECT)
 
 
 def user_exists(name):
@@ -51,14 +46,18 @@ def get_users():
 
 
 def get_posts(userName):
-    return user_types[userName][POSTS]
+    dbc.connect_db()
+    temp = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    return temp[POSTS]
 
 
 def get_users_dict():
     '''
     FOR MENU
     '''
-    return user_types
+    dbc.connect_db()
+    return dbc.fetch_all_as_dict(USER_KEY, USERS_COLLECT)
 
 
 def get_user(username):
@@ -80,9 +79,12 @@ def get_user_email(username):
 
 
 def get_user_password(username):
-    if username not in user_types:
+    if not user_exists(username):
         raise ValueError(f'User {username=} does not exist')
-    return user_types[username][PASSWORD]
+    dbc.connect_db()
+    temp = dbc.fetch_one(USERS_COLLECT,
+                         {"name": username})
+    return temp[PASSWORD]
 
 
 def add_user(name, details):
@@ -91,10 +93,21 @@ def add_user(name, details):
         raise TypeError(f'Wrong type for name: {type(name)=}')
     if not isinstance(details, dict):
         raise TypeError(f'Wrong type for details: {type(details)=}')
+    if user_exists(name):
+        raise TypeError(f'User {type(details)=} exists')
     for field in REQUIRED_FIELDS:
         # print(details.keys())
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
+    if not isinstance(details[EMAIL], str):
+        raise TypeError(f'Wrong type for email: {type(name)=}')
+    if '@' not in details[EMAIL]:
+        raise ValueError('Invalid Email')
+    # new users will start with no coins, followers/following
+    details[FOLLOWERS] = []
+    details[FOLLOWING] = []
+    details[COINS] = []
+    details[POSTS] = []
     user_types[name] = details
     dbc.connect_db()
     # doc[USER_KEY] = name
@@ -104,11 +117,9 @@ def add_user(name, details):
 
 def del_user(name):
     dbc.connect_db()
-    print(dbc.fetch_one(USERS_COLLECT, {"name": name}), name)
-    if dbc.fetch_one(USERS_COLLECT, {"name": name}) is None:
+    # print(dbc.fetch_one(USERS_COLLECT, {"name": name}), name)
+    if not user_exists(name):
         raise TypeError(f'User: {type(name)=} does not exist in db.')
-    if name not in user_types:
-        raise TypeError(f'User: {type(name)=} does not exist.')
     dbc.remove_one(USERS_COLLECT, {"name": name})
     del user_types[name]
 
