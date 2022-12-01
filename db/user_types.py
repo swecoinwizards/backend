@@ -36,21 +36,18 @@ def get_users_dict_db():
     return dbc.fetch_all_as_dict(USER_KEY, USERS_COLLECT)
 
 
-def get_users_db():
-    dbc.connect_db()
-    data = dbc.fetch_all(USERS_COLLECT)
-    return data  # dbc.fetch_all(USERS_COLLECT)
-
-
 def user_exists(name):
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": name})
-    return name in user_types and temp is not None
+    # print("exists: ", name in user_types and temp is not None)
+    # return name in user_types and temp is not None
+    return temp is not None
 
 
 def get_users():
-    return list(user_types.keys())
+    dbc.connect_db()
+    return dbc.fetch_all(USERS_COLLECT)
 
 
 def get_posts(userName):
@@ -65,20 +62,21 @@ def get_users_dict():
 
 
 def get_user(username):
-    if username not in user_types:
+    if not user_exists(username):
         raise ValueError(f'User {username=} does not exist')
-
-    return user_types[username]
-
-
-def get_user_type_details(type):
-    return user_types.get(type, None)
+    dbc.connect_db()
+    print("USER DOES EXIST", dbc.fetch_one(USERS_COLLECT,
+                                           {"name": username}))
+    return dbc.fetch_one(USERS_COLLECT,
+                         {"name": username})
 
 
 def get_user_email(username):
-    if username not in user_types:
+    if not user_exists(username):
         raise ValueError(f'User {username=} does not exist')
-    return user_types[username][EMAIL]
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": username})
+    return user[EMAIL]
 
 
 def get_user_password(username):
@@ -142,12 +140,15 @@ def remove_follower(userName, followName):
 
 
 def update_email(userName, newEmail):
-    currentEmail = user_types[userName][EMAIL]
-
+    user = get_user(userName)
+    del_user(userName)
+    currentEmail = user[EMAIL]
     if currentEmail == newEmail:
         raise ValueError("New email must be different from the previous!")
-
-    user_types[userName][EMAIL] = newEmail
+    user[EMAIL] = newEmail
+    print(user)
+    add_user(user["name"], user)
+    # user_types[userName][EMAIL] = newEmail
     return {userName: user_types[userName]}
 
 
@@ -237,14 +238,14 @@ def profile_delete_post(userName, postNumber):
 
 def user_login(userName, password):
     if get_user_password(userName) == password:
-        return get_user_type_details(userName)
+        return get_user(userName)
     raise Exception("Wrong Password")
 
 
 def main():
     users = get_users()
     print(f'{users=}')
-    print(f'{get_user_type_details(Investor)=}')
+    print(f'{get_user(Investor)=}')
 
 
 if __name__ == '__main__':

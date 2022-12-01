@@ -29,6 +29,7 @@ FOLLOWERS = 'followers'
 LOGIN = 'login'
 TICKERS = 'tickers'
 POSTS = 'posts'
+EMAIL = 'email'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
@@ -112,7 +113,7 @@ class UserList(Resource):
         """
         Returns a list of current users.
         """
-        data = user.get_users_db()
+        data = user.get_users()
         print(data)
         return {USER_LIST_NM: data}
 
@@ -135,16 +136,18 @@ class ActiveUsers(Resource):
 @api.route(f'{USER_DETAILS}/<user_type>')
 class UserTypeDetails(Resource):
     """
-    This will return details on a character type.
+    For Menu
+    This will return details on user.
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, user_type):
-        """
-        This will return details on a character type.
-        """
-        ct = user.get_user_type_details(user_type)
-        if ct is not None:
+        # ct = user.get_user_type_details(user_type)
+        # print(ct)
+        # if ct is not None:
+        print("here")
+        if user.user_exists(user_type):
+            print("here2")
             return {'Data': {user_type: {"Name": user.get_user(user_type)}},
                     'Type': 'Data', 'Title': 'User Type Details'}
         else:
@@ -155,9 +158,6 @@ user_fields = api.model('NewUser', {
     user.NAME: fields.String,
     user.PASSWORD: fields.String,
     user.EMAIL: fields.String,
-    user.FOLLOWERS: fields.Integer,
-    user.FOLLOWING: fields.Integer,
-    user.COINS: fields.Integer,
 })
 
 
@@ -186,7 +186,11 @@ class AddUser(Resource):
         print(f'{request.json=}')
         name = request.json[user.NAME]
         # del request.json[user.NAME]
-        print(user_fields)
+        
+        request.json["Followers"] = []
+        request.json["Following"] = []
+        request.json["coins"] = []
+        print(request.json)
         user.add_user(name, request.json)
 
 
@@ -257,7 +261,7 @@ class UserUpdateEmail(Resource):
 @api.route(f'{USER_UPDATE_PASSWORD}')
 class UserUpdatePassword(Resource):
     """
-    Update a user's email
+    Update a user's password
     """
     @api.expect(user_update_password_field)
     @api.response(HTTPStatus.OK, 'Success')

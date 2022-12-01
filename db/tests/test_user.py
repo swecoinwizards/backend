@@ -29,13 +29,6 @@ def temp_user2():
     usr.del_user(usr.TEST_USER_NAME2)
 
 
-def test_get_users_db(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        usrs = usr.get_users_db()
-        assert isinstance(usrs, list)
-        assert len(usrs) >= 1
-
-
 def test_get_users_dict_db(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         usrs = usr.get_users_dict_db()
@@ -46,7 +39,6 @@ def test_get_users_dict_db(temp_user):
 def test_get_users(temp_user):
     usrs = usr.get_users()
     assert isinstance(usrs, list)
-    assert len(usrs) > 1
 
 
 def test_get_posts(temp_user):
@@ -58,11 +50,6 @@ def test_get_posts(temp_user):
 def test_get_users_dict(temp_user):
     usrs = usr.get_users_dict()
     assert isinstance(usrs, dict)
-
-
-def test_get_user_details(temp_user):
-    usr_dets = usr.get_user_type_details(usr.TEST_USER_NAME)
-    assert isinstance(usr_dets, dict)
 
 
 def test_add_wrong_name_type():
@@ -110,6 +97,10 @@ def test_del_user(temp_user):
         # if user not found -> PASS
         assert usr.user_exists(usr.TEST_USER_NAME) is False
         usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
+
+
+def test_user_email(temp_user):
+    assert isinstance(usr.get_user_email(usr.TEST_USER_NAME), str)
 
 
 def test_update_email(temp_user):

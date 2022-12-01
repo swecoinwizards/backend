@@ -43,6 +43,7 @@ def fetch_one(collection, filt, db=USER_DB):
     """
     print("filt", filt)
     for doc in client[db][collection].find(filt):
+        del doc['_id']
         return doc
 
 
