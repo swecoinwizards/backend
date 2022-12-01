@@ -123,18 +123,18 @@ def test_user_followers():
     assert isinstance(resp_json, dict)
 
 
-def test_user_login():
+def test_user_login(temp_user):
     password = '***'
     resp_json = TEST_CLIENT.get(
         f'{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
     assert isinstance(resp_json, dict)
 
 
-def test_user_login_fail():
+def test_user_login_fail(temp_user):
     # with pytest.raises(Exception) as e:
     password = "WRONGPASSWORD"
     resp_json = TEST_CLIENT.get(
-        f'{ep.USER_LOGIN}/{user.Investor}/{password}').get_json()
+        f'{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
     assert resp_json['Data'] == "Cannot login: Wrong Password"
 
 
