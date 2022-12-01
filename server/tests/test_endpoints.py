@@ -78,13 +78,21 @@ def test_remove_user():
         assert not user.user_exists(SAMPLE_USER_NM)
 
 
-def test_get_user_type_details():
+@pytest.fixture(scope='function')
+def temp_user():
+    user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
+    yield
+    user.del_user(SAMPLE_USER_NM)
+
+
+def test_get_user_type_details(temp_user):
     """
     """
-    resp_json = TEST_CLIENT.get(f'{ep.USER_DETAILS}/{TEST_USER_TYPE}'
+    resp_json = TEST_CLIENT.get(f'{ep.USER_DETAILS}/{SAMPLE_USER_NM}'
                                 ).get_json()
-    assert TEST_USER_TYPE in resp_json['Data']
-    assert isinstance(resp_json['Data'][TEST_USER_TYPE], dict)
+    print(resp_json)
+    assert SAMPLE_USER_NM in resp_json['Data']
+    assert isinstance(resp_json['Data'][SAMPLE_USER_NM], dict)
 
 
 def test_get_users_dict():
