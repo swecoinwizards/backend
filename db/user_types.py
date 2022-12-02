@@ -104,10 +104,11 @@ def add_user(name, details):
     if '@' not in details[EMAIL]:
         raise ValueError('Invalid Email')
     # new users will start with no coins, followers/following
-    details[FOLLOWERS] = []
-    details[FOLLOWING] = []
-    details[COINS] = []
-    details[POSTS] = []
+    if len(details) == 3:
+        details[FOLLOWERS] = []
+        details[FOLLOWING] = []
+        details[COINS] = []
+        details[POSTS] = []
     user_types[name] = details
     dbc.connect_db()
     # doc[USER_KEY] = name
@@ -125,28 +126,53 @@ def del_user(name):
 
 
 def follower_exists(userName, followName):
-    print(user_types[userName])
-    isFollower = userName in user_types[followName][FOLLOWERS]
-    isFollowing = followName in user_types[userName][FOLLOWING]
-    return (isFollower and isFollowing)
+    dbc.connect_db()
+    # print(user_types[userName])
+    user1 = dbc.fetch_one(USERS_COLLECT,
+                          {"name": userName})
+    user2 = dbc.fetch_one(USERS_COLLECT,
+                          {"name": followName})
+    print(user1[FOLLOWERS], user1[FOLLOWING])
+    print(user2[FOLLOWERS], user2[FOLLOWING])
+    isFollower = userName in user1[FOLLOWERS]
+    isFollowing = followName in user2[FOLLOWING]
+    return isFollowing and isFollower
 
 
 def add_follower(userName, followName):
+    dbc.connect_db()
     if userName == followName:
         raise ValueError("Use two different users")
     if follower_exists(userName, followName):
         raise ValueError("Follower exists")
-
-    user_types[followName][FOLLOWERS].append(userName)
-    user_types[userName][FOLLOWING].append(followName)
+    user1 = dbc.fetch_one(USERS_COLLECT,
+                          {"name": userName})
+    user2 = dbc.fetch_one(USERS_COLLECT,
+                          {"name": followName})
+    user1[FOLLOWERS].append(userName)
+    user2[FOLLOWING].append(followName)
+    # print(user1)
+    print(user2)
+    del_user(userName)
+    add_user(userName, user1)
+    del_user(followName)
+    add_user(followName, user2)
     return {userName: user_types[userName], followName: user_types[followName]}
 
 
 def remove_follower(userName, followName):
     if not follower_exists(userName, followName):
         raise ValueError("Follower does not exists")
-    user_types[followName][FOLLOWERS].remove(userName)
-    user_types[userName][FOLLOWING].remove(followName)
+    user1 = dbc.fetch_one(USERS_COLLECT,
+                          {"name": userName})
+    user2 = dbc.fetch_one(USERS_COLLECT,
+                          {"name": followName})
+    user1[FOLLOWERS].remove(userName)
+    user2[FOLLOWING].remove(followName)
+    del_user(userName)
+    add_user(userName, user1)
+    del_user(followName)
+    add_user(followName, user2)
     return {userName: user_types[userName], followName: user_types[followName]}
 
 
