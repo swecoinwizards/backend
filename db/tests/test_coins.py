@@ -53,6 +53,12 @@ def test_get_coin_ticker(temp_coin):
     assert ticker == TEST_COIN_TICKER
 
 
+def test_remodel_coin_ticker(temp_coin):
+    remodel_symbol = "NEW"
+    cn.remodel_coin_ticker(TEST_COIN, remodel_symbol)
+    assert cn.get_coin_ticker(TEST_COIN) == remodel_symbol
+
+
 def test_get_all_coin_tickers():
     tickers = cn.get_all_coin_tickers()
     assert isinstance(tickers, list)

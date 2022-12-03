@@ -76,6 +76,11 @@ def get_coin_ticker(name):
     return coin_type[name]['symbol']
 
 
+def remodel_coin_ticker(name, remodel_symbol):
+    coin_type[name]['symbol'] = remodel_symbol
+    return True
+
+
 def get_all_coin_tickers():
     tickers = []
     for coin in coin_type.keys():
