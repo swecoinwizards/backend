@@ -199,6 +199,8 @@ def update_password(userName, newPassword):
     if currentPassword == newPassword:
         raise ValueError("New password must be different from the previous!")
 
+    # dbc.remove_one(USERS_COLLECT, PASSWORD)
+    # userName.remove(userName)
     user_types[userName][PASSWORD] = newPassword
     return {userName: user_types[userName]}
 
