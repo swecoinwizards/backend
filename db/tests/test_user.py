@@ -166,6 +166,7 @@ def test_user_coin_evaluation(temp_user):
     assert usr.user_coin_valuation(usr.TEST_USER_NAME) >= 0
     usr.remove_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
 
+
 @pytest.mark.skip(reason="Will get back to later")
 def test_profile_add_post():
     TEST_POST = "Buy Bitcoin"
