@@ -270,9 +270,8 @@ def profile_add_post(userName, content):
 def profile_delete_post(userName, postNumber):
     if not user_exists(userName):
         raise ValueError("User does not exists")
-    if postNumber<0 or postNumber>len(user_types[userName][POSTS])-1:
+    if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
         raise ValueError("Post not found")
-        
     del user_types[userName][POSTS][postNumber]
     return True
 
