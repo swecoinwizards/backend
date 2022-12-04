@@ -8,9 +8,9 @@ import db.coins as cn
 
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 NEW_USER_DET = {'name': usr.TEST_USER_NAME, 'password': '****',
-                'email': 'sampleuser@gmail.com'}
+                'email': 'sampleuser@gmail.com', 'posts':[]}
 NEW_USER_DET2 = {'name': usr.TEST_USER_NAME2, 'password': '****',
-                 'email': 'sampleuser@gmail.com'}
+                 'email': 'sampleuser@gmail.com', 'posts':[]}
 
 
 @pytest.fixture(scope='function')
@@ -167,17 +167,20 @@ def test_user_coin_evaluation(temp_user):
     usr.remove_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
 
 
-@pytest.mark.skip(reason="Will come back to it after")
+#@pytest.mark.skip(reason="Will come back to it after")
 def test_profile_add_post():
-    TEST_USER_NAME = 'testName'
-    TEST_POST = "Buy Bitcoin NOW!"
-    details = {'name': TEST_USER_NAME}
-    for field in usr.REQUIRED_FIELDS[1:]:
-        details[field] = []
-    usr.add_user(TEST_USER_NAME, details)
-    usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
-    assert len(usr.get_posts(TEST_USER_NAME)) > 0
-    usr.del_user(TEST_USER_NAME)
+    TEST_POST = "Buy Bitcoin"
+    usr.profile_add_post(usr.TEST_USER_NAME, TEST_POST)
+    assert usr.access_profile_posts(usr.TEST_USER_NAME, 1) == TEST_POST
+    # TEST_USER_NAME = 'testName'
+    # TEST_POST = "Buy Bitcoin NOW!"
+    # details = {'name': TEST_USER_NAME}
+    # for field in usr.REQUIRED_FIELDS[1:]:
+    #     details[field] = []
+    # usr.add_user(TEST_USER_NAME, details)
+    # usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
+    # assert len(usr.get_posts(TEST_USER_NAME)) > 0
+    # usr.del_user(TEST_USER_NAME)
 
 
 @pytest.mark.skip(reason="Require add post to work")

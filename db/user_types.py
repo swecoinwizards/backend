@@ -254,6 +254,10 @@ def user_coin_valuation(userName):
     return value
 
 
+def access_profile_posts(userName, postNumber):
+    return user_types[userName][POSTS][postNumber-1]
+
+
 def profile_add_post(userName, content):
     if not user_exists(userName):
         raise ValueError("User does not exists")
@@ -266,9 +270,9 @@ def profile_add_post(userName, content):
 def profile_delete_post(userName, postNumber):
     if not user_exists(userName):
         raise ValueError("User does not exists")
-    if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
+    if postNumber<0 or postNumber>len(user_types[userName][POSTS])-1:
         raise ValueError("Post not found")
-
+        
     del user_types[userName][POSTS][postNumber]
     return True
 
