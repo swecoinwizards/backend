@@ -6,6 +6,7 @@ REMOTE = "0"
 LOCAL = "1"
 
 USER_DB = 'userdb'
+COIN_DB = 'coindb'
 
 client = None
 

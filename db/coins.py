@@ -1,8 +1,12 @@
+import db.db_connect as dbc
 from coinmarketcapapi import CoinMarketCapAPI
+
 # from config import API_KEY
 # https://pypi.org/project/python-coinmarketcap/
 
 API_KEY = ''
+COINS_COLLECT = 'coins'
+COIN_DB = 'coindb'
 ID = 'id'
 NAME = 'name'
 SYMBOL = 'symbol'
@@ -35,10 +39,16 @@ def coinapi_setup():
 
 def save_coin(name, dets):
     coin_type[name] = dets
+    dbc.connect_db()
+    dbc.insert_one(COINS_COLLECT, coin_type[name], COIN_DB)
     return True
 
 
 def remove_coin(name):
+    dbc.connect_db()
+    if not coin_exists(name):
+        raise TypeError(f'Coin: {type(name)=} does not exist in db.')
+    dbc.remove_one(COINS_COLLECT, coin_type[name], COIN_DB)
     del coin_type[name]
     return True
 
