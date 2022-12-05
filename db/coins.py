@@ -38,6 +38,12 @@ def coinapi_setup():
 
 
 def save_coin(name, dets):
+    if not isinstance(name, str):
+        raise TypeError(f'Wrong type for name: {type(name)=}')
+    if not isinstance(dets, dict):
+        raise TypeError(f'Wrong type for coin details: {type(dets)=}')
+    if coin_exists(name):
+        raise ValueError("Coin already exists!")
     coin_type[name] = dets
     dbc.connect_db()
     dbc.insert_one(COINS_COLLECT, coin_type[name], COIN_DB)

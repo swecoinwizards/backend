@@ -192,10 +192,6 @@ def test_profile_remove_post():
     assert usr.user_profile_delete_post(TEST_USER_NAME, 0)
 
 
-# def test_remove_coin():
-#     pass
-
-
 def test_user_login(temp_user):
     passw = usr.get_password(usr.TEST_USER_NAME)
     assert usr.user_login(usr.TEST_USER_NAME, passw)

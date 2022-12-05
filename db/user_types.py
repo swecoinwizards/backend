@@ -35,8 +35,7 @@ def user_exists(name):
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": name})
-    # print("exists: ", name in user_types and temp is not None)
-    # return name in user_types and temp is not None
+
     return temp is not None
 
 
@@ -64,8 +63,7 @@ def get_user(username):
     if not user_exists(username):
         raise ValueError(f'User {username=} does not exist')
     dbc.connect_db()
-    print("USER DOES EXIST", dbc.fetch_one(USERS_COLLECT,
-                                           {"name": username}))
+
     return dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
 
@@ -88,7 +86,6 @@ def get_user_password(username):
 
 
 def add_user(name, details):
-    # doc = details
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
     if not isinstance(details, dict):
@@ -96,7 +93,6 @@ def add_user(name, details):
     if user_exists(name):
         raise TypeError(f'User {type(details)=} exists')
     for field in REQUIRED_FIELDS:
-        # print(details.keys())
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
     if not isinstance(details[EMAIL], str):
@@ -111,14 +107,12 @@ def add_user(name, details):
         details[POSTS] = []
     user_types[name] = details
     dbc.connect_db()
-    # doc[USER_KEY] = name
     dbc.insert_one(USERS_COLLECT, user_types[name])
     return True
 
 
 def del_user(name):
     dbc.connect_db()
-    # print(dbc.fetch_one(USERS_COLLECT, {"name": name}), name)
     if not user_exists(name):
         raise TypeError(f'User: {type(name)=} does not exist in db.')
     dbc.remove_one(USERS_COLLECT, {"name": name})
@@ -127,13 +121,12 @@ def del_user(name):
 
 def follower_exists(userName, followName):
     dbc.connect_db()
-    # print(user_types[userName])
+
     user1 = dbc.fetch_one(USERS_COLLECT,
                           {"name": userName})
     user2 = dbc.fetch_one(USERS_COLLECT,
                           {"name": followName})
-    print(user1[FOLLOWERS], user1[FOLLOWING])
-    print(user2[FOLLOWERS], user2[FOLLOWING])
+
     isFollower = userName in user1[FOLLOWERS]
     isFollowing = followName in user2[FOLLOWING]
     return isFollowing and isFollower
@@ -151,8 +144,7 @@ def add_follower(userName, followName):
                           {"name": followName})
     user1[FOLLOWERS].append(userName)
     user2[FOLLOWING].append(followName)
-    # print(user1)
-    print(user2)
+
     del_user(userName)
     add_user(userName, user1)
     del_user(followName)
@@ -183,9 +175,8 @@ def update_email(userName, newEmail):
     if currentEmail == newEmail:
         raise ValueError("New email must be different from the previous!")
     user[EMAIL] = newEmail
-    print(user)
+
     add_user(user["name"], user)
-    # user_types[userName][EMAIL] = newEmail
     return {userName: user_types[userName]}
 
 
@@ -228,13 +219,11 @@ def remove_coin(userName, coin):
 
 
 def follower_count(userName, followName):
-    print(user_types[userName])
     isFollowers = followName in user_types[userName][FOLLOWERS]
     return (isFollowers.count())
 
 
 def following_count(userName, followName):
-    print(user_types[userName])
     isFollowing = followName in user_types[userName][FOLLOWING]
     return (isFollowing.count())
 

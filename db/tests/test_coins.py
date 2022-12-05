@@ -45,7 +45,6 @@ def test_get_coins_dict():
     assert isinstance(coins, dict)
 
 
-# test
 def test_count_coins():
     num = cn.count_coins()
     assert num == 2
