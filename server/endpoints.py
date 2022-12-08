@@ -4,7 +4,7 @@ The endpoint called `endpoints` will return all available endpoints.
 """
 
 from flask import Flask, request
-from flask_restx import Resource, Api, fields  # , Namespace
+from flask_restx import Resource, Api, fields, Namespace
 import db.user_types as user
 import db.coins as coin
 import werkzeug.exceptions as wz
@@ -14,6 +14,13 @@ from http import HTTPStatus
 app = Flask(__name__)
 api = Api(app)
 
+USERS_NS = 'users'
+COINS_NS = 'coins'
+
+users = Namespace(USERS_NS, 'Character Types')
+api.add_namespace(users)
+coins = Namespace(COINS_NS, 'Coins Type')
+api.add_namespace(coins)
 
 LIST = 'list'
 DETAILS = 'details'
@@ -30,7 +37,7 @@ LOGIN = 'login'
 TICKERS = 'tickers'
 POSTS = 'posts'
 EMAIL = 'email'
-USERS_NS = 'users'
+# USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
@@ -45,7 +52,7 @@ USER_LOGIN_MN = f'/{USERS_NS}'
 USER_UPDATE_PASSWORD = f'/{USERS_NS}/{LOGIN}/{UPDATE}'
 USER_POSTS = f'/{USERS_NS}/{POSTS}'
 
-COINS_NS = 'coins'
+# COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
 COIN_TICKERS_LIST = f'/{COINS_NS}/{TICKERS}/{LIST}'
@@ -58,10 +65,6 @@ COIN_REMOVE_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{REMOVE}/{FOLLOW}'
 DICT = 'dict'
 USER_DICT = f'/{USERS_NS}/{DICT}'
 COIN_DICT = f'/{COINS_NS}/{DICT}'
-
-
-# user_types = Namespace(USER_LIST_NM, 'Character Types')
-# api.add_namespace(user_types)
 
 
 @api.route(HELLO)
@@ -104,7 +107,7 @@ class MainMenu(Resource):
                 }}
 
 
-@api.route(USER_LIST)
+@users.route(USER_LIST)
 class UserList(Resource):
     """
     This will get a list of currrent users.
@@ -118,7 +121,7 @@ class UserList(Resource):
         return {USER_LIST_NM: data}
 
 
-@api.route(USER_DICT)
+@users.route(USER_DICT)
 class ActiveUsers(Resource):
     """
     FOR MENU
@@ -133,7 +136,7 @@ class ActiveUsers(Resource):
                 'Title': 'Active Users'}
 
 
-@api.route(f'{USER_DETAILS}/<user_type>')
+@users.route(f'{USER_DETAILS}/<user_type>')
 class UserTypeDetails(Resource):
     """
     For Menu
@@ -173,7 +176,7 @@ user_update_password_field = api.model('UpdateUserPassword', {
 })
 
 
-@api.route(USER_ADD)
+@users.route(USER_ADD)
 class AddUser(Resource):
     """
     Add a user.
@@ -193,7 +196,7 @@ class AddUser(Resource):
         user.add_user(name, request.json)
 
 
-@api.route(f'{USER_REMOVE}/<user_type>')
+@users.route(f'{USER_REMOVE}/<user_type>')
 class UserRemove(Resource):
     """
     Remove User
@@ -211,7 +214,7 @@ class UserRemove(Resource):
             raise wz.NotFound(f'{user_type} not found.')
 
 
-@api.route(f'{USER_FOLLOW}/<user_type>/<user_type2>')
+@users.route(f'{USER_FOLLOW}/<user_type>/<user_type2>')
 class UserFollow(Resource):
     """
     Follow User
@@ -225,7 +228,7 @@ class UserFollow(Resource):
         return user.add_follower(user_type, user_type2)
 
 
-@api.route(f'{USER_REMOVE_FOLLOW}/<user_type>/<user_type2>')
+@users.route(f'{USER_REMOVE_FOLLOW}/<user_type>/<user_type2>')
 class UserRemoveFollow(Resource):
     """
     Remove follow
@@ -239,7 +242,7 @@ class UserRemoveFollow(Resource):
         return user.remove_follower(user_type, user_type2)
 
 
-@api.route(USER_UPDATE_EMAIL)
+@users.route(USER_UPDATE_EMAIL)
 class UserUpdateEmail(Resource):
     """
     Update a user's email
@@ -257,7 +260,7 @@ class UserUpdateEmail(Resource):
                                  request.json[user.EMAIL])
 
 
-@api.route(f'{USER_UPDATE_PASSWORD}')
+@users.route(f'{USER_UPDATE_PASSWORD}')
 class UserUpdatePassword(Resource):
     """
     Update a user's password
@@ -274,7 +277,7 @@ class UserUpdatePassword(Resource):
                                     request.json[user.PASSWORD])
 
 
-@api.route(COIN_LIST)
+@coins.route(COIN_LIST)
 class CoinList(Resource):
     """
     This will get a list of currrent users.
@@ -286,7 +289,7 @@ class CoinList(Resource):
         return {COIN_LIST_NM: coin.get_coins()}
 
 
-@api.route(COIN_TICKERS_LIST)
+@coins.route(COIN_TICKERS_LIST)
 class CoinTickersList(Resource):
     """
     This will get a list of the tickers associated with current coins
@@ -298,7 +301,7 @@ class CoinTickersList(Resource):
         return {COIN_TICKERS_LIST_NM: coin.get_all_coin_tickers()}
 
 
-@api.route(COIN_DICT)
+@coins.route(COIN_DICT)
 class CoinsDict(Resource):
     """
     FOR MENU
@@ -313,7 +316,7 @@ class CoinsDict(Resource):
                 'Title': 'Active Coins'}
 
 
-@api.route(f'{COIN_DETAILS}/<coin_type>')
+@coins.route(f'{COIN_DETAILS}/<coin_type>')
 class CoinTypeDetails(Resource):
     """
     This will return details on a character type.
@@ -331,7 +334,7 @@ class CoinTypeDetails(Resource):
             raise wz.NotFound(f'{coin_type} not found.')
 
 
-@api.route(f'{COIN_FOLLOW}/<user_type>/<coin_type>')
+@coins.route(f'{COIN_FOLLOW}/<user_type>/<coin_type>')
 class CoinFollow(Resource):
     """
     Follow Coin
@@ -349,7 +352,7 @@ class CoinFollow(Resource):
             return user.add_coin(user_type, coin_type)
 
 
-@api.route(f'{COIN_REMOVE_FOLLOW}/<user_type>/<coin_type>')
+@coins.route(f'{COIN_REMOVE_FOLLOW}/<user_type>/<coin_type>')
 class CoinRemoveFollow(Resource):
     """
     Remove follow
@@ -367,7 +370,7 @@ class CoinRemoveFollow(Resource):
             return user.remove_coin(user_type, coin_type)
 
 
-@api.route(f'{USER_LOGIN}/<username>/<password>')
+@users.route(f'{USER_LOGIN}/<username>/<password>')
 class UserLogin(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
@@ -388,7 +391,7 @@ class UserLogin(Resource):
                     'Title': 'User Login'}
 
 
-@api.route(f'{USER_FOLLOWERS}/<username>')
+@users.route(f'{USER_FOLLOWERS}/<username>')
 class UserFollowers(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
@@ -404,7 +407,7 @@ class UserFollowers(Resource):
                     'Title': 'User Followers'}
 
 
-@api.route(f'{USER_POSTS}')
+@users.route(f'{USER_POSTS}')
 class UserPosts(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')

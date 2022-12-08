@@ -51,7 +51,8 @@ def test_get_user_list():
         {USER_LIST_NM: [list of users types...]}
     """
     if not RUNNING_ON_CICD_SERVER:
-        resp_json = TEST_CLIENT.get(ep.USER_LIST).get_json()
+        resp_json = TEST_CLIENT.get(f'{ep.USERS_NS}{ep.USER_LIST}').get_json()
+        print(resp_json, f'users/{ep.USER_LIST}')
         assert isinstance(resp_json[ep.USER_LIST_NM], list)
 
 
@@ -88,15 +89,15 @@ def temp_user():
 def test_get_user_type_details(temp_user):
     """
     """
-    resp_json = TEST_CLIENT.get(f'{ep.USER_DETAILS}/{SAMPLE_USER_NM}'
-                                ).get_json()
+    resp_json = TEST_CLIENT.get(f'{ep.USERS_NS}{ep.USER_DETAILS}' +
+                                f'/{SAMPLE_USER_NM}').get_json()
     print(resp_json)
     assert SAMPLE_USER_NM in resp_json['Data']
     assert isinstance(resp_json['Data'][SAMPLE_USER_NM], dict)
 
 
 def test_get_users_dict():
-    resp_json = TEST_CLIENT.get(f'{ep.USER_DICT}'
+    resp_json = TEST_CLIENT.get(f'{ep.USERS_NS}{ep.USER_DICT}'
                                 ).get_json()
     assert isinstance(resp_json, dict)
 
@@ -106,27 +107,29 @@ def test_add_follower():
         # user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
         # user.add_user(SAMPLE_USER_NM2, SAMPLE_USER2)
         resp_json = TEST_CLIENT.get(
-            f'{ep.USER_FOLLOW}/{user.Investor3}/{user.Investor2}').get_json()
+            f'{ep.USERS_NS}{ep.USER_FOLLOW}/{user.Investor3}/'
+            + f'{user.Investor2}').get_json()
         # print(resp_json)
         assert isinstance(resp_json, dict)
 
 
 def test_remove_follower():
     resp_json = TEST_CLIENT.get(
-        f'{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER}/{SAMPLE_USER2}').get_json()
+        f'{ep.USERS_NS}{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER}' +
+        f'/{SAMPLE_USER2}').get_json()
     assert isinstance(resp_json, dict)
 
 
 def test_user_followers():
     resp_json = TEST_CLIENT.get(
-        f'{ep.USER_FOLLOWERS}/{SAMPLE_USER}').get_json()
+        f'{ep.USERS_NS}{ep.USER_FOLLOWERS}/{SAMPLE_USER}').get_json()
     assert isinstance(resp_json, dict)
 
 
 def test_user_login(temp_user):
     password = '***'
     resp_json = TEST_CLIENT.get(
-        f'{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
+        f'{ep.USERS_NS}{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
     assert isinstance(resp_json, dict)
 
 
@@ -134,13 +137,13 @@ def test_user_login_fail(temp_user):
     # with pytest.raises(Exception) as e:
     password = "WRONGPASSWORD"
     resp_json = TEST_CLIENT.get(
-        f'{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
+        f'{ep.USERS_NS}{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
     assert resp_json['Data'] == "Cannot login: Wrong Password"
 
 
 def test_user_update_password():
     resp_json = TEST_CLIENT.get(
-        f'{ep.USER_UPDATE_PASSWORD}', json={}).get_json()
+        f'{ep.USERS_NS}{ep.USER_UPDATE_PASSWORD}', json={}).get_json()
     print(resp_json)
     assert isinstance(resp_json, dict)
 
@@ -148,8 +151,8 @@ def test_user_update_password():
 def test_coin_type_details():
     """
     """
-    resp_json = TEST_CLIENT.get(f'{ep.COIN_DETAILS}/{TEST_COIN_TYPE}'
-                                ).get_json()
+    resp_json = TEST_CLIENT.get(f'{ep.COINS_NS}{ep.COIN_DETAILS}/' +
+                                f'{TEST_COIN_TYPE}').get_json()
     assert TEST_COIN_TYPE in resp_json
     assert isinstance(resp_json[TEST_COIN_TYPE], dict)
 
@@ -160,25 +163,27 @@ def test_get_coin_list():
     Return should look like:
         {USER_LIST_NM: [list of users types...]}
     """
-    resp_json = TEST_CLIENT.get(ep.COIN_LIST).get_json()
+    resp_json = TEST_CLIENT.get(f'{ep.COINS_NS}{ep.COIN_LIST}').get_json()
     assert isinstance(resp_json[ep.COIN_LIST_NM], list)
 
 
 def test_add_coin():
     # user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
     resp_json = TEST_CLIENT.get(
-        f'{ep.COIN_FOLLOW}/{user.Investor2}/{TEST_COIN_TYPE}').get_json()
+        f'{ep.COINS_NS}{ep.COIN_FOLLOW}/{user.Investor2}' +
+        f'/{TEST_COIN_TYPE}').get_json()
     # print(resp_json)
     assert isinstance(resp_json, dict)
 
 
 def test_remove_coin():
     resp_json = TEST_CLIENT.get(
-        f'{ep.COIN_REMOVE_FOLLOW}/{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
+        f'{ep.COINS_NS}{ep.COIN_REMOVE_FOLLOW}/' +
+        f'{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
     assert isinstance(resp_json, dict)
 
 
 def test_get_coin_dict():
-    resp_json = TEST_CLIENT.get(f'{ep.COIN_DICT}'
+    resp_json = TEST_CLIENT.get(f'{ep.COINS_NS}{ep.COIN_DICT}'
                                 ).get_json()
     assert isinstance(resp_json, dict)
