@@ -2,8 +2,9 @@ import os
 
 import pymongo as pm
 
-REMOTE = "0"
-LOCAL = "1"
+# REMOTE = "0"
+LOCAL = "0"
+CLOUD = "1"
 
 USER_DB = 'userdb'
 COIN_DB = 'coindb'
@@ -22,7 +23,17 @@ def connect_db():
     global client
     if client is None:  # not connected yet!
         print("Setting client because it is None.")
-        if os.environ.get("LOCAL_MONGO", LOCAL) == LOCAL:
+        print(os.environ.get("CLOUD_MONGO", LOCAL))
+        if os.environ.get("CLOUD_MONGO", LOCAL) == CLOUD:
+            password = os.environ.get("USERS_MONGO_PW")
+            if not password:
+                raise ValueError("You must set your" +
+                                 "password to use Mongo in the cloud")
+            print("Connecting to Mongo in the cloud.")
+            client = pm.MongoClient(f'mongodb+srv://dalejandro:{password}' +
+                                    '@cluster0.vvtc4yu.mongodb.net/?' +
+                                    'retryWrites=true&w=majority')
+        else:
             print("Connecting to Mongo locally.")
             client = pm.MongoClient()
 
