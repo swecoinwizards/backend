@@ -170,15 +170,14 @@ def test_get_coin_list():
 def test_add_coin():
     # user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
     resp_json = TEST_CLIENT.get(
-        f'{ep.COINS_NS}{ep.COIN_FOLLOW}/{user.Investor2}' +
+        f'{ep.USERS_NS}{ep.COIN_FOLLOW}/{user.Investor2}' +
         f'/{TEST_COIN_TYPE}').get_json()
-    # print(resp_json)
     assert isinstance(resp_json, dict)
 
 
 def test_remove_coin():
     resp_json = TEST_CLIENT.get(
-        f'{ep.COINS_NS}{ep.COIN_REMOVE_FOLLOW}/' +
+        f'{ep.USERS_NS}{ep.COIN_REMOVE_FOLLOW}/' +
         f'{SAMPLE_USER}/{TEST_COIN_TYPE}').get_json()
     assert isinstance(resp_json, dict)
 

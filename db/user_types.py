@@ -106,8 +106,12 @@ def add_user(name, details):
         details[COINS] = []
         details[POSTS] = []
     user_types[name] = details
+    print(details)
+    # print(user_types[name])
     dbc.connect_db()
     dbc.insert_one(USERS_COLLECT, user_types[name])
+    if '_id' in user_types[name]:
+        del user_types[name]['_id']
     return True
 
 
@@ -181,89 +185,137 @@ def update_email(userName, newEmail):
 
 
 def get_password(userName):
-    return user_types[userName][PASSWORD]
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    return user[PASSWORD]
 
 
 def update_password(userName, newPassword):
-    currentPassword = user_types[userName][PASSWORD]
-
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    currentPassword = user[PASSWORD]
     if currentPassword == newPassword:
         raise ValueError("New password must be different from the previous!")
-
+    del_user(userName)
     # dbc.remove_one(USERS_COLLECT, PASSWORD)
     # userName.remove(userName)
-    user_types[userName][PASSWORD] = newPassword
+    user[PASSWORD] = newPassword
+    add_user(user["name"], user)
     return {userName: user_types[userName]}
 
 
 def user_coin_exists(userName, coin):
-    return coin in user_types[userName][COINS]
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    return coin in user[COINS]
 
 
 def add_coin(userName, coin):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exists")
-    if coin in user_types[userName][COINS]:
+    if coin in user[COINS]:
         raise ValueError("Already Following Coin")
-    user_types[userName][COINS].append(coin)
+    user[COINS].append(coin)
+    # is there a better way to modify obj in db?
+    print("user dets", user)
+    del_user(userName)
+    add_user(user["name"], user)
+    print("here!! user:", user_types[userName])
     return {userName: user_types[userName]}
 
 
 def remove_coin(userName, coin):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    print("here - user:", user[COINS][0])
     if not user_exists(userName):
         raise ValueError("User does not exists")
-    if coin not in user_types[userName][COINS]:
-        raise ValueError("Not Following Coin")
-    user_types[userName][COINS].remove(coin)
+    if coin not in user[COINS]:
+        raise ValueError("Not Following Coin!")
+    user[COINS].remove(coin)
+    del_user(userName)
+    add_user(user["name"], user)
     return {userName: user_types[userName]}
 
 
 def follower_count(userName, followName):
-    isFollowers = followName in user_types[userName][FOLLOWERS]
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    isFollowers = followName in user[FOLLOWERS]
     return (isFollowers.count())
 
 
 def following_count(userName, followName):
-    isFollowing = followName in user_types[userName][FOLLOWING]
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    isFollowing = followName in user[FOLLOWING]
     return (isFollowing.count())
 
 
 def get_followers(userName):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
     if user_exists(userName):
-        return user_types[userName][FOLLOWERS]
+        return user[FOLLOWERS]
     raise Exception("User does not exist")
 
 
 def user_coin_valuation(userName):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exist")
 
     value = 0
-    for coin in user_types[userName][COINS]:
+    for coin in user[COINS]:
         print(coin)
-
     return value
 
 
 def access_profile_posts(userName, postNumber):
-    return user_types[userName][POSTS][postNumber-1]
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    return user[POSTS][postNumber-1]
 
 
 def profile_add_post(userName, content):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exists")
     if content == "":
         raise ValueError("There is no content in the post")
-    user_types[userName][POSTS].append(content)
+    user[POSTS].append(content)
+    del_user(userName)
+    add_user(user["name"], user)
     return {userName: user_types[userName]}
 
 
 def profile_delete_post(userName, postNumber):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exists")
     if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
         raise ValueError("Post not found")
-    del user_types[userName][POSTS][postNumber]
+    # del user_types[userName][POSTS][postNumber]
+    user[POSTS].remove(postNumber)
+    del_user(userName)
+    add_user(user["name"], user)
     return True
 
 

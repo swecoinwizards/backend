@@ -51,7 +51,6 @@ USER_LOGIN = f'/{USERS_NS}/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
 USER_UPDATE_PASSWORD = f'/{USERS_NS}/{LOGIN}/{UPDATE}'
 USER_POSTS = f'/{USERS_NS}/{POSTS}'
-
 # COINS_NS = 'coins'
 COIN_LIST = f'/{COINS_NS}/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
@@ -193,7 +192,7 @@ class AddUser(Resource):
         request.json["Following"] = []
         request.json["coins"] = []
         print(request.json)
-        user.add_user(name, request.json)
+        return user.add_user(name, request.json)
 
 
 @users.route(f'{USER_REMOVE}/<user_type>')
@@ -207,7 +206,7 @@ class UserRemove(Resource):
         """
         This will return details on a character type.
         """
-        ct = user.get_user_type_details(user_type)
+        ct = user.get_users()
         if ct is not None:
             return user.del_user(user_type)
         else:
@@ -240,6 +239,17 @@ class UserRemoveFollow(Resource):
         Add a user.
         """
         return user.remove_follower(user_type, user_type2)
+
+
+# @users.route(f'/{USERS_NS}/{COINS_NS}/{FOLLOW}/<user_type>/<coin_type>')
+# class UserFollowCoin(Resource):
+#     """
+#     Follow Coin
+#     """
+#     @api.response(HTTPStatus.OK, 'Success')
+#     @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+#     def get(self, user_type, coin_type):
+#         return user.add_coin(user_type, coin_type)
 
 
 @users.route(USER_UPDATE_EMAIL)
@@ -334,7 +344,7 @@ class CoinTypeDetails(Resource):
             raise wz.NotFound(f'{coin_type} not found.')
 
 
-@coins.route(f'{COIN_FOLLOW}/<user_type>/<coin_type>')
+@users.route(f'{COIN_FOLLOW}/<user_type>/<coin_type>')
 class CoinFollow(Resource):
     """
     Follow Coin
@@ -352,7 +362,7 @@ class CoinFollow(Resource):
             return user.add_coin(user_type, coin_type)
 
 
-@coins.route(f'{COIN_REMOVE_FOLLOW}/<user_type>/<coin_type>')
+@users.route(f'{COIN_REMOVE_FOLLOW}/<user_type>/<coin_type>')
 class CoinRemoveFollow(Resource):
     """
     Remove follow
@@ -360,9 +370,7 @@ class CoinRemoveFollow(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
     def get(self, user_type, coin_type):
-        if (not coin.coin_exists(coin_type)):
-            raise wz.NotFound(f'{coin_type} not found.')
-        elif (not user.user_exists(user_type)):
+        if (not user.user_exists(user_type)):
             raise wz.NotAcceptable("User does not exists")
         elif (not user.user_coin_exists(user_type, coin_type)):
             raise wz.NotAcceptable("Not following coin")
