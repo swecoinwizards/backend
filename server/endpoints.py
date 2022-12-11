@@ -37,20 +37,21 @@ LOGIN = 'login'
 TICKERS = 'tickers'
 POSTS = 'posts'
 EMAIL = 'email'
+PASSWORD = 'password'
 # USERS_NS = 'users'
-USER_LIST = f'/{USERS_NS}/{LIST}'
+USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
-USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
-USER_ADD = f'/{USERS_NS}/{ADD}'
-USER_REMOVE = f'/{USERS_NS}/{REMOVE}'
-USER_FOLLOW = f'/{USERS_NS}/{FOLLOW}'
-USER_FOLLOWERS = f'/{USERS_NS}/{FOLLOWERS}'
-USER_REMOVE_FOLLOW = f'/{USERS_NS}/{REMOVE}/{FOLLOW}'
-USER_UPDATE_EMAIL = f'/{USERS_NS}/{DETAILS}/{UPDATE}'
-USER_LOGIN = f'/{USERS_NS}/{LOGIN}'
+USER_DETAILS = f'/{DETAILS}'
+USER_ADD = f'/{ADD}'
+USER_REMOVE = f'/{REMOVE}'
+USER_FOLLOW = f'/{FOLLOW}'
+USER_FOLLOWERS = f'/{FOLLOWERS}'
+USER_REMOVE_FOLLOW = f'/{REMOVE}/{FOLLOW}'
+USER_UPDATE_EMAIL = f'/{DETAILS}/{UPDATE}/{EMAIL}'
+USER_LOGIN = f'/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
-USER_UPDATE_PASSWORD = f'/{USERS_NS}/{LOGIN}/{UPDATE}'
-USER_POSTS = f'/{USERS_NS}/{POSTS}'
+USER_UPDATE_PASSWORD = f'/{DETAILS}/{UPDATE}/{PASSWORD}'
+USER_POSTS = f'/{POSTS}'
 # COINS_NS = 'coins'
 COIN_LIST = f'/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
@@ -58,11 +59,11 @@ COIN_TICKERS_LIST = f'/{TICKERS}/{LIST}'
 COIN_TICKERS_LIST_NM = f'{COINS_NS}_{TICKERS}_list'
 COIN_DETAILS = f'/{DETAILS}'
 COIN_REMOVE = f'/{COINS_NS}/{REMOVE}'
-COIN_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{FOLLOW}'
-COIN_REMOVE_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{REMOVE}/{FOLLOW}'
+COIN_FOLLOW = f'/{FOLLOW}'
+COIN_REMOVE_FOLLOW = f'/{FOLLOW}'
 
 DICT = 'dict'
-USER_DICT = f'/{USERS_NS}/{DICT}'
+USER_DICT = f'/{DICT}'
 COIN_DICT = f'/{DICT}'
 
 
@@ -199,7 +200,7 @@ class UserRemove(Resource):
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, user_type):
         """
-        This will return details on a character type.
+        This will return details on a character type
         """
         try:
             # does not remove user existence in other users
@@ -217,7 +218,7 @@ class UserFollow(Resource):
     @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
     def get(self, user_type, user_type2):
         """
-        Add a user.
+        Make one user follow another
         """
         try:
             return user.add_follower(user_type, user_type2)
@@ -352,6 +353,9 @@ class CoinFollow(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
     def get(self, user_type, coin_type):
+        """
+        Make a user follow a coin
+        """
         if (not coin.coin_exists(coin_type)):
             raise wz.NotFound(f'{coin_type} not found.')
         elif (not user.user_exists(user_type)):
@@ -404,6 +408,9 @@ class UserFollowers(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
     def get(self, username):
+        """
+        Get a list of people who follows the given user
+        """
         try:
             return {'Data': {username:
                     {"followers": user.get_followers(username)}},
