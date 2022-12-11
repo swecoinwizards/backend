@@ -64,9 +64,7 @@ def coin_exists(name):
 
 
 def coin_details(name):
-    if name not in coin_type:
-        raise ValueError(f'User {name=} not added yet')
-    return coin_type[name]
+    return coin_type.get(name, None)
 
 
 def get_coins():

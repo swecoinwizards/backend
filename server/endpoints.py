@@ -52,18 +52,18 @@ USER_LOGIN_MN = f'/{USERS_NS}'
 USER_UPDATE_PASSWORD = f'/{USERS_NS}/{LOGIN}/{UPDATE}'
 USER_POSTS = f'/{USERS_NS}/{POSTS}'
 # COINS_NS = 'coins'
-COIN_LIST = f'/{COINS_NS}/{LIST}'
+COIN_LIST = f'/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
-COIN_TICKERS_LIST = f'/{COINS_NS}/{TICKERS}/{LIST}'
+COIN_TICKERS_LIST = f'/{TICKERS}/{LIST}'
 COIN_TICKERS_LIST_NM = f'{COINS_NS}_{TICKERS}_list'
-COIN_DETAILS = f'/{COINS_NS}/{DETAILS}'
+COIN_DETAILS = f'/{DETAILS}'
 COIN_REMOVE = f'/{COINS_NS}/{REMOVE}'
 COIN_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{FOLLOW}'
 COIN_REMOVE_FOLLOW = f'/{USERS_NS}/{COINS_NS}/{REMOVE}/{FOLLOW}'
 
 DICT = 'dict'
 USER_DICT = f'/{USERS_NS}/{DICT}'
-COIN_DICT = f'/{COINS_NS}/{DICT}'
+COIN_DICT = f'/{DICT}'
 
 
 @api.route(HELLO)
@@ -291,11 +291,11 @@ class UserUpdatePassword(Resource):
 @coins.route(COIN_LIST)
 class CoinList(Resource):
     """
-    This will get a list of currrent users.
+    This will get a list of names of current coins.
     """
     def get(self):
         """
-        Returns a list of current users.
+        Returns a list of full names of current coins
         """
         return {COIN_LIST_NM: coin.get_coins()}
 
@@ -315,12 +315,11 @@ class CoinTickersList(Resource):
 @coins.route(COIN_DICT)
 class CoinsDict(Resource):
     """
-    FOR MENU
-    This will get a list of currrent coins in db.
+    This will get a list of currrent coins in database.
     """
     def get(self):
         """
-        Returns a list of current coins.
+        Returns a detailed list of coins in the database.
         """
         return {'Data': coin.get_coin_dict(),
                 'Type': 'Data',
@@ -330,13 +329,13 @@ class CoinsDict(Resource):
 @coins.route(f'{COIN_DETAILS}/<coin_type>')
 class CoinTypeDetails(Resource):
     """
-    This will return details on a character type.
+    This will return details on a coin given the full coin name.
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, coin_type):
         """
-        This will return details on a character type.
+        Returns details of a coin given the full coin name.
         """
         ct = coin.coin_details(coin_type)
         if ct is not None:
