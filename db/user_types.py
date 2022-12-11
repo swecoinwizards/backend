@@ -17,25 +17,30 @@ USER_KEY = 'name'
 REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]  # FOLLOWERS, FOLLOWING, COINS]
 POSTS = 'posts'
 
-user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
-              EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
-              FOLLOWING: [], COINS: [], POSTS: []},
-              Investor2: {NAME: 'user2', PASSWORD: '****',
-              EMAIL: 'user2@gmail.com', FOLLOWERS: [],
-              FOLLOWING: [Investor], COINS: [], POSTS: []},
-              Investor3: {NAME: 'user3', PASSWORD: '****',
-              EMAIL: 'user3@gmail.com', FOLLOWERS: [],
-              FOLLOWING: [], COINS: [], POSTS: []},
-              SampleUser: {NAME: 'sample', PASSWORD: '****',
-              EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
-              FOLLOWING: [], COINS: [], POSTS: []}}
+# user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
+#               EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
+#               FOLLOWING: [], COINS: [], POSTS: []},
+#               Investor2: {NAME: 'user2', PASSWORD: '****',
+#               EMAIL: 'user2@gmail.com', FOLLOWERS: [],
+#               FOLLOWING: [Investor], COINS: [], POSTS: []},
+#               Investor3: {NAME: 'user3', PASSWORD: '****',
+#               EMAIL: 'user3@gmail.com', FOLLOWERS: [],
+#               FOLLOWING: [], COINS: [], POSTS: []},
+#               SampleUser: {NAME: 'sample', PASSWORD: '****',
+#               EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
+#               FOLLOWING: [], COINS: [], POSTS: []}}
+
+
+def user_cleanUp(user):
+    if '_id' in user:
+        del user['_id']
+    return user
 
 
 def user_exists(name):
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": name})
-
     return temp is not None
 
 
@@ -48,6 +53,7 @@ def get_posts(userName):
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
+    print(temp)
     return temp[POSTS]
 
 
@@ -63,7 +69,6 @@ def get_user(username):
     if not user_exists(username):
         raise ValueError(f'User {username=} does not exist')
     dbc.connect_db()
-
     return dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
 
@@ -105,14 +110,10 @@ def add_user(name, details):
         details[FOLLOWING] = []
         details[COINS] = []
         details[POSTS] = []
-    user_types[name] = details
-    print(details)
-    # print(user_types[name])
     dbc.connect_db()
-    dbc.insert_one(USERS_COLLECT, user_types[name])
-    if '_id' in user_types[name]:
-        del user_types[name]['_id']
-    return True
+    # including user_cleanUp as extra safety
+    dbc.insert_one(USERS_COLLECT, user_cleanUp(details))
+    return {name: user_cleanUp(details)}
 
 
 def del_user(name):
@@ -120,7 +121,8 @@ def del_user(name):
     if not user_exists(name):
         raise TypeError(f'User: {type(name)=} does not exist in db.')
     dbc.remove_one(USERS_COLLECT, {"name": name})
-    del user_types[name]
+    return True
+    # del user_types[name]
 
 
 def follower_exists(userName, followName):
@@ -153,7 +155,9 @@ def add_follower(userName, followName):
     add_user(userName, user1)
     del_user(followName)
     add_user(followName, user2)
-    return {userName: user_types[userName], followName: user_types[followName]}
+    # return {userName: user_types[userName],
+    # followName: user_types[followName]}
+    return {userName: user_cleanUp(user1), followName: user_cleanUp(user2)}
 
 
 def remove_follower(userName, followName):
@@ -169,7 +173,9 @@ def remove_follower(userName, followName):
     add_user(userName, user1)
     del_user(followName)
     add_user(followName, user2)
-    return {userName: user_types[userName], followName: user_types[followName]}
+    # return {userName: user_types[userName],
+    # followName: user_types[followName]}
+    return {userName: user_cleanUp(user1), followName: user_cleanUp(user2)}
 
 
 def update_email(userName, newEmail):
@@ -181,7 +187,8 @@ def update_email(userName, newEmail):
     user[EMAIL] = newEmail
 
     add_user(user["name"], user)
-    return {userName: user_types[userName]}
+    # return {userName: user_types[userName]}
+    return {userName: user_cleanUp(user)}
 
 
 def get_password(userName):
@@ -203,7 +210,8 @@ def update_password(userName, newPassword):
     # userName.remove(userName)
     user[PASSWORD] = newPassword
     add_user(user["name"], user)
-    return {userName: user_types[userName]}
+    # return {userName: user_types[userName]}
+    return {userName: user_cleanUp(user)}
 
 
 def user_coin_exists(userName, coin):
@@ -223,11 +231,9 @@ def add_coin(userName, coin):
         raise ValueError("Already Following Coin")
     user[COINS].append(coin)
     # is there a better way to modify obj in db?
-    print("user dets", user)
     del_user(userName)
     add_user(user["name"], user)
-    print("here!! user:", user_types[userName])
-    return {userName: user_types[userName]}
+    return {userName: user_cleanUp(user)}
 
 
 def remove_coin(userName, coin):
@@ -242,7 +248,8 @@ def remove_coin(userName, coin):
     user[COINS].remove(coin)
     del_user(userName)
     add_user(user["name"], user)
-    return {userName: user_types[userName]}
+    # return {userName: user_types[userName]}
+    return {userName: user_cleanUp(user)}
 
 
 def follower_count(userName, followName):
@@ -301,7 +308,8 @@ def profile_add_post(userName, content):
     user[POSTS].append(content)
     del_user(userName)
     add_user(user["name"], user)
-    return {userName: user_types[userName]}
+    # return {userName: user_types[userName]}
+    return {userName: user_cleanUp(user)}
 
 
 def profile_delete_post(userName, postNumber):
@@ -310,7 +318,8 @@ def profile_delete_post(userName, postNumber):
                          {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exists")
-    if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
+    # if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
+    if postNumber < 0 or postNumber >= user[POSTS]:
         raise ValueError("Post not found")
     # del user_types[userName][POSTS][postNumber]
     user[POSTS].remove(postNumber)

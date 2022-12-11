@@ -187,11 +187,6 @@ class AddUser(Resource):
         """
         print(f'{request.json=}')
         name = request.json[user.NAME]
-        # del request.json[user.NAME]
-        request.json["Followers"] = []
-        request.json["Following"] = []
-        request.json["coins"] = []
-        print(request.json)
         return user.add_user(name, request.json)
 
 
@@ -206,10 +201,10 @@ class UserRemove(Resource):
         """
         This will return details on a character type.
         """
-        ct = user.get_users()
-        if ct is not None:
+        try:
+            # does not remove user existence in other users
             return user.del_user(user_type)
-        else:
+        except Exception:
             raise wz.NotFound(f'{user_type} not found.')
 
 
@@ -224,7 +219,10 @@ class UserFollow(Resource):
         """
         Add a user.
         """
-        return user.add_follower(user_type, user_type2)
+        try:
+            return user.add_follower(user_type, user_type2)
+        except Exception as e:
+            raise wz.NotFound(f'Cannot modify: {e}')
 
 
 @users.route(f'{USER_REMOVE_FOLLOW}/<user_type>/<user_type2>')
@@ -238,7 +236,10 @@ class UserRemoveFollow(Resource):
         """
         Add a user.
         """
-        return user.remove_follower(user_type, user_type2)
+        try:
+            return user.remove_follower(user_type, user_type2)
+        except Exception as e:
+            raise wz.NotFound(f'Cannot modify: {e}')
 
 
 # @users.route(f'/{USERS_NS}/{COINS_NS}/{FOLLOW}/<user_type>/<coin_type>')
@@ -415,7 +416,7 @@ class UserFollowers(Resource):
                     'Title': 'User Followers'}
 
 
-@users.route(f'{USER_POSTS}')
+@users.route(f'{USER_POSTS}/<user_type>')
 class UserPosts(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
@@ -425,7 +426,7 @@ class UserPosts(Resource):
         """
         posts = user.get_posts(user_type)
         if posts is not None:
-            return {'Data': {'Posts:': {posts}},
+            return {'Data': {'Posts:': posts},
                     'Type': 'Data', 'Title': 'Post History'}
         else:
             raise wz.NotFound(f'{user_type} not found.')
