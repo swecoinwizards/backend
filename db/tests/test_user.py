@@ -212,3 +212,7 @@ def test_user_login_fail(temp_user):
 
 def test_get_followers(temp_user):
     assert isinstance(usr.get_followers(usr.TEST_USER_NAME), list)
+
+
+def test_get_followings(temp_user):
+    assert isinstance(usr.get_followings(usr.TEST_USER_NAME), list)
