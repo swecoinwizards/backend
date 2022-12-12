@@ -44,6 +44,24 @@ def user_exists(name):
     return temp is not None
 
 
+def change_username(username, newUsername):
+    dbc.connect_db()
+    temp = dbc.fetch_one(USERS_COLLECT,
+                         {"name": username})
+    if temp is not None:
+        raise ValueError(f'Username {username=} already does exist')
+    newFollowers = get_followers(username)
+    newFollowings = get_followings(username)
+    newCoins = get_coins(username)
+    newPosts = get_posts(username)
+    newDetails = [newFollowers, newFollowings, newCoins, newDetails]
+    del_user(username)
+    add_user(newUsername, newDetails)
+    # including user_cleanUp as extra safety
+    # dbc.insert_one(USERS_COLLECT, user_cleanUp(newDetails)) included in add_user
+    return {newUsername: user_cleanUp(newDetails)}
+
+
 def get_users():
     dbc.connect_db()
     return dbc.fetch_all(USERS_COLLECT)

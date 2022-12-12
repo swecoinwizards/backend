@@ -130,6 +130,16 @@ def test_get_user(temp_user):
         assert usr.get_user(usr.TEST_USER_NAME) is not None
         # usr.del_user(usr.TEST_USER_NAME)
 
+def test_change_username(temp_user):
+    if not RUNNING_ON_CICD_SERVER:
+        # TEST_USER_NAME = 'testName'
+        TEST_NEW_USERNAME = 'abc123'
+        # details = {'name': TEST_USER_NAME}
+        # for field in usr.REQUIRED_FIELDS[1:]:
+        #     details[field] = []
+        usr.change_username(usr.TEST_USER_NAME, TEST_NEW_USERNAME)
+        assert usr.user_exists(TEST_NEW_USERNAME)
+
 
 def test_get_password(temp_user):
     credentials = usr.get_password(usr.TEST_USER_NAME)
