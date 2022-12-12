@@ -210,6 +210,10 @@ def test_user_login_fail(temp_user):
     assert str(e.value) == "Wrong Password"
 
 
+def test_get_coins(temp_user):
+    assert isinstance(usr.get_coins(usr.TEST_USER_NAME), list)
+
+
 def test_get_followers(temp_user):
     assert isinstance(usr.get_followers(usr.TEST_USER_NAME), list)
 

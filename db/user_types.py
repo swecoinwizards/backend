@@ -286,6 +286,15 @@ def get_followings(userName):
     raise Exception("User does not exist")
 
 
+def get_coins(userName):
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    if user_exists(userName):
+        return user[COINS]
+    raise Exception("User does not exist")
+
+
 def user_coin_valuation(userName):
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
