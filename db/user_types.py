@@ -54,11 +54,9 @@ def change_username(username, newUsername):
     newFollowings = get_followings(username)
     newCoins = get_coins(username)
     newPosts = get_posts(username)
-    newDetails = [newFollowers, newFollowings, newCoins, newDetails]
+    newDetails = [newFollowers, newFollowings, newCoins, newPosts]
     del_user(username)
     add_user(newUsername, newDetails)
-    # including user_cleanUp as extra safety
-    # dbc.insert_one(USERS_COLLECT, user_cleanUp(newDetails)) included in add_user
     return {newUsername: user_cleanUp(newDetails)}
 
 
