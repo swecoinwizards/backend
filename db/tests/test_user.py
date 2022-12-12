@@ -130,6 +130,7 @@ def test_get_user(temp_user):
         assert usr.get_user(usr.TEST_USER_NAME) is not None
         # usr.del_user(usr.TEST_USER_NAME)
 
+
 def test_change_username(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         # TEST_USER_NAME = 'testName'
