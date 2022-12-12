@@ -188,7 +188,10 @@ class AddUser(Resource):
         """
         print(f'{request.json=}')
         name = request.json[user.NAME]
-        return user.add_user(name, request.json)
+        try:
+            return user.add_user(name, request.json)
+        except Exception as e:
+            raise wz.BadRequest(f'{e}')
 
 
 @users.route(f'{USER_REMOVE}/<user_type>')
@@ -268,8 +271,11 @@ class UserUpdateEmail(Resource):
         """
         print(f'{request.json=}')
         print(user_update_email_fields)
-        return user.update_email(request.json[user.NAME],
-                                 request.json[user.EMAIL])
+        try:
+            return user.update_email(request.json[user.NAME],
+                                     request.json[user.EMAIL])
+        except Exception as e:
+            raise wz.BadRequest(e)
 
 
 @users.route(f'{USER_UPDATE_PASSWORD}')
@@ -285,8 +291,11 @@ class UserUpdatePassword(Resource):
         Update password
         """
         print(f'{request.json=}')
-        return user.update_password(request.json[user.NAME],
-                                    request.json[user.PASSWORD])
+        try:
+            return user.update_password(request.json[user.NAME],
+                                        request.json[user.PASSWORD])
+        except Exception as e:
+            raise wz.BadRequest(e)
 
 
 @coins.route(COIN_LIST)

@@ -96,7 +96,7 @@ def add_user(name, details):
     if not isinstance(details, dict):
         raise TypeError(f'Wrong type for details: {type(details)=}')
     if user_exists(name):
-        raise TypeError(f'User {type(details)=} exists')
+        raise ValueError(f'User {name} already exists!')
     for field in REQUIRED_FIELDS:
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
@@ -119,7 +119,7 @@ def add_user(name, details):
 def del_user(name):
     dbc.connect_db()
     if not user_exists(name):
-        raise TypeError(f'User: {type(name)=} does not exist in db.')
+        raise TypeError(f'User: {name} does not exist in db.')
     dbc.remove_one(USERS_COLLECT, {"name": name})
     return True
     # del user_types[name]
