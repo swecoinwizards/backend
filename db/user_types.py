@@ -47,14 +47,19 @@ def user_exists(name):
 def change_username(username, newUsername):
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
+                         {"name": newUsername})
+    user = dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
     if temp is not None:
-        raise ValueError(f'Username {username=} already does exist')
+        raise ValueError(f'Username {newUsername=} already does exist')
     newFollowers = get_followers(username)
     newFollowings = get_followings(username)
     newCoins = get_coins(username)
     newPosts = get_posts(username)
-    newDetails = [newFollowers, newFollowings, newCoins, newPosts]
+    # newDetails = [newFollowers, newFollowings, newCoins, newPosts]
+    newDetails = {NAME: newUsername, PASSWORD: user["password"],
+                  EMAIL: user["email"], FOLLOWERS: newFollowers,
+                  FOLLOWING: newFollowings, COINS: newCoins, POSTS: newPosts}
     del_user(username)
     add_user(newUsername, newDetails)
     return {newUsername: user_cleanUp(newDetails)}
@@ -352,11 +357,10 @@ def profile_delete_post(userName, postNumber):
                          {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exists")
-    # if postNumber < 0 or postNumber >= len(user_types[userName][POSTS]):
-    if postNumber < 0 or postNumber >= user[POSTS]:
+    if postNumber < 0 or postNumber >= len(user[POSTS]):
         raise ValueError("Post not found")
-    # del user_types[userName][POSTS][postNumber]
-    user[POSTS].remove(postNumber)
+    print("POST NUMBER", postNumber)
+    user[POSTS].remove(user[POSTS][postNumber])
     del_user(userName)
     add_user(user["name"], user)
     return True

@@ -17,7 +17,8 @@ NEW_USER_DET2 = {'name': usr.TEST_USER_NAME2, 'password': '****',
 def temp_user():
     usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
     yield
-    usr.del_user(usr.TEST_USER_NAME)
+    if (usr.user_exists(usr.TEST_USER_NAME)):
+        usr.del_user(usr.TEST_USER_NAME)
 
 
 @pytest.fixture(scope='function')
@@ -134,12 +135,10 @@ def test_get_user(temp_user):
 def test_change_username(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         # TEST_USER_NAME = 'testName'
-        TEST_NEW_USERNAME = 'abc123'
-        # details = {'name': TEST_USER_NAME}
-        # for field in usr.REQUIRED_FIELDS[1:]:
-        #     details[field] = []
-        usr.change_username(usr.TEST_USER_NAME, TEST_NEW_USERNAME)
-        assert usr.user_exists(TEST_NEW_USERNAME)
+        NEW_USERNAME = 'abc123'
+        usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME)
+        assert usr.user_exists(NEW_USERNAME)
+        usr.del_user(NEW_USERNAME)
 
 
 def test_get_password(temp_user):
@@ -175,32 +174,25 @@ def test_user_coin_evaluation(temp_user):
     usr.remove_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
 
 
-@pytest.mark.skip(reason="Will get back to later")
-def test_profile_add_post():
+def test_profile_add_post(temp_user):
     TEST_POST = "Buy Bitcoin"
     usr.profile_add_post(usr.TEST_USER_NAME, TEST_POST)
     assert usr.access_profile_posts(usr.TEST_USER_NAME, 1) == TEST_POST
+
+
+# @pytest.mark.skip(reason="Require add post to work")
+def test_profile_remove_post(temp_user):
     # TEST_USER_NAME = 'testName'
-    # TEST_POST = "Buy Bitcoin NOW!"
-    # details = {'name': TEST_USER_NAME}
-    # for field in usr.REQUIRED_FIELDS[1:]:
-    #     details[field] = []
-    # usr.add_user(TEST_USER_NAME, details)
-    # usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
-    # assert len(usr.get_posts(TEST_USER_NAME)) > 0
-    # usr.del_user(TEST_USER_NAME)
-
-
-@pytest.mark.skip(reason="Require add post to work")
-def test_profile_remove_post():
-    TEST_USER_NAME = 'testName'
     TEST_POST = "Buy Bitcoin NOW!"
-    details = {'name': TEST_USER_NAME}
-    for field in usr.REQUIRED_FIELDS[1:]:
-        details[field] = []
-    usr.add_user(TEST_USER_NAME, details)
-    usr.user_profile_add_post(TEST_USER_NAME, TEST_POST)
-    assert usr.user_profile_delete_post(TEST_USER_NAME, 0)
+    usr.profile_add_post(usr.TEST_USER_NAME, TEST_POST)
+    assert usr.profile_delete_post(usr.TEST_USER_NAME, 0)
+
+
+@pytest.mark.skip(reason="Require change post to work")
+def test_modify_posts(temp_user):
+    # should include post number
+    post_number = 0
+    assert usr.user_profile_change_post(usr.TEST_USER_NAME, post_number)
 
 
 def test_user_login(temp_user):
