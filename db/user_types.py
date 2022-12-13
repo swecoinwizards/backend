@@ -251,7 +251,6 @@ def add_coin(userName, coin):
     if coin in user[COINS]:
         raise ValueError("Already Following Coin")
     # check if coin is valid
-    print("user!",user)
     user[COINS].append(coin)
     # is there a better way to modify obj in db?
     del_user(userName)
