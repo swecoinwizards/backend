@@ -58,9 +58,9 @@ COIN_LIST_NM = f'{COINS_NS}_list'
 COIN_TICKERS_LIST = f'/{TICKERS}/{LIST}'
 COIN_TICKERS_LIST_NM = f'{COINS_NS}_{TICKERS}_list'
 COIN_DETAILS = f'/{DETAILS}'
-COIN_REMOVE = f'/{COINS_NS}/{REMOVE}'
-COIN_FOLLOW = f'/{FOLLOW}'
-COIN_REMOVE_FOLLOW = f'/{FOLLOW}'
+COIN_REMOVE = f'{COINS_NS}/{REMOVE}'
+COIN_FOLLOW = f'/{COINS_NS}/{FOLLOW}'
+COIN_REMOVE_FOLLOW = f'/{COIN_REMOVE}/{FOLLOW}'
 
 DICT = 'dict'
 USER_DICT = f'/{DICT}'
@@ -145,9 +145,9 @@ class UserTypeDetails(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, user_type):
-        # ct = user.get_user_type_details(user_type)
-        # print(ct)
-        # if ct is not None:
+        """
+        Details on user.
+        """
         print("here")
         if user.user_exists(user_type):
             print("here2")
@@ -244,17 +244,6 @@ class UserRemoveFollow(Resource):
             return user.remove_follower(user_type, user_type2)
         except Exception as e:
             raise wz.NotFound(f'Cannot modify: {e}')
-
-
-# @users.route(f'/{USERS_NS}/{COINS_NS}/{FOLLOW}/<user_type>/<coin_type>')
-# class UserFollowCoin(Resource):
-#     """
-#     Follow Coin
-#     """
-#     @api.response(HTTPStatus.OK, 'Success')
-#     @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
-#     def get(self, user_type, coin_type):
-#         return user.add_coin(user_type, coin_type)
 
 
 @users.route(USER_UPDATE_EMAIL)
@@ -365,6 +354,7 @@ class CoinFollow(Resource):
         """
         Make a user follow a coin
         """
+        print("SUCCESS")
         if (not coin.coin_exists(coin_type)):
             raise wz.NotFound(f'{coin_type} not found.')
         elif (not user.user_exists(user_type)):
@@ -383,6 +373,9 @@ class CoinRemoveFollow(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
     def get(self, user_type, coin_type):
+        """
+        Remove coin from user
+        """
         if (not user.user_exists(user_type)):
             raise wz.NotAcceptable("User does not exists")
         elif (not user.user_coin_exists(user_type, coin_type)):
