@@ -88,21 +88,21 @@ Database design update:
 
 # Progress and Goals
 
-### Last Semester
+### Fall 2022 Semester
 * Set up database
-* User credentials + data
+  + User credentials + data
 * Set up coin API
-* Can request coin info
+  + Can request coin info
 * User functions (e.g create/delete account, follow, post, etc) 
-### Goals for Semester
+### Goals for Spring 2023 Semester
 * Setting up react
-* Setting up python everywhere and getting react proj started
-* Every week add an endpoint to the react page
+  + Setting up python everywhere and getting react proj started
+  + Every week add an endpoint to the react page
 * Setting up authentication for user login/logout
-* Setup function within react page (maybe w js) - 2 weeks
-* Add to react page
+  + Setup function (maybe w js) - 2 weeks
+  + Add to react page
 * Set up user notifications/alerts
-* Setup functions for each feature (e.g new posts, followers) - 4 weeks
+  + Setup functions for each feature (e.g new posts, followers) - 4 weeks
 
 | Tasks | Timeline |
 | ---- | ---- |
