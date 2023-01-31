@@ -84,3 +84,35 @@ Database design update:
 * Store user data, e.g. account info
 * Query user data, e.g. get the number of accounts
 * ER Diagram: [Draw.io Design](https://drive.google.com/file/d/1_9ncNf8hwSNbuxS2CsFDgUAu4zlofcJg/view?usp=sharing) 
+
+
+# Progress and Goals
+
+### Last Semester
+* Set up database
+* User credentials + data
+* Set up coin API
+* Can request coin info
+* User functions (e.g create/delete account, follow, post, etc) 
+### Goals for Semester
+* Setting up react
+* Setting up python everywhere and getting react proj started
+* Every week add an endpoint to the react page
+* Setting up authentication for user login/logout
+* Setup function within react page (maybe w js) - 2 weeks
+* Add to react page
+* Set up user notifications/alerts
+* Setup functions for each feature (e.g new posts, followers) - 4 weeks
+
+| Tasks | Timeline |
+| ---- | ---- |
+| Setup React Home Page | 2/14 |
+| Setup w Python Anywhere | 2/16 |
+| Search bar functionality | 2/23 | 
+| Login Page + login/logout functionality | 2/23 |
+| User Account Page | 2/23 |
+| Coin Page | 3/9 |
+| Accounr Settings functionality | 3/9 |
+|Email/text notification | 3/9 |
+| MVP | 3/23 |
+| Final modifications/additions | TBD |
