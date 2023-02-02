@@ -31,6 +31,7 @@ POSTS = 'posts'
 #               FOLLOWING: [], COINS: [], POSTS: []}}
 
 
+# helper function for inputting user data to db
 def user_cleanUp(user):
     if '_id' in user:
         del user['_id']
@@ -72,9 +73,11 @@ def get_users():
 
 def get_posts(userName):
     dbc.connect_db()
+    if not user_exists(userName):
+        raise ValueError(f'User {userName=} does not exist')
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
-    print(temp)
+    # print(temp)
     return temp[POSTS]
 
 
@@ -123,7 +126,7 @@ def add_user(name, details):
             raise ValueError(f'Required {field=} missing from details.')
     if not isinstance(details[EMAIL], str):
         raise TypeError(f'Wrong type for email: {type(name)=}')
-    if '@' not in details[EMAIL]:
+    if ('@' not in details[EMAIL]) or (' ' in details[EMAIL]):
         raise ValueError('Invalid Email')
     # new users will start with no coins, followers/following
     if len(details) == 3:
