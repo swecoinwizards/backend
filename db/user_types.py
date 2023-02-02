@@ -124,9 +124,17 @@ def add_user(name, details):
     for field in REQUIRED_FIELDS:
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
+        if not isinstance(details[field], str):
+            raise ValueError(f'Wrong type for {field=}')
+        if ' ' in details[field]:
+            raise ValueError(f'{field=} cannot have any blank spaces')
     if not isinstance(details[EMAIL], str):
         raise TypeError(f'Wrong type for email: {type(name)=}')
-    if ('@' not in details[EMAIL]) or (' ' in details[EMAIL]):
+
+    # checking for detail requirements
+    if (' ' in name):
+        raise ValueError('Invalid Name')
+    if ('@' not in details[EMAIL]):
         raise ValueError('Invalid Email')
     # new users will start with no coins, followers/following
     if len(details) == 3:

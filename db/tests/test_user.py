@@ -38,6 +38,13 @@ def test_get_posts(temp_user):
     assert isinstance(posts, list)
 
 
+def test_get_posts_fail():
+    with pytest.raises(ValueError):
+        usr.get_posts("DoesNotExist")
+        usr.get_posts("")
+        usr.get_posts(" ")
+
+
 # can remove this bc already have db one
 def test_get_users_dict(temp_user):
     usrs = usr.get_users_dict()
@@ -47,12 +54,29 @@ def test_get_users_dict(temp_user):
 
 def test_add_wrong_name_type():
     with pytest.raises(TypeError):
-        usr.add_user(7, {})
+        usr.add_user(7, {'name': 7,
+                         'password': '****', 'email':
+                         'sampleuser@gmail.com'})
+        usr.add_user(' ', {'name': 'name',
+                           'password': '****', 'email':
+                           'sampleuser@gmail.com'})
 
 
 def test_add_wrong_details_type():
     with pytest.raises(TypeError):
         usr.add_user('a new user', [])
+        usr.add_user('newU', {'name': 'newU',
+                              'email':
+                              'sampleuser@gmail.com'})
+        usr.add_user('newU', {'name': 'newU',
+                              'password': ' ', 'email':
+                              'sampleuser@gmail.com'})
+        usr.add_user('newU', {'name': 'newU',
+                              'password': 1, 'email':
+                              'sampleuser@gmail.com'})
+        usr.add_user('newU', {'name': 'newU',
+                              'password': ' ', 'email':
+                              'sampleusergmail.com'})
 
 
 def test_add_user_wrong_email():
