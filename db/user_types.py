@@ -263,11 +263,17 @@ def update_password(userName, newPassword):
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     currentPassword = user[PASSWORD]
+    if (not isinstance(newPassword, str)):
+        raise TypeError(f'Wrong type for new password: {type(newPassword)=}')
     if currentPassword == newPassword:
         raise ValueError("New password must be different from the previous!")
     del_user(userName)
     # dbc.remove_one(USERS_COLLECT, PASSWORD)
     # userName.remove(userName)
+    if (' ' in newPassword):
+        raise ValueError("New password cannot have any empty spaces")
+    if (len(newPassword) == 0):
+        raise ValueError("New password cannot be empty")
     user[PASSWORD] = newPassword
     add_user(user["name"], user)
     # return {userName: user_types[userName]}

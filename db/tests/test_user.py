@@ -245,13 +245,23 @@ def test_get_password_fail():
 
 def test_update_password(temp_user):
     if not RUNNING_ON_CICD_SERVER:
-        # TEST_USER_NAME = 'testName'
         TEST_NEW_PASSWORD = 'abc123'
-        # details = {'name': TEST_USER_NAME}
-        # for field in usr.REQUIRED_FIELDS[1:]:
-        #     details[field] = []
         usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD)
         assert usr.get_password(usr.TEST_USER_NAME) == TEST_NEW_PASSWORD
+
+
+def test_update_password_fail(temp_user):
+    TEST_NEW_PASSWORD1 = ' '
+    TEST_NEW_PASSWORD2 = ''
+    with pytest.raises(ValueError):
+        usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD1)
+        usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD2)
+
+
+def test_update_password_fail_type(temp_user):
+    TEST_NEW_PASSWORD = 123
+    with pytest.raises(TypeError):
+        usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD)
 
 
 def test_add_coin(temp_user):
