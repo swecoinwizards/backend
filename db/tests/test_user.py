@@ -167,6 +167,22 @@ def test_update_email(temp_user):
         # usr.del_user(usr.TEST_USER_NAME)
 
 
+def test_update_email_fail(temp_user):
+    # if not RUNNING_ON_CICD_SERVER:
+    TEST_NEW_EMAIL = 'NEWSAMPLEtest.com'
+    with pytest.raises(ValueError):
+        usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
+        assert usr.get_user_email(usr.TEST_USER_NAME) == TEST_NEW_EMAIL
+
+
+def test_update_email_fail_type(temp_user):
+    # if not RUNNING_ON_CICD_SERVER:
+    TEST_NEW_EMAIL = 123
+    with pytest.raises(TypeError):
+        usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
+        assert usr.get_user_email(usr.TEST_USER_NAME) == TEST_NEW_EMAIL
+
+
 def test_get_user(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         # TEST_USER_NAME = 'testName'
@@ -179,6 +195,11 @@ def test_get_user(temp_user):
         # usr.del_user(usr.TEST_USER_NAME)
 
 
+def test_get_user_fail():
+    with pytest.raises(ValueError):
+        usr.get_user("fakeUser")
+
+
 def test_change_username(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         # TEST_USER_NAME = 'testName'
@@ -188,9 +209,38 @@ def test_change_username(temp_user):
         usr.del_user(NEW_USERNAME)
 
 
+def test_change_username_fail_type(temp_user):
+    if not RUNNING_ON_CICD_SERVER:
+        NEW_USERNAME = 111
+        with pytest.raises(TypeError):
+            usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME)
+        # usr.del_user(NEW_USERNAME)
+
+
+def test_change_username_fail(temp_user):
+    if not RUNNING_ON_CICD_SERVER:
+        NEW_USERNAME1 = ''
+        NEW_USERNAME2 = 'new user'
+        with pytest.raises(ValueError):
+            usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME1)
+            usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME2)
+        # usr.del_user(NEW_USERNAME)
+
+
 def test_get_password(temp_user):
     credentials = usr.get_password(usr.TEST_USER_NAME)
     assert isinstance(credentials, str)
+    assert credentials == '****'
+
+
+def test_get_password_fail_type():
+    with pytest.raises(TypeError):
+        usr.get_password(111)
+
+
+def test_get_password_fail():
+    with pytest.raises(ValueError):
+        usr.get_password("fakeUser")
 
 
 def test_update_password(temp_user):
@@ -245,13 +295,6 @@ def test_modify_posts(temp_user):
 def test_user_login(temp_user):
     passw = usr.get_password(usr.TEST_USER_NAME)
     assert usr.user_login(usr.TEST_USER_NAME, passw)
-
-
-def test_get_user_password(temp_user):
-    passw = usr.get_password(usr.TEST_USER_NAME)
-    assert isinstance(passw, str)
-    assert passw is not None
-    # assert passw == '****' or passw == 'abc123'
 
 
 def test_user_login_fail(temp_user):

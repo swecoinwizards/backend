@@ -47,6 +47,14 @@ def user_exists(name):
 
 def change_username(username, newUsername):
     dbc.connect_db()
+    if not isinstance(username, str):
+        raise TypeError(f'Wrong type for username: {type(username)=}')
+    if not isinstance(newUsername, str):
+        raise TypeError(f'Wrong type for username: {type(newUsername)=}')
+    if ' ' in newUsername:
+        raise ValueError(f'Cannot have empty spaces in {newUsername}')
+    if len(newUsername) == 0:
+        raise ValueError("New username cannot be empty!")
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": newUsername})
     user = dbc.fetch_one(USERS_COLLECT,
@@ -226,6 +234,11 @@ def update_email(userName, newEmail):
     currentEmail = user[EMAIL]
     if currentEmail == newEmail:
         raise ValueError("New email must be different from the previous!")
+    # check email meets requirements
+    if not isinstance(newEmail, str):
+        raise TypeError(f'Wrong type for email: {type(newEmail)=}')
+    if ('@' not in newEmail) or ('.' not in newEmail):
+        raise ValueError('Invalid Email')
     user[EMAIL] = newEmail
 
     add_user(user["name"], user)
@@ -235,6 +248,11 @@ def update_email(userName, newEmail):
 
 def get_password(userName):
     dbc.connect_db()
+    print(userName)
+    if not isinstance(userName, str):
+        raise TypeError(f'Wrong type for userName: {type(userName)=}')
+    if not user_exists(userName):
+        raise ValueError(f'{userName} does not exists')
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     return user[PASSWORD]
