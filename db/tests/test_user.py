@@ -77,15 +77,25 @@ def test_add_wrong_details_type():
         usr.add_user('newU', {'name': 'newU',
                               'password': ' ', 'email':
                               'sampleusergmail.com'})
+        usr.add_user('newU', {'name': ' ',
+                              'password': '**', 'email':
+                              'sampleusergmail.com'})
+        usr.add_user('newU', {'name': 'newU',
+                              'password': '', 'email':
+                              'sampleusergmail.com'})
 
 
 def test_add_user_wrong_email():
     with pytest.raises(ValueError):
-        usr.add_user('a new user', {
-            'name': 'a new user',
+        usr.add_user('aNewUser', {
+            'name': 'aNewUser',
             'password': '123',
             'email': 'invalidemail',
         })
+        usr.add_user('aNewUser', {
+                    'name': 'Newuser',
+                    'password': '123',
+                    'email': 'invalidemail@gmailcom'})
 
 
 def test_add_missing_field():
@@ -98,6 +108,11 @@ def test_add_follower(temp_user, temp_user2):
     assert usr.follower_exists(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
 
 
+def test_add_follower_fail():
+    with pytest.raises(ValueError):
+        usr.add_follower(usr.TEST_USER_NAME, "fakeName")
+
+
 def test_remove_follower(temp_user, temp_user2):
     # usr.add_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
     usr.add_follower(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
@@ -105,16 +120,14 @@ def test_remove_follower(temp_user, temp_user2):
     assert not usr.follower_exists(usr.TEST_USER_NAME, usr.TEST_USER_NAME2)
 
 
-def test_add_user(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        # TEST_USER_NAME = 'testName'
-        # details = {'name': TEST_USER_NAME}
+def test_remove_follower_fail():
+    with pytest.raises(ValueError):
+        usr.remove_follower(usr.TEST_USER_NAME, "fakeName")
 
-        # for field in usr.REQUIRED_FIELDS[1:]:
-        #     details[field] = []
-        # usr.add_user(TEST_USER_NAME, details)
-        assert usr.user_exists(usr.TEST_USER_NAME)
-        # usr.del_user(TEST_USER_NAME)
+
+def test_add_user(temp_user):
+    # if not RUNNING_ON_CICD_SERVER:
+    assert usr.user_exists(usr.TEST_USER_NAME)
 
 
 def test_del_user(temp_user):
@@ -126,8 +139,18 @@ def test_del_user(temp_user):
         usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
 
 
+def test_del_user_fail(temp_user):
+    with pytest.raises(ValueError):
+        usr.del_user("fakeUser")
+
+
 def test_user_email(temp_user):
     assert isinstance(usr.get_user_email(usr.TEST_USER_NAME), str)
+
+
+def test_user_email_fail(temp_user):
+    with pytest.raises(ValueError):
+        usr.get_user_email("fakeUser")
 
 
 def test_update_email(temp_user):

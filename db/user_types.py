@@ -128,13 +128,15 @@ def add_user(name, details):
             raise ValueError(f'Wrong type for {field=}')
         if ' ' in details[field]:
             raise ValueError(f'{field=} cannot have any blank spaces')
+        if len(details[field]) == 0:
+            raise ValueError(f'{field=} cannot be empty')
     if not isinstance(details[EMAIL], str):
         raise TypeError(f'Wrong type for email: {type(name)=}')
 
     # checking for detail requirements
     if (' ' in name):
         raise ValueError('Invalid Name')
-    if ('@' not in details[EMAIL]):
+    if ('@' not in details[EMAIL]) or ('.' not in details[EMAIL]):
         raise ValueError('Invalid Email')
     # new users will start with no coins, followers/following
     if len(details) == 3:
@@ -151,7 +153,7 @@ def add_user(name, details):
 def del_user(name):
     dbc.connect_db()
     if not user_exists(name):
-        raise TypeError(f'User: {name} does not exist in db.')
+        raise ValueError(f'User: {name} does not exist in db.')
     dbc.remove_one(USERS_COLLECT, {"name": name})
     return True
     # del user_types[name]
@@ -174,6 +176,10 @@ def add_follower(userName, followName):
     dbc.connect_db()
     if userName == followName:
         raise ValueError("Use two different users")
+    if (not user_exists(userName)):
+        raise ValueError(f'{userName} does not exist')
+    if (not user_exists(followName)):
+        raise ValueError(f'{followName} does not exist')
     if follower_exists(userName, followName):
         raise ValueError("Follower exists")
     user1 = dbc.fetch_one(USERS_COLLECT,
@@ -193,6 +199,10 @@ def add_follower(userName, followName):
 
 
 def remove_follower(userName, followName):
+    if (not user_exists(userName)):
+        raise ValueError(f'{userName} does not exist')
+    if (not user_exists(followName)):
+        raise ValueError(f'{followName} does not exist')
     if not follower_exists(userName, followName):
         raise ValueError("Follower does not exists")
     user1 = dbc.fetch_one(USERS_COLLECT,
