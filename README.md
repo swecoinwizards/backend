@@ -96,7 +96,7 @@ Database design update:
 * User functions (e.g create/delete account, follow, post, etc) 
 ### Goals for Spring 2023 Semester
 * Setting up react
-  + Setting up python everywhere and getting react proj started
+  + Setting up Python Anywhere and getting react proj started
   + Every week add an endpoint to the react page
 * Setting up authentication for user login/logout
   + Setup function (maybe w js) - 2 weeks
@@ -107,12 +107,12 @@ Database design update:
 | Tasks | Timeline |
 | ---- | ---- |
 | Setup React Home Page | 2/14 |
-| Setup w Python Anywhere | 2/16 |
+| Setup w/ Python Anywhere | 2/16 |
 | Search bar functionality | 2/23 | 
-| Login Page + login/logout functionality | 2/23 |
-| User Account Page | 2/23 |
+| Login Page + login/logout/reset functionality | 2/23 |
+| User Account Page + post/activity feed functionality | 2/23 |
 | Coin Page | 3/9 |
-| Accounr Settings functionality | 3/9 |
-|Email/text notification | 3/9 |
+| Account Settings functionality | 3/9 |
+| Email/text notification | 3/9 |
 | MVP | 3/23 |
 | Final modifications/additions | TBD |
