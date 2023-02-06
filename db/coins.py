@@ -43,28 +43,34 @@ def save_coin(name, dets):
     if not isinstance(dets, dict):
         raise TypeError(f'Wrong type for coin details: {type(dets)=}')
     if coin_exists(name):
-        raise ValueError("Coin already exists!")
+        raise ValueError("Coin with name %s already exists!", name)
     coin_type[name] = dets
     dbc.connect_db()
-    dbc.insert_one(COINS_COLLECT, coin_type[name], COIN_DB)
+    dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
     return True
 
 
 def remove_coin(name):
     dbc.connect_db()
     if not coin_exists(name):
-        raise TypeError(f'Coin: {type(name)=} does not exist in db.')
-    dbc.remove_one(COINS_COLLECT, coin_type[name], COIN_DB)
+        raise ValueError(f'Coin: {name} does not exist!')
+    dbc.remove_one(COINS_COLLECT, {"name": name}, COIN_DB)
     del coin_type[name]
     return True
 
 
 def coin_exists(name):
-    return name in coin_type
+    dbc.connect_db()
+    temp = dbc.fetch_one(COINS_COLLECT, {"name": name}, COIN_DB)
+    return temp is not None
 
 
 def coin_details(name):
-    return coin_type.get(name, None)
+    dbc.connect_db()
+    temp = dbc.fetch_one(COINS_COLLECT, {"name": name}, COIN_DB)
+    if temp is None:
+        raise ValueError(f'Coin: {name} does not exist!')
+    return temp
 
 
 def get_coins():

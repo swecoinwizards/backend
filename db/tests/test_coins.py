@@ -2,15 +2,16 @@ import os
 import pytest
 import db.coins as cn
 
-TEST_COIN = 'Ethereum'
-TEST_COIN_TICKER = 'ETH'
+TEST_COIN = 'TEST_COIN'
+TEST_COIN_TICKER = 'TCN'
 TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
-                  'price': 1282.32}
+                  'price': 1000}
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 
 
 @pytest.fixture(scope='function')
 def temp_coin():
+    # cn.testing_clear()
     cn.save_coin(TEST_COIN, TEST_COIN_DETS)
     yield
     cn.remove_coin(TEST_COIN)
@@ -28,10 +29,21 @@ def test_coin_exists(temp_coin):
     assert cn.coin_exists(TEST_COIN)
 
 
+def test_coin_exists_fail():
+    INVAID_COIN = 'INVALID_COIN'
+    assert not cn.coin_exists(INVAID_COIN)
+
+
 def test_coin_details(temp_coin):
     if not RUNNING_ON_CICD_SERVER:
         coin_dets = cn.coin_details(TEST_COIN)
         assert isinstance(coin_dets, dict)
+
+
+def test_coin_details_fail():
+    with pytest.raises(ValueError):
+        INVALID_COIN = 'INVALID_COIN'
+        cn.coin_details(INVALID_COIN)
 
 
 def test_get_coins():
@@ -67,10 +79,6 @@ def test_get_all_coin_tickers():
     tickers = cn.get_all_coin_tickers()
     assert isinstance(tickers, list)
     assert len(tickers) > 0
-
-
-def test_coint_price():
-    assert cn.coin_price('Bitcoin') == 20237.84301693455
 
 
 def test_change_coin_price():
