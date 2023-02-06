@@ -49,7 +49,6 @@ def test_coin_details_fail():
 def test_get_coins():
     coins = cn.get_coins()
     assert isinstance(coins, list)
-    assert len(coins) > 1
 
 
 def test_get_coins_dict():
@@ -59,13 +58,12 @@ def test_get_coins_dict():
 
 def test_count_coins():
     num = cn.count_coins()
-    assert num == 2
+    assert isinstance(num, int)
 
 
 def test_get_coin_ticker(temp_coin):
-    if not RUNNING_ON_CICD_SERVER:
-        ticker = cn.get_coin_ticker(TEST_COIN)
-        assert ticker == TEST_COIN_TICKER
+    ticker = cn.get_coin_ticker(TEST_COIN)
+    assert ticker == TEST_COIN_TICKER
 
 
 def test_remodel_coin_ticker(temp_coin):
@@ -81,6 +79,11 @@ def test_get_all_coin_tickers():
     assert len(tickers) > 0
 
 
-def test_change_coin_price():
-    new_price = cn.change_coin_price('Litecoin', 62.06)
+def test_coin_price(temp_coin):
+    price = cn.coin_price(TEST_COIN)
+    assert price == TEST_COIN_DETS['price']
+
+
+def test_change_coin_price(temp_coin):
+    new_price = cn.change_coin_price(TEST_COIN, 62.06)
     assert new_price == 62.06

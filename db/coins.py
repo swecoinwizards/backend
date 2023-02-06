@@ -74,7 +74,9 @@ def coin_details(name):
 
 
 def get_coins():
-    return list(coin_type.keys())
+    dbc.connect_db()
+    return dbc.fetch_all(COINS_COLLECT, COIN_DB)
+    # return list(coin_type.keys())
 
 
 def get_coin_dict():
@@ -85,14 +87,23 @@ def get_coin_dict():
 
 
 def count_coins():
-    return len(coin_type.keys())
+    dbc.connect_db()
+    return len(dbc.fetch_all(COINS_COLLECT, COIN_DB))
 
 
 def coin_price(name):
-    return coin_type[name]['price']
+    dbc.connect_db()
+    temp = dbc.fetch_one(COINS_COLLECT, {"name": name}, COIN_DB)
+    if temp is None:
+        raise ValueError(f'Coin: {name} does not exist!')
+    return temp['price']
 
 
 def get_coin_ticker(name):
+    dbc.connect_db()
+    temp = dbc.fetch_one(COINS_COLLECT, {"name": name}, COIN_DB)
+    if temp is None:
+        raise ValueError(f'Coin: {name} does not exist!')
     return coin_type[name]['symbol']
 
 
