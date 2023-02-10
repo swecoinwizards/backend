@@ -212,6 +212,7 @@ class UserRemove(Resource):
             raise wz.NotFound(f'{user_type} not found.')
 
 
+
 @users.route(f'{USER_FOLLOW}/<user_type>/<user_type2>')
 class UserFollow(Resource):
     """
