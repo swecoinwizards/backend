@@ -8,15 +8,14 @@ function UserList() {
             res => res.json()
         ).then(
             data => {
-                setData(JSON.stringify(data))
-                console.log(JSON.stringify(data))
+                setData(JSON.stringify(data).split())
             }            
         )
     }, [])
-    
+
     return (
         <div>
-            <p>{JSON.stringify(data)}</p>
+            {Object.values(data[0])}
         </div>
     )
 }

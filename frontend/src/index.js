@@ -7,8 +7,8 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <p>PART 2</p>
+    <App />
+    <h4>User List:</h4>
 
     <UserList />
   </React.StrictMode>
