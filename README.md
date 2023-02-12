@@ -106,7 +106,7 @@ Database design update:
 
 | Tasks | Timeline | Members |
 | ---- | ---- | ---- |
-~~| Setup React Home Page | 2/14 | |~~
+| ~~Setup React Home Page~~ | ~~2/14~~ | |
 | Setup w/ Python Anywhere | 2/16 | |
 | Search bar functionality | 2/23 | |
 | Home Page | 2/23 | |
