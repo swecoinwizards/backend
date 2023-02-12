@@ -104,15 +104,18 @@ Database design update:
 * Set up user notifications/alerts
   + Setup functions for each feature (e.g new posts, followers) - 4 weeks
 
-| Tasks | Timeline |
-| ---- | ---- |
-| Setup React Home Page | 2/14 |
-| Setup w/ Python Anywhere | 2/16 |
-| Search bar functionality | 2/23 | 
-| Login Page + login/logout/reset functionality | 2/23 |
-| User Account Page + post/activity feed functionality | 2/23 |
-| Coin Page | 3/9 |
-| Account Settings functionality | 3/9 |
-| Email/text notification | 3/9 |
-| MVP | 3/23 |
-| Final modifications/additions | TBD |
+| Tasks | Timeline | Members |
+| ---- | ---- | ---- |
+~~| Setup React Home Page | 2/14 | |~~
+| Setup w/ Python Anywhere | 2/16 | |
+| Search bar functionality | 2/23 | |
+| Home Page | 2/23 | |
+| Login Page + Registration Page | 2/23 | |
+| login/logout/reset functionality | 2/23 | |
+| User Account Page | 2/23 | |
+| Post/activity feed functionality | 2/23 | |
+| Coin Page | 3/9 | |
+| Account Settings functionality | 3/9 | |
+| Email/text notification | 3/9 | |
+| MVP | 3/23 | |
+| Final modifications/additions | TBD | |
