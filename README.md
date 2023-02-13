@@ -119,3 +119,6 @@ Database design update:
 | Email/text notification | 3/9 | |
 | MVP | 3/23 | |
 | Final modifications/additions | TBD | |
+
+Python Anywhere Link:
+http://coinwizards.pythonanywhere.com/
