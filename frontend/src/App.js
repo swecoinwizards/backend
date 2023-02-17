@@ -14,7 +14,9 @@ function App() {
                 setData(data)
                 console.log(data)
             }
-        )
+        ).catch((error) => {
+            console.log(error);
+        })
     }, [])
 
     return (
