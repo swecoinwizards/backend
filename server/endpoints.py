@@ -66,18 +66,18 @@ USER_DICT = f'/{DICT}'
 COIN_DICT = f'/{DICT}'
 
 
-# @api.route(HELLO)
-# class HelloWorld(Resource):
-#     """
-#     The purpose of the HelloWorld class is to have a simple test to see if the
-#     app is working at all.
-#     """
-#     def get(self):
-#         """
-#         A trivial endpoint to see if the server is running.
-#         It just answers with "hello world."
-#         """
-#         return {MESSAGE: 'hello world'}
+@api.route(HELLO)
+class HelloWorld(Resource):
+    """
+    The purpose of the HelloWorld class is to have a simple test to see if the
+    app is working at all.
+    """
+    def get(self):
+        """
+        A trivial endpoint to see if the server is running.
+        It just answers with "hello world."
+        """
+        return {MESSAGE: 'hello world'}
 
 
 @api.route(MAIN_MENU)
@@ -423,20 +423,20 @@ class UserFollowers(Resource):
                     'Title': 'User Followers'}
 
 
-@users.route(f'{USER_POSTS}/<user_type>')
-class UserPosts(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, user_type):
-        """
-        This will return details on a user post.
-        """
-        posts = user.get_posts(user_type)
-        if posts is not None:
-            return {'Data': {'Posts:': posts},
-                    'Type': 'Data', 'Title': 'Post History'}
-        else:
-            raise wz.NotFound(f'{user_type} not found.')
+# @users.route(f'{USER_POSTS}/<user_type>')
+# class UserPosts(Resource):
+#     @api.response(HTTPStatus.OK, 'Success')
+#     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+#     def get(self, user_type):
+#         """
+#         This will return details on a user post.
+#         """
+#         posts = user.get_posts(user_type)
+#         if posts is not None:
+#             return {'Data': {'Posts:': posts},
+#                     'Type': 'Data', 'Title': 'Post History'}
+#         else:
+#             raise wz.NotFound(f'{user_type} not found.')
 
 
 @api.route('/endpoints')
