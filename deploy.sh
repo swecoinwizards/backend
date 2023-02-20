@@ -5,7 +5,7 @@ export PA_USER=coinwizards
 
 if [ -z "$PA_PWD" ]
 then
-    echo "The PythonAnywhere password var (CW_PWD) must be set in the env."
+    echo "The PythonAnywhere password var (PA_PWD) must be set in the env."
     exit 1
 fi
 
