@@ -28,33 +28,35 @@ def user_exists(name):
     return temp is not None
 
 
-def change_username(username, newUsername):
+def update_username(username, newUsername):
     dbc.connect_db()
-    if not isinstance(username, str):
-        raise TypeError(f'Wrong type for username: {type(username)=}')
     if not isinstance(newUsername, str):
         raise TypeError(f'Wrong type for username: {type(newUsername)=}')
+
     if ' ' in newUsername:
-        raise ValueError(f'Cannot have empty spaces in {newUsername}')
+        raise ValueError('Usernames should not contain any spaces')
+
     if len(newUsername) == 0:
-        raise ValueError("New username cannot be empty!")
+        raise ValueError('Invalid length of username')
+
     temp = dbc.fetch_one(USERS_COLLECT,
-                         {"name": newUsername})
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": username})
+                         {'name': newUsername})
+
     if temp is not None:
-        raise ValueError(f'Username {newUsername=} already does exist')
-    newFollowers = get_followers(username)
-    newFollowings = get_followings(username)
-    newCoins = get_coins(username)
-    newPosts = get_posts(username)
-    # newDetails = [newFollowers, newFollowings, newCoins, newPosts]
-    newDetails = {NAME: newUsername, PASSWORD: user["password"],
-                  EMAIL: user["email"], FOLLOWERS: newFollowers,
-                  FOLLOWING: newFollowings, COINS: newCoins, POSTS: newPosts}
-    del_user(username)
-    add_user(newUsername, newDetails)
-    return {newUsername: user_cleanUp(newDetails)}
+        raise ValueError(f'Username {newUsername=} already exists')
+
+    res = dbc.update_one(USERS_COLLECT, {'name': username},
+                         {'$set': {'name': newUsername}})
+
+    if not res:
+        raise ValueError('Error updating username')
+
+    updated_details = dbc.fetch_one(USERS_COLLECT, {'name': newUsername})
+
+    if updated_details is None:
+        raise ValueError('Error fetching new user data')
+
+    return updated_details
 
 
 def get_users():
@@ -68,7 +70,6 @@ def get_posts(userName):
         raise ValueError(f'User {userName=} does not exist')
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
-    # print(temp)
     return temp[POSTS]
 
 
@@ -231,7 +232,6 @@ def update_email(userName, newEmail):
 
 def get_password(userName):
     dbc.connect_db()
-    print(userName)
     if not isinstance(userName, str):
         raise TypeError(f'Wrong type for userName: {type(userName)=}')
     if not user_exists(userName):
@@ -290,7 +290,6 @@ def remove_coin(userName, coin):
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
-    print("here - user:", user[COINS][0])
     if not user_exists(userName):
         raise ValueError("User does not exists")
     if coin not in user[COINS]:

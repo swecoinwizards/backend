@@ -64,6 +64,14 @@ def fetch_one(collection, filt, db=USER_DB):
         return doc
 
 
+def update_one(collection, filt, set, db=USER_DB):
+    try:
+        res = client[db][collection].update_one(filt, set)
+        return res.matched_count > 0
+    except pm.errors.PyMongoError:
+        return False
+
+
 def fetch_all(collection, db=USER_DB):
     ret = []
     for doc in client[db][collection].find():

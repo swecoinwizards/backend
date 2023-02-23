@@ -126,17 +126,15 @@ def test_remove_follower_fail():
 
 
 def test_add_user(temp_user):
-    # if not RUNNING_ON_CICD_SERVER:
     assert usr.user_exists(usr.TEST_USER_NAME)
 
 
 def test_del_user(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        # deleting user
-        usr.del_user(usr.TEST_USER_NAME)
-        # if user not found -> PASS
-        assert usr.user_exists(usr.TEST_USER_NAME) is False
-        usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
+    # deleting user
+    usr.del_user(usr.TEST_USER_NAME)
+    # if user not found -> PASS
+    assert usr.user_exists(usr.TEST_USER_NAME) is False
+    usr.add_user(usr.TEST_USER_NAME, NEW_USER_DET)
 
 
 def test_del_user_fail(temp_user):
@@ -154,21 +152,12 @@ def test_user_email_fail(temp_user):
 
 
 def test_update_email(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        # TEST_USER_NAME = 'testName'
-        TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
-        # details = {'name': TEST_USER_NAME}
-
-        # for field in usr.REQUIRED_FIELDS[1:]:
-        #     details[field] = []
-        # usr.add_user(TEST_USER_NAME, details)
-        usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
-        assert usr.get_user_email(usr.TEST_USER_NAME) == TEST_NEW_EMAIL
-        # usr.del_user(usr.TEST_USER_NAME)
+    TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
+    usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
+    assert usr.get_user_email(usr.TEST_USER_NAME) == TEST_NEW_EMAIL
 
 
 def test_update_email_fail(temp_user):
-    # if not RUNNING_ON_CICD_SERVER:
     TEST_NEW_EMAIL = 'NEWSAMPLEtest.com'
     with pytest.raises(ValueError):
         usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
@@ -176,7 +165,6 @@ def test_update_email_fail(temp_user):
 
 
 def test_update_email_fail_type(temp_user):
-    # if not RUNNING_ON_CICD_SERVER:
     TEST_NEW_EMAIL = 123
     with pytest.raises(TypeError):
         usr.update_email(usr.TEST_USER_NAME, TEST_NEW_EMAIL)
@@ -184,15 +172,7 @@ def test_update_email_fail_type(temp_user):
 
 
 def test_get_user(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        # TEST_USER_NAME = 'testName'
-        # details = {'name': TEST_USER_NAME}
-
-        # for field in usr.REQUIRED_FIELDS[1:]:
-        #     details[field] = []
-        # usr.add_user(TEST_USER_NAME, details)
-        assert usr.get_user(usr.TEST_USER_NAME) is not None
-        # usr.del_user(usr.TEST_USER_NAME)
+    assert usr.get_user(usr.TEST_USER_NAME) is not None
 
 
 def test_get_user_fail():
@@ -200,31 +180,27 @@ def test_get_user_fail():
         usr.get_user("fakeUser")
 
 
-def test_change_username(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        # TEST_USER_NAME = 'testName'
-        NEW_USERNAME = 'abc123'
-        usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME)
-        assert usr.user_exists(NEW_USERNAME)
-        usr.del_user(NEW_USERNAME)
+def test_update_username(temp_user):
+    NEW_USERNAME = 'abc123'
+    usr.update_username(usr.TEST_USER_NAME, NEW_USERNAME)
+    assert usr.user_exists(NEW_USERNAME)
+    usr.del_user(NEW_USERNAME)
 
 
-def test_change_username_fail_type(temp_user):
+def test_update_username_fail_type(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         NEW_USERNAME = 111
         with pytest.raises(TypeError):
-            usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME)
-        # usr.del_user(NEW_USERNAME)
+            usr.update_username(usr.TEST_USER_NAME, NEW_USERNAME)
 
 
-def test_change_username_fail(temp_user):
+def test_update_username_fail(temp_user):
     if not RUNNING_ON_CICD_SERVER:
         NEW_USERNAME1 = ''
         NEW_USERNAME2 = 'new user'
         with pytest.raises(ValueError):
-            usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME1)
-            usr.change_username(usr.TEST_USER_NAME, NEW_USERNAME2)
-        # usr.del_user(NEW_USERNAME)
+            usr.update_username(usr.TEST_USER_NAME, NEW_USERNAME1)
+            usr.update_username(usr.TEST_USER_NAME, NEW_USERNAME2)
 
 
 def test_get_password(temp_user):
@@ -244,10 +220,9 @@ def test_get_password_fail():
 
 
 def test_update_password(temp_user):
-    if not RUNNING_ON_CICD_SERVER:
-        TEST_NEW_PASSWORD = 'abc123'
-        usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD)
-        assert usr.get_password(usr.TEST_USER_NAME) == TEST_NEW_PASSWORD
+    TEST_NEW_PASSWORD = 'abc123'
+    usr.update_password(usr.TEST_USER_NAME, TEST_NEW_PASSWORD)
+    assert usr.get_password(usr.TEST_USER_NAME) == TEST_NEW_PASSWORD
 
 
 def test_update_password_fail(temp_user):
@@ -265,11 +240,6 @@ def test_update_password_fail_type(temp_user):
 
 
 def test_add_coin(temp_user):
-    # Might need to change how coins are stored into the user,
-    # currently storing an instance of 'Bitcoin' dict
-    # which will be hard to keep track of as its attributes like price
-    # change, (e.g. can't remove if price updates from API call as
-    # everything stored will be outdated)
     usr.add_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
     assert usr.user_coin_exists(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])
     usr.remove_coin(usr.TEST_USER_NAME, cn.coin_type['Bitcoin'])

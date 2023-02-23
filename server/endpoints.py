@@ -147,9 +147,7 @@ class UserTypeDetails(Resource):
         """
         Details on user.
         """
-        print("here")
         if user.user_exists(user_type):
-            print("here2")
             return {'Data': {user_type: {"Name": user.get_user(user_type)}},
                     'Type': 'Data', 'Title': 'User Type Details'}
         else:
@@ -258,7 +256,6 @@ class UserUpdateEmail(Resource):
         Update email
         """
         print(f'{request.json=}')
-        print(user_update_email_fields)
         try:
             return user.update_email(request.json[user.NAME],
                                      request.json[user.EMAIL])
@@ -353,7 +350,6 @@ class CoinFollow(Resource):
         """
         Make a user follow a coin
         """
-        print("SUCCESS")
         if (not coin.coin_exists(coin_type)):
             raise wz.NotFound(f'{coin_type} not found.')
         elif (not user.user_exists(user_type)):
