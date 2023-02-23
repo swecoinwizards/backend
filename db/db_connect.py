@@ -64,9 +64,9 @@ def fetch_one(collection, filt, db=USER_DB):
         return doc
 
 
-def update_one(collection, filt, set, db=USER_DB):
+def update_one(collection, filt, op, db=USER_DB):
     try:
-        res = client[db][collection].update_one(filt, set)
+        res = client[db][collection].update_one(filt, op)
         return res.matched_count > 0
     except pm.errors.PyMongoError:
         return False

@@ -107,26 +107,29 @@ def test_add_missing_field():
         usr.add_user('a new user', {'foo': 'bar'})
 
 
-def test_add_follower(temp_user, temp_user2):
-    usr.add_follower(TEST_USER_NAME, TEST_USER_NAME2)
-    assert usr.follower_exists(TEST_USER_NAME, TEST_USER_NAME2)
+def test_add_following(temp_user, temp_user2):
+    """
+    temp_user will follow temp_user2
+    """
+    usr.add_following(TEST_USER_NAME, TEST_USER_NAME2)
+    assert usr.following_exists(TEST_USER_NAME, TEST_USER_NAME2)
 
 
-def test_add_follower_fail():
+def test_add_following_fail():
     with pytest.raises(ValueError):
-        usr.add_follower(TEST_USER_NAME, "fakeName")
+        usr.add_following(TEST_USER_NAME, 'fakeName')
 
 
-def test_remove_follower(temp_user, temp_user2):
-    # usr.add_follower(TEST_USER_NAME, TEST_USER_NAME2)
-    usr.add_follower(TEST_USER_NAME, TEST_USER_NAME2)
-    usr.remove_follower(TEST_USER_NAME, TEST_USER_NAME2)
-    assert not usr.follower_exists(TEST_USER_NAME, TEST_USER_NAME2)
+def test_remove_follow(temp_user, temp_user2):
+    usr.add_following(TEST_USER_NAME, TEST_USER_NAME2)
+    usr.remove_follow(TEST_USER_NAME, TEST_USER_NAME2)
+    assert not usr.following_exists(TEST_USER_NAME, TEST_USER_NAME2)
+    assert not usr.follower_exists(TEST_USER_NAME2, TEST_USER_NAME)
 
 
-def test_remove_follower_fail():
+def test_remove_following_fail():
     with pytest.raises(ValueError):
-        usr.remove_follower(TEST_USER_NAME, "fakeName")
+        usr.remove_follow(TEST_USER_NAME, "fakeName")
 
 
 def test_add_user(temp_user):

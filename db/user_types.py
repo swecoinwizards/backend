@@ -107,10 +107,13 @@ def get_user_password(username):
 def add_user(name, details):
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
+
     if not isinstance(details, dict):
         raise TypeError(f'Wrong type for details: {type(details)=}')
+
     if user_exists(name):
         raise ValueError(f'User {name} already exists!')
+
     for field in REQUIRED_FIELDS:
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
@@ -120,14 +123,17 @@ def add_user(name, details):
             raise ValueError(f'{field=} cannot have any blank spaces')
         if len(details[field]) == 0:
             raise ValueError(f'{field=} cannot be empty')
+
     if not isinstance(details[EMAIL], str):
         raise TypeError(f'Wrong type for email: {type(name)=}')
 
     # checking for detail requirements
     if (' ' in name):
         raise ValueError('Invalid Name')
+
     if ('@' not in details[EMAIL]) or ('.' not in details[EMAIL]):
         raise ValueError('Invalid Email')
+
     # new users will start with no coins, followers/following
     if len(details) == 3:
         details[FOLLOWERS] = []
@@ -143,71 +149,109 @@ def add_user(name, details):
 def del_user(name):
     dbc.connect_db()
     if not user_exists(name):
-        raise ValueError(f'User: {name} does not exist in db.')
-    dbc.remove_one(USERS_COLLECT, {"name": name})
+        raise ValueError(f'User {name} does not exist')
+    dbc.remove_one(USERS_COLLECT, {'name': name})
     return True
-    # del user_types[name]
+
+
+def following_exists(userName, followName):
+    """
+    Checks if userName IS FOLLOWING followName
+    """
+    if not user_exists(userName):
+        raise ValueError(f'User {userName} does not exist')
+
+    if not user_exists(followName):
+        raise ValueError(f'User {followName} does not exist')
+
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {'name': userName})
+
+    return followName in user[FOLLOWING]
 
 
 def follower_exists(userName, followName):
+    """
+    Checks if userName is BEING FOLLOWED by followName
+    """
+    if not user_exists(userName):
+        raise ValueError(f'User {userName} does not exist')
+
+    if not user_exists(followName):
+        raise ValueError(f'User {followName} does not exist')
+
     dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {'name': userName})
 
-    user1 = dbc.fetch_one(USERS_COLLECT,
-                          {"name": userName})
-    user2 = dbc.fetch_one(USERS_COLLECT,
-                          {"name": followName})
-
-    isFollower = userName in user1[FOLLOWERS]
-    isFollowing = followName in user2[FOLLOWING]
-    return isFollowing and isFollower
+    return followName in user[FOLLOWERS]
 
 
-def add_follower(userName, followName):
-    dbc.connect_db()
+def add_following(userName, followName):
+    """
+    userName will now be FOLLOWING followName
+    followName will now have userName as a FOLLOWER
+    """
     if userName == followName:
-        raise ValueError("Use two different users")
+        raise ValueError("User cannot follow themselves")
+
     if (not user_exists(userName)):
         raise ValueError(f'{userName} does not exist')
+
     if (not user_exists(followName)):
         raise ValueError(f'{followName} does not exist')
+
     if follower_exists(userName, followName):
-        raise ValueError("Follower exists")
-    user1 = dbc.fetch_one(USERS_COLLECT,
-                          {"name": userName})
-    user2 = dbc.fetch_one(USERS_COLLECT,
-                          {"name": followName})
-    user1[FOLLOWERS].append(userName)
-    user2[FOLLOWING].append(followName)
+        raise ValueError(f'{userName} is already following {followName}')
 
-    del_user(userName)
-    add_user(userName, user1)
-    del_user(followName)
-    add_user(followName, user2)
-    # return {userName: user_types[userName],
-    # followName: user_types[followName]}
-    return {userName: user_cleanUp(user1), followName: user_cleanUp(user2)}
+    dbc.connect_db()
+
+    if not dbc.update_one(USERS_COLLECT, {'name': userName},
+                          {'$push': {FOLLOWING: followName}}):
+        raise ValueError(f'Error adding {followName} to {userName} following')
+
+    if not dbc.update_one(USERS_COLLECT, {'name': followName},
+                          {'$push': {FOLLOWERS: userName}}):
+        raise ValueError(f'Error adding {userName} to {followName} follower')
+
+    res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
+
+    if not res:
+        raise ValueError(f'Error fetching {userName} updated data')
+
+    return res
 
 
-def remove_follower(userName, followName):
+def remove_follow(userName, followName):
+    """
+    userName will unfollow followName
+    followName will lose userName as a follower
+    """
+
+    if userName == followName:
+        raise ValueError('Invalid unfollow with self')
+
     if (not user_exists(userName)):
         raise ValueError(f'{userName} does not exist')
+
     if (not user_exists(followName)):
         raise ValueError(f'{followName} does not exist')
-    if not follower_exists(userName, followName):
-        raise ValueError("Follower does not exists")
-    user1 = dbc.fetch_one(USERS_COLLECT,
-                          {"name": userName})
-    user2 = dbc.fetch_one(USERS_COLLECT,
-                          {"name": followName})
-    user1[FOLLOWERS].remove(userName)
-    user2[FOLLOWING].remove(followName)
-    del_user(userName)
-    add_user(userName, user1)
-    del_user(followName)
-    add_user(followName, user2)
-    # return {userName: user_types[userName],
-    # followName: user_types[followName]}
-    return {userName: user_cleanUp(user1), followName: user_cleanUp(user2)}
+
+    if not following_exists(userName, followName):
+        raise ValueError(f'{userName} does not follow {followName}')
+
+    dbc.connect_db()
+    if not dbc.update_one(USERS_COLLECT, {'name': userName},
+                          {'$pull': {FOLLOWING: followName}}):
+        raise ValueError(f'Error removing {followName}-{userName} following')
+
+    if not dbc.update_one(USERS_COLLECT, {'name': followName},
+                          {'$pull': {FOLLOWERS: userName}}):
+        raise ValueError(f'Error removing {userName}-{followName} follower')
+
+    res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
+    return res
 
 
 def update_email(userName, newEmail):
