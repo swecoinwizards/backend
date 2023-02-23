@@ -7,6 +7,8 @@ To create the env for a new developer, run `make dev_env`.
 
 [Frontend Repo](https://github.com/Dayana20/coinwizards)
 
+PythonAnywhere API: https://coinwizards.pythonanywhere.com/api/doc
+
 ## Target Audience/Goal
 
 The target audiences are primarily crypto investors based on their investment portfolio
@@ -121,6 +123,3 @@ Database design update:
 | Email/text notification | 3/9 | |
 | MVP | 3/23 | |
 | Final modifications/additions | TBD | |
-
-Python Anywhere Link:
-http://coinwizards.pythonanywhere.com/
