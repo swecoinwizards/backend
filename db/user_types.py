@@ -1,9 +1,5 @@
 import db.db_connect as dbc
 
-Investor = 'Investor'
-Investor2 = 'Investor2'
-Investor3 = 'Investor3'
-SampleUser = 'SampleUser'
 TEST_USER_NAME = "RANDOMUSER"
 TEST_USER_NAME2 = "RANDOMUSER2"
 NAME = 'name'
@@ -14,21 +10,8 @@ PASSWORD = 'password'
 COINS = 'coins'
 USERS_COLLECT = 'users'
 USER_KEY = 'name'
-REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]  # FOLLOWERS, FOLLOWING, COINS]
+REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]
 POSTS = 'posts'
-
-# user_types = {Investor: {NAME: 'user1', PASSWORD: '****',
-#               EMAIL: 'user@gmail.com', FOLLOWERS: [Investor2],
-#               FOLLOWING: [], COINS: [], POSTS: []},
-#               Investor2: {NAME: 'user2', PASSWORD: '****',
-#               EMAIL: 'user2@gmail.com', FOLLOWERS: [],
-#               FOLLOWING: [Investor], COINS: [], POSTS: []},
-#               Investor3: {NAME: 'user3', PASSWORD: '****',
-#               EMAIL: 'user3@gmail.com', FOLLOWERS: [],
-#               FOLLOWING: [], COINS: [], POSTS: []},
-#               SampleUser: {NAME: 'sample', PASSWORD: '****',
-#               EMAIL: 'sampleuser@gmail.com', FOLLOWERS: [],
-#               FOLLOWING: [], COINS: [], POSTS: []}}
 
 
 # helper function for inputting user data to db
@@ -416,13 +399,3 @@ def user_login(userName, password):
     if get_user_password(userName) == password:
         return get_user(userName)
     raise Exception("Wrong Password")
-
-
-def main():
-    users = get_users()
-    print(f'{users=}')
-    print(f'{get_user(Investor)=}')
-
-
-if __name__ == '__main__':
-    main()

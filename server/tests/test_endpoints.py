@@ -1,16 +1,9 @@
 import pytest
-import os
 
 import server.endpoints as ep
 import db.user_types as user
 
 TEST_CLIENT = ep.app.test_client()
-
-RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
-
-TEST_USER_TYPE = 'Investor'
-
-TEST_USER_TYPE2 = 'Investor2'
 
 TEST_COIN_TYPE = 'Bitcoin'
 
@@ -25,7 +18,7 @@ SAMPLE_USER = {
 }
 
 
-SAMPLE_USER_NM2 = 'SampleUser'
+SAMPLE_USER_NM2 = 'SampleUserToo'
 SAMPLE_USER2 = {
     user.NAME: SAMPLE_USER_NM2,
     user.PASSWORD: '***',
@@ -50,22 +43,18 @@ def test_get_user_list():
     Return should look like:
         {USER_LIST_NM: [list of users types...]}
     """
-    if not RUNNING_ON_CICD_SERVER:
-        resp_json = TEST_CLIENT.get(f'{ep.USERS_NS}{ep.USER_LIST}').get_json()
-        print(resp_json, f'users/{ep.USER_LIST}')
-        assert isinstance(resp_json[ep.USER_LIST_NM], list)
+    resp_json = TEST_CLIENT.get(f'{ep.USERS_NS}{ep.USER_LIST}').get_json()
+    print(resp_json, f'users/{ep.USER_LIST}')
+    assert isinstance(resp_json[ep.USER_LIST_NM], list)
 
 
 def test_add_user():
     """
     Test adding a user.
     """
-    if not RUNNING_ON_CICD_SERVER:
-        # print("pls work ", SAMPLE_USER.keys())
-        # resp = TEST_CLIENT.post(ep.USER_ADD, json=SAMPLE_USER)
-        user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
-        assert user.user_exists(SAMPLE_USER_NM)
-        user.del_user(SAMPLE_USER_NM)
+    user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
+    assert user.user_exists(SAMPLE_USER_NM)
+    user.del_user(SAMPLE_USER_NM)
 
 
 @pytest.mark.skip(reason="Will come back after adding remove func w/pymongo")
@@ -73,10 +62,8 @@ def test_remove_user():
     """
     Test adding a user.
     """
-    # resp = TEST_CLIENT.post(ep.USER_ADD, json=SAMPLE_USER)
-    if not RUNNING_ON_CICD_SERVER:
-        user.del_user(SAMPLE_USER_NM)
-        assert not user.user_exists(SAMPLE_USER_NM)
+    user.del_user(SAMPLE_USER_NM)
+    assert not user.user_exists(SAMPLE_USER_NM)
 
 
 @pytest.fixture(scope='function')
@@ -91,7 +78,6 @@ def test_get_user_type_details(temp_user):
     """
     resp_json = TEST_CLIENT.get(f'{ep.USERS_NS}{ep.USER_DETAILS}' +
                                 f'/{SAMPLE_USER_NM}').get_json()
-    print(resp_json)
     assert SAMPLE_USER_NM in resp_json['Data']
     assert isinstance(resp_json['Data'][SAMPLE_USER_NM], dict)
 
@@ -103,14 +89,10 @@ def test_get_users_dict():
 
 
 def test_add_follower():
-    if not RUNNING_ON_CICD_SERVER:
-        # user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
-        # user.add_user(SAMPLE_USER_NM2, SAMPLE_USER2)
-        resp_json = TEST_CLIENT.get(
-            f'{ep.USERS_NS}{ep.USER_FOLLOW}/{user.Investor3}/'
-            + f'{user.Investor2}').get_json()
-        # print(resp_json)
-        assert isinstance(resp_json, dict)
+    resp_json = TEST_CLIENT.get(
+        f'{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER}/'
+        + f'{SAMPLE_USER2}').get_json()
+    assert isinstance(resp_json, dict)
 
 
 def test_remove_follower():
@@ -134,7 +116,6 @@ def test_user_login(temp_user):
 
 
 def test_user_login_fail(temp_user):
-    # with pytest.raises(Exception) as e:
     password = "WRONGPASSWORD"
     resp_json = TEST_CLIENT.get(
         f'{ep.USERS_NS}{ep.USER_LOGIN}/{SAMPLE_USER_NM}/{password}').get_json()
@@ -169,9 +150,8 @@ def test_get_coin_list():
 
 
 def test_add_coin():
-    # user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
     resp_json = TEST_CLIENT.get(
-        f'{ep.USERS_NS}{ep.COIN_FOLLOW}/{user.Investor2}' +
+        f'{ep.USERS_NS}{ep.COIN_FOLLOW}/{SAMPLE_USER}' +
         f'/{TEST_COIN_TYPE}').get_json()
     assert isinstance(resp_json, dict)
 
