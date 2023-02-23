@@ -9,9 +9,11 @@ from db import coins as coin
 import werkzeug.exceptions as wz
 from http import HTTPStatus
 
+API_DOC = '/api/doc'
+API_PFX = '/api'
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, doc='/api/doc', prefix='/api')
 
 USERS_NS = 'users'
 COINS_NS = 'coins'
@@ -37,7 +39,6 @@ TICKERS = 'tickers'
 POSTS = 'posts'
 EMAIL = 'email'
 PASSWORD = 'password'
-# USERS_NS = 'users'
 USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{DETAILS}'
