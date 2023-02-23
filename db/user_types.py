@@ -1,17 +1,15 @@
 import db.db_connect as dbc
 
-TEST_USER_NAME = "RANDOMUSER"
-TEST_USER_NAME2 = "RANDOMUSER2"
 NAME = 'name'
-FOLLOWERS = 'Followers'
-FOLLOWING = 'Following'
 EMAIL = 'email'
 PASSWORD = 'password'
+FOLLOWERS = 'Followers'
+FOLLOWING = 'Following'
 COINS = 'coins'
 USERS_COLLECT = 'users'
 USER_KEY = 'name'
-REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]
 POSTS = 'posts'
+REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]
 
 
 # helper function for inputting user data to db
@@ -297,7 +295,6 @@ def remove_coin(userName, coin):
     user[COINS].remove(coin)
     del_user(userName)
     add_user(user["name"], user)
-    # return {userName: user_types[userName]}
     return {userName: user_cleanUp(user)}
 
 
