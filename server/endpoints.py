@@ -11,7 +11,7 @@ from http import HTTPStatus
 
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, doc='/api/doc', prefix='/api')
 
 USERS_NS = 'users'
 COINS_NS = 'coins'
