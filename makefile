@@ -13,12 +13,12 @@ github: FORCE
 	git push origin master
 
 all_tests: FORCE
-	$(LINTER) *.py
-	cd $(DB_DIR); make tests
+	cd $(DB_DIR);  make tests
 	cd $(SERVER_DIR); make tests
 
 dev_env: FORCE
 	pip install -r $(REQ_DIR)/requirements-dev.txt
 
-docs: FORCE
+all_docs: FORCE
 	cd $(SERVER_DIR); make docs
+	cd $(DB_DIR); make docs

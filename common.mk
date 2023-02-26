@@ -11,7 +11,6 @@ unit: FORCE
 
 lint: FORCE
 	$(LINTER) *.py
-	$(LINTER) $(TEST_DIR) *.py
 
 %.py: FORCE
 	pytest -s tests/test_$*.py

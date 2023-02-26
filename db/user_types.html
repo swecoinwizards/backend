@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module user_types</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>user_types</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/dayanaalejandro/Desktop/NYU/SWE/monitoring-crypto/db/user_types.py">/Users/dayanaalejandro/Desktop/NYU/SWE/monitoring-crypto/db/user_types.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="db_connect.html">db_connect</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-access_profile_posts"><strong>access_profile_posts</strong></a>(userName, postNumber)</dt></dl>
+ <dl><dt><a name="-add_coin"><strong>add_coin</strong></a>(userName, coin)</dt></dl>
+ <dl><dt><a name="-add_following"><strong>add_following</strong></a>(userName, followName)</dt><dd><tt>userName&nbsp;will&nbsp;now&nbsp;be&nbsp;FOLLOWING&nbsp;followName<br>
+followName&nbsp;will&nbsp;now&nbsp;have&nbsp;userName&nbsp;as&nbsp;a&nbsp;FOLLOWER</tt></dd></dl>
+ <dl><dt><a name="-add_user"><strong>add_user</strong></a>(name, details)</dt></dl>
+ <dl><dt><a name="-del_user"><strong>del_user</strong></a>(name)</dt></dl>
+ <dl><dt><a name="-follower_count"><strong>follower_count</strong></a>(userName, followName)</dt></dl>
+ <dl><dt><a name="-follower_exists"><strong>follower_exists</strong></a>(userName, followName)</dt><dd><tt>Checks&nbsp;if&nbsp;userName&nbsp;is&nbsp;BEING&nbsp;FOLLOWED&nbsp;by&nbsp;followName</tt></dd></dl>
+ <dl><dt><a name="-following_count"><strong>following_count</strong></a>(userName, followName)</dt></dl>
+ <dl><dt><a name="-following_exists"><strong>following_exists</strong></a>(userName, followName)</dt><dd><tt>Checks&nbsp;if&nbsp;userName&nbsp;IS&nbsp;FOLLOWING&nbsp;followName</tt></dd></dl>
+ <dl><dt><a name="-get_coins"><strong>get_coins</strong></a>(userName)</dt></dl>
+ <dl><dt><a name="-get_followers"><strong>get_followers</strong></a>(userName)</dt></dl>
+ <dl><dt><a name="-get_followings"><strong>get_followings</strong></a>(userName)</dt></dl>
+ <dl><dt><a name="-get_password"><strong>get_password</strong></a>(userName)</dt></dl>
+ <dl><dt><a name="-get_posts"><strong>get_posts</strong></a>(userName)</dt></dl>
+ <dl><dt><a name="-get_user"><strong>get_user</strong></a>(username)</dt></dl>
+ <dl><dt><a name="-get_user_email"><strong>get_user_email</strong></a>(username)</dt></dl>
+ <dl><dt><a name="-get_user_password"><strong>get_user_password</strong></a>(username)</dt></dl>
+ <dl><dt><a name="-get_users"><strong>get_users</strong></a>()</dt></dl>
+ <dl><dt><a name="-get_users_dict"><strong>get_users_dict</strong></a>()</dt><dd><tt>FOR&nbsp;MENU</tt></dd></dl>
+ <dl><dt><a name="-profile_add_post"><strong>profile_add_post</strong></a>(userName, content)</dt></dl>
+ <dl><dt><a name="-profile_delete_post"><strong>profile_delete_post</strong></a>(userName, postNumber)</dt></dl>
+ <dl><dt><a name="-remove_coin"><strong>remove_coin</strong></a>(userName, coin)</dt></dl>
+ <dl><dt><a name="-remove_follow"><strong>remove_follow</strong></a>(userName, followName)</dt><dd><tt>userName&nbsp;will&nbsp;unfollow&nbsp;followName<br>
+followName&nbsp;will&nbsp;lose&nbsp;userName&nbsp;as&nbsp;a&nbsp;follower</tt></dd></dl>
+ <dl><dt><a name="-update_email"><strong>update_email</strong></a>(userName, newEmail)</dt></dl>
+ <dl><dt><a name="-update_password"><strong>update_password</strong></a>(userName, newPassword)</dt></dl>
+ <dl><dt><a name="-update_username"><strong>update_username</strong></a>(username, newUsername)</dt></dl>
+ <dl><dt><a name="-user_cleanUp"><strong>user_cleanUp</strong></a>(user)</dt><dd><tt>#&nbsp;helper&nbsp;function&nbsp;for&nbsp;inputting&nbsp;user&nbsp;data&nbsp;to&nbsp;db</tt></dd></dl>
+ <dl><dt><a name="-user_coin_exists"><strong>user_coin_exists</strong></a>(userName, coin)</dt></dl>
+ <dl><dt><a name="-user_coin_valuation"><strong>user_coin_valuation</strong></a>(userName)</dt></dl>
+ <dl><dt><a name="-user_exists"><strong>user_exists</strong></a>(name)</dt></dl>
+ <dl><dt><a name="-user_login"><strong>user_login</strong></a>(userName, password)</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>COINS</strong> = 'coins'<br>
+<strong>EMAIL</strong> = 'email'<br>
+<strong>FOLLOWERS</strong> = 'Followers'<br>
+<strong>FOLLOWING</strong> = 'Following'<br>
+<strong>NAME</strong> = 'name'<br>
+<strong>PASSWORD</strong> = 'password'<br>
+<strong>POSTS</strong> = 'posts'<br>
+<strong>REQUIRED_FIELDS</strong> = ['name', 'password', 'email']<br>
+<strong>USERS_COLLECT</strong> = 'users'<br>
+<strong>USER_KEY</strong> = 'name'</td></tr></table>
+</body></html>
