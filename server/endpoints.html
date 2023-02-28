@@ -8,10 +8,21 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>endpoints</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/gcallah/GitProjects/flask-api/source/endpoints.py">/Users/gcallah/GitProjects/flask-api/source/endpoints.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/titan/SchoolWork/NYU_SWE/project/monitoring-crypto/server/endpoints.py">/Users/titan/SchoolWork/NYU_SWE/project/monitoring-crypto/server/endpoints.py</a></font></td></tr></table>
     <p><tt>This&nbsp;is&nbsp;the&nbsp;file&nbsp;containing&nbsp;all&nbsp;of&nbsp;the&nbsp;endpoints&nbsp;for&nbsp;our&nbsp;flask&nbsp;app.<br>
 The&nbsp;endpoint&nbsp;called&nbsp;`endpoints`&nbsp;will&nbsp;return&nbsp;all&nbsp;available&nbsp;endpoints.</tt></p>
 <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="db.coins.html">db.coins</a><br>
+</td><td width="25%" valign=top><a href="flask_restx.fields.html">flask_restx.fields</a><br>
+</td><td width="25%" valign=top><a href="db.user_types.html">db.user_types</a><br>
+</td><td width="25%" valign=top><a href="werkzeug.exceptions.html">werkzeug.exceptions</a><br>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -22,9 +33,27 @@ The&nbsp;endpoint&nbsp;called&nbsp;`endpoints`&nbsp;will&nbsp;return&nbsp;all&nb
 <dt><font face="helvetica, arial"><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>(<a href="flask.views.html#MethodView">flask.views.MethodView</a>)
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="endpoints.html#Endpoints">Endpoints</a>
+<dt><font face="helvetica, arial"><a href="endpoints.html#ActiveUsers">ActiveUsers</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#AddUser">AddUser</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#CoinFollow">CoinFollow</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#CoinList">CoinList</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#CoinRemoveFollow">CoinRemoveFollow</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#CoinTickersList">CoinTickersList</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#CoinTypeDetails">CoinTypeDetails</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#CoinsDict">CoinsDict</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#Endpoints">Endpoints</a>
 </font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#HelloWorld">HelloWorld</a>
-</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#Pets">Pets</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#MainMenu">MainMenu</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserFollow">UserFollow</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserFollowers">UserFollowers</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserList">UserList</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserLogin">UserLogin</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserPosts">UserPosts</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserRemove">UserRemove</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserRemoveFollow">UserRemoveFollow</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserTypeDetails">UserTypeDetails</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserUpdateEmail">UserUpdateEmail</a>
+</font></dt><dt><font face="helvetica, arial"><a href="endpoints.html#UserUpdatePassword">UserUpdatePassword</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -32,10 +61,589 @@ The&nbsp;endpoint&nbsp;called&nbsp;`endpoints`&nbsp;will&nbsp;return&nbsp;all&nb
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ActiveUsers">class <strong>ActiveUsers</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ActiveUsers">ActiveUsers</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+FOR&nbsp;MENU<br>
+This&nbsp;will&nbsp;get&nbsp;a&nbsp;list&nbsp;of&nbsp;currrent&nbsp;users&nbsp;in&nbsp;db.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#ActiveUsers">ActiveUsers</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ActiveUsers-get"><strong>get</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;current&nbsp;users.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_active_users'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="ActiveUsers-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="ActiveUsers-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="ActiveUsers-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="ActiveUsers-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AddUser">class <strong>AddUser</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#AddUser">AddUser</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Add&nbsp;a&nbsp;user.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#AddUser">AddUser</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<dl><dt><a name="AddUser-post"><strong>post</strong></a>(self)</dt><dd><tt>Add&nbsp;a&nbsp;user.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_add_user'</dl>
+
+<dl><dt><strong>methods</strong> = {'POST'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="AddUser-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="AddUser-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="AddUser-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="AddUser-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CoinFollow">class <strong>CoinFollow</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CoinFollow">CoinFollow</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Follow&nbsp;Coin<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#CoinFollow">CoinFollow</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CoinFollow-get"><strong>get</strong></a>(self, user_type, coin_type)</dt><dd><tt>Make&nbsp;a&nbsp;user&nbsp;follow&nbsp;a&nbsp;coin</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_coin_follow'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="CoinFollow-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CoinFollow-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="CoinFollow-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="CoinFollow-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CoinList">class <strong>CoinList</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CoinList">CoinList</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;get&nbsp;a&nbsp;list&nbsp;of&nbsp;names&nbsp;of&nbsp;current&nbsp;coins.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#CoinList">CoinList</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CoinList-get"><strong>get</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;full&nbsp;names&nbsp;of&nbsp;current&nbsp;coins</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'coins_coin_list'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="CoinList-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CoinList-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="CoinList-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="CoinList-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CoinRemoveFollow">class <strong>CoinRemoveFollow</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CoinRemoveFollow">CoinRemoveFollow</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Remove&nbsp;follow<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#CoinRemoveFollow">CoinRemoveFollow</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CoinRemoveFollow-get"><strong>get</strong></a>(self, user_type, coin_type)</dt><dd><tt>Remove&nbsp;coin&nbsp;from&nbsp;user</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_coin_remove_follow'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="CoinRemoveFollow-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CoinRemoveFollow-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="CoinRemoveFollow-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="CoinRemoveFollow-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CoinTickersList">class <strong>CoinTickersList</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CoinTickersList">CoinTickersList</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;get&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;tickers&nbsp;associated&nbsp;with&nbsp;current&nbsp;coins<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#CoinTickersList">CoinTickersList</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CoinTickersList-get"><strong>get</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;coin&nbsp;tickers</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'coins_coin_tickers_list'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="CoinTickersList-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CoinTickersList-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="CoinTickersList-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="CoinTickersList-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CoinTypeDetails">class <strong>CoinTypeDetails</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CoinTypeDetails">CoinTypeDetails</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;return&nbsp;details&nbsp;on&nbsp;a&nbsp;coin&nbsp;given&nbsp;the&nbsp;full&nbsp;coin&nbsp;name.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#CoinTypeDetails">CoinTypeDetails</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CoinTypeDetails-get"><strong>get</strong></a>(self, coin_type)</dt><dd><tt>Returns&nbsp;details&nbsp;of&nbsp;a&nbsp;coin&nbsp;given&nbsp;the&nbsp;full&nbsp;coin&nbsp;name.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'coins_coin_type_details'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="CoinTypeDetails-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CoinTypeDetails-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="CoinTypeDetails-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="CoinTypeDetails-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CoinsDict">class <strong>CoinsDict</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CoinsDict">CoinsDict</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;get&nbsp;a&nbsp;list&nbsp;of&nbsp;currrent&nbsp;coins&nbsp;in&nbsp;database.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#CoinsDict">CoinsDict</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CoinsDict-get"><strong>get</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;detailed&nbsp;list&nbsp;of&nbsp;coins&nbsp;in&nbsp;the&nbsp;database.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'coins_coins_dict'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="CoinsDict-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CoinsDict-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="CoinsDict-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="CoinsDict-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#000000" face="helvetica, arial"><a name="Endpoints">class <strong>Endpoints</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>This&nbsp;class&nbsp;will&nbsp;serve&nbsp;as&nbsp;live,&nbsp;fetchable&nbsp;documentation&nbsp;of&nbsp;what&nbsp;endpoints<br>
+<td colspan=2><tt><a href="#Endpoints">Endpoints</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;will&nbsp;serve&nbsp;as&nbsp;live,&nbsp;fetchable&nbsp;documentation&nbsp;of&nbsp;what&nbsp;endpoints<br>
 are&nbsp;available&nbsp;in&nbsp;the&nbsp;system.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -47,13 +655,14 @@ are&nbsp;available&nbsp;in&nbsp;the&nbsp;system.<br>&nbsp;</tt></td></tr>
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="Endpoints-get"><strong>get</strong></a>(self)</dt><dd><tt>The&nbsp;`<a href="#Endpoints-get">get</a>()`&nbsp;method&nbsp;will&nbsp;return&nbsp;a&nbsp;list&nbsp;of&nbsp;endpoints&nbsp;along&nbsp;with<br>
-documentation&nbsp;on&nbsp;them.</tt></dd></dl>
+<dl><dt><a name="Endpoints-get"><strong>get</strong></a>(self)</dt><dd><tt>The&nbsp;`<a href="#Endpoints-get">get</a>()`&nbsp;method&nbsp;will&nbsp;return&nbsp;a&nbsp;list&nbsp;of&nbsp;available&nbsp;endpoints.</tt></dd></dl>
 
 <dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
 
 <hr>
 Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
 <dl><dt><strong>endpoint</strong> = 'endpoints'</dl>
 
 <dl><dt><strong>methods</strong> = {'GET'}</dl>
@@ -76,7 +685,7 @@ Data and other attributes inherited from <a href="flask_restx.resource.html#Reso
 
 <hr>
 Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
-<dl><dt><a name="Endpoints-as_view"><strong>as_view</strong></a>(name, *class_args, **class_kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+<dl><dt><a name="Endpoints-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
 with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
 fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
 the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
@@ -94,7 +703,7 @@ Data descriptors inherited from <a href="flask.views.html#View">flask.views.View
 </dl>
 <hr>
 Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
-<dl><dt><strong>decorators</strong> = ()</dl>
+<dl><dt><strong>decorators</strong> = []</dl>
 
 <dl><dt><strong>provide_automatic_options</strong> = None</dl>
 
@@ -105,7 +714,9 @@ Data and other attributes inherited from <a href="flask.views.html#View">flask.v
 <font color="#000000" face="helvetica, arial"><a name="HelloWorld">class <strong>HelloWorld</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>The&nbsp;purpose&nbsp;of&nbsp;the&nbsp;<a href="#HelloWorld">HelloWorld</a>&nbsp;class&nbsp;is&nbsp;to&nbsp;have&nbsp;a&nbsp;simple&nbsp;test&nbsp;to&nbsp;see&nbsp;if&nbsp;the<br>
+<td colspan=2><tt><a href="#HelloWorld">HelloWorld</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+The&nbsp;purpose&nbsp;of&nbsp;the&nbsp;<a href="#HelloWorld">HelloWorld</a>&nbsp;class&nbsp;is&nbsp;to&nbsp;have&nbsp;a&nbsp;simple&nbsp;test&nbsp;to&nbsp;see&nbsp;if&nbsp;the<br>
 app&nbsp;is&nbsp;working&nbsp;at&nbsp;all.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -124,6 +735,8 @@ It&nbsp;just&nbsp;answers&nbsp;with&nbsp;"hello&nbsp;world."</tt></dd></dl>
 
 <hr>
 Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
 <dl><dt><strong>endpoint</strong> = 'hello_world'</dl>
 
 <dl><dt><strong>methods</strong> = {'GET'}</dl>
@@ -146,7 +759,7 @@ Data and other attributes inherited from <a href="flask_restx.resource.html#Reso
 
 <hr>
 Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
-<dl><dt><a name="HelloWorld-as_view"><strong>as_view</strong></a>(name, *class_args, **class_kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+<dl><dt><a name="HelloWorld-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
 with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
 fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
 the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
@@ -164,7 +777,7 @@ Data descriptors inherited from <a href="flask.views.html#View">flask.views.View
 </dl>
 <hr>
 Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
-<dl><dt><strong>decorators</strong> = ()</dl>
+<dl><dt><strong>decorators</strong> = []</dl>
 
 <dl><dt><strong>provide_automatic_options</strong> = None</dl>
 
@@ -172,13 +785,15 @@ Data and other attributes inherited from <a href="flask.views.html#View">flask.v
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="Pets">class <strong>Pets</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="MainMenu">class <strong>MainMenu</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>This&nbsp;class&nbsp;supports&nbsp;fetching&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;pets.<br>&nbsp;</tt></td></tr>
+<td colspan=2><tt><a href="#MainMenu">MainMenu</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;deliver&nbsp;our&nbsp;main&nbsp;menu.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
-<dd><a href="endpoints.html#Pets">Pets</a></dd>
+<dd><a href="endpoints.html#MainMenu">MainMenu</a></dd>
 <dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
 <dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
 <dd><a href="flask.views.html#View">flask.views.View</a></dd>
@@ -186,25 +801,27 @@ Data and other attributes inherited from <a href="flask.views.html#View">flask.v
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="Pets-get"><strong>get</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;all&nbsp;pets.</tt></dd></dl>
+<dl><dt><a name="MainMenu-get"><strong>get</strong></a>(self)</dt><dd><tt>Gets&nbsp;the&nbsp;main&nbsp;game&nbsp;menu.</tt></dd></dl>
 
 <dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
 
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>endpoint</strong> = 'pets'</dl>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'main_menu'</dl>
 
 <dl><dt><strong>methods</strong> = {'GET'}</dl>
 
 <hr>
 Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
-<dl><dt><a name="Pets-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+<dl><dt><a name="MainMenu-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
 
-<dl><dt><a name="Pets-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+<dl><dt><a name="MainMenu-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
 actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
 the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
 
-<dl><dt><a name="Pets-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+<dl><dt><a name="MainMenu-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
 
 <hr>
 Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
@@ -214,7 +831,7 @@ Data and other attributes inherited from <a href="flask_restx.resource.html#Reso
 
 <hr>
 Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
-<dl><dt><a name="Pets-as_view"><strong>as_view</strong></a>(name, *class_args, **class_kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+<dl><dt><a name="MainMenu-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
 with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
 fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
 the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
@@ -232,7 +849,728 @@ Data descriptors inherited from <a href="flask.views.html#View">flask.views.View
 </dl>
 <hr>
 Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
-<dl><dt><strong>decorators</strong> = ()</dl>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserFollow">class <strong>UserFollow</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserFollow">UserFollow</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Follow&nbsp;User<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserFollow">UserFollow</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserFollow-get"><strong>get</strong></a>(self, user_type, user_type2)</dt><dd><tt>Make&nbsp;one&nbsp;user&nbsp;follow&nbsp;another</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_follow'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserFollow-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserFollow-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserFollow-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserFollow-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserFollowers">class <strong>UserFollowers</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserFollowers">UserFollowers</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserFollowers">UserFollowers</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserFollowers-get"><strong>get</strong></a>(self, username)</dt><dd><tt>Get&nbsp;a&nbsp;list&nbsp;of&nbsp;people&nbsp;who&nbsp;follows&nbsp;the&nbsp;given&nbsp;user</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_followers'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserFollowers-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserFollowers-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserFollowers-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserFollowers-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserList">class <strong>UserList</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserList">UserList</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;get&nbsp;a&nbsp;list&nbsp;of&nbsp;currrent&nbsp;users.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserList">UserList</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserList-get"><strong>get</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;current&nbsp;users.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_list'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserList-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserList-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserList-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserList-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserLogin">class <strong>UserLogin</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserLogin">UserLogin</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserLogin">UserLogin</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserLogin-get"><strong>get</strong></a>(self, username, password)</dt><dd><tt>Login</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_login'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserLogin-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserLogin-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserLogin-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserLogin-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserPosts">class <strong>UserPosts</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserPosts">UserPosts</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserPosts">UserPosts</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserPosts-get"><strong>get</strong></a>(self, user_type)</dt><dd><tt>This&nbsp;will&nbsp;return&nbsp;details&nbsp;on&nbsp;a&nbsp;user&nbsp;post.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_posts'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserPosts-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserPosts-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserPosts-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserPosts-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserRemove">class <strong>UserRemove</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserRemove">UserRemove</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Remove&nbsp;User<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserRemove">UserRemove</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserRemove-get"><strong>get</strong></a>(self, user_type)</dt><dd><tt>This&nbsp;will&nbsp;return&nbsp;details&nbsp;on&nbsp;a&nbsp;character&nbsp;type</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_remove'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserRemove-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserRemove-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserRemove-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserRemove-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserRemoveFollow">class <strong>UserRemoveFollow</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserRemoveFollow">UserRemoveFollow</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Remove&nbsp;follow<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserRemoveFollow">UserRemoveFollow</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserRemoveFollow-get"><strong>get</strong></a>(self, user_type, user_type2)</dt><dd><tt>Add&nbsp;a&nbsp;user.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_remove_follow'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserRemoveFollow-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserRemoveFollow-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserRemoveFollow-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserRemoveFollow-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserTypeDetails">class <strong>UserTypeDetails</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserTypeDetails">UserTypeDetails</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+For&nbsp;Menu<br>
+This&nbsp;will&nbsp;return&nbsp;details&nbsp;on&nbsp;user.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserTypeDetails">UserTypeDetails</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UserTypeDetails-get"><strong>get</strong></a>(self, user_type)</dt><dd><tt>Details&nbsp;on&nbsp;user.</tt></dd></dl>
+
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_type_details'</dl>
+
+<dl><dt><strong>methods</strong> = {'GET'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserTypeDetails-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserTypeDetails-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserTypeDetails-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserTypeDetails-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserUpdateEmail">class <strong>UserUpdateEmail</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserUpdateEmail">UserUpdateEmail</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Update&nbsp;a&nbsp;user's&nbsp;email<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserUpdateEmail">UserUpdateEmail</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<dl><dt><a name="UserUpdateEmail-put"><strong>put</strong></a>(self)</dt><dd><tt>Update&nbsp;email</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_update_email'</dl>
+
+<dl><dt><strong>methods</strong> = {'PUT'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserUpdateEmail-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserUpdateEmail-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserUpdateEmail-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserUpdateEmail-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
+
+<dl><dt><strong>provide_automatic_options</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UserUpdatePassword">class <strong>UserUpdatePassword</strong></a>(<a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UserUpdatePassword">UserUpdatePassword</a>(api=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Update&nbsp;a&nbsp;user's&nbsp;password<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="endpoints.html#UserUpdatePassword">UserUpdatePassword</a></dd>
+<dd><a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><strong>mediatypes</strong> <em>lambda</em> resource_cls</dt></dl>
+
+<dl><dt><a name="UserUpdatePassword-put"><strong>put</strong></a>(self)</dt><dd><tt>Update&nbsp;password</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__annotations__</strong> = {}</dl>
+
+<dl><dt><strong>endpoint</strong> = 'users_user_update_password'</dl>
+
+<dl><dt><strong>methods</strong> = {'PUT'}</dl>
+
+<hr>
+Methods inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><a name="UserUpdatePassword-__init__"><strong>__init__</strong></a>(self, api=None, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UserUpdatePassword-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<dl><dt><a name="UserUpdatePassword-validate_payload"><strong>validate_payload</strong></a>(self, func)</dt><dd><tt>Perform&nbsp;a&nbsp;payload&nbsp;validation&nbsp;on&nbsp;expected&nbsp;model&nbsp;if&nbsp;necessary</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restx.resource.html#Resource">flask_restx.resource.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="UserUpdatePassword-as_view"><strong>as_view</strong></a>(name: str, *class_args: Any, **class_kwargs: Any) -&gt; Callable<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>decorators</strong> = []</dl>
 
 <dl><dt><strong>provide_automatic_options</strong> = None</dl>
 
@@ -243,6 +1581,56 @@ Data and other attributes inherited from <a href="flask.views.html#View">flask.v
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>api</strong> = &lt;flask_restx.api.Api object&gt;<br>
-<strong>app</strong> = &lt;Flask 'endpoints'&gt;</td></tr></table>
+<td width="100%"><strong>ADD</strong> = 'add'<br>
+<strong>API_DOC</strong> = '/api/doc'<br>
+<strong>API_PFX</strong> = '/api'<br>
+<strong>COINS_NS</strong> = 'coins'<br>
+<strong>COIN_DETAILS</strong> = '/details'<br>
+<strong>COIN_DICT</strong> = '/dict'<br>
+<strong>COIN_FOLLOW</strong> = '/coins/follow'<br>
+<strong>COIN_LIST</strong> = '/list'<br>
+<strong>COIN_LIST_NM</strong> = 'coins_list'<br>
+<strong>COIN_REMOVE</strong> = 'coins/remove'<br>
+<strong>COIN_REMOVE_FOLLOW</strong> = '/coins/remove/follow'<br>
+<strong>COIN_TICKERS_LIST</strong> = '/tickers/list'<br>
+<strong>COIN_TICKERS_LIST_NM</strong> = 'coins_tickers_list'<br>
+<strong>DETAILS</strong> = 'details'<br>
+<strong>DICT</strong> = 'dict'<br>
+<strong>EMAIL</strong> = 'email'<br>
+<strong>FOLLOW</strong> = 'follow'<br>
+<strong>FOLLOWERS</strong> = 'followers'<br>
+<strong>HELLO</strong> = '/hello'<br>
+<strong>LIST</strong> = 'list'<br>
+<strong>LOGIN</strong> = 'login'<br>
+<strong>MAIN_MENU</strong> = '/main_menu'<br>
+<strong>MAIN_MENU_NM</strong> = 'Main Menu'<br>
+<strong>MESSAGE</strong> = 'message'<br>
+<strong>PASSWORD</strong> = 'password'<br>
+<strong>POSTS</strong> = 'posts'<br>
+<strong>REMOVE</strong> = 'remove'<br>
+<strong>TICKERS</strong> = 'tickers'<br>
+<strong>UPDATE</strong> = 'update'<br>
+<strong>USERS_NS</strong> = 'users'<br>
+<strong>USER_ADD</strong> = '/add'<br>
+<strong>USER_DETAILS</strong> = '/details'<br>
+<strong>USER_DICT</strong> = '/dict'<br>
+<strong>USER_FOLLOW</strong> = '/follow'<br>
+<strong>USER_FOLLOWERS</strong> = '/followers'<br>
+<strong>USER_LIST</strong> = '/list'<br>
+<strong>USER_LIST_NM</strong> = 'users_list'<br>
+<strong>USER_LOGIN</strong> = '/login'<br>
+<strong>USER_LOGIN_MN</strong> = '/users'<br>
+<strong>USER_POSTS</strong> = '/posts'<br>
+<strong>USER_REMOVE</strong> = '/remove'<br>
+<strong>USER_REMOVE_FOLLOW</strong> = '/remove/follow'<br>
+<strong>USER_UPDATE_EMAIL</strong> = '/details/update/email'<br>
+<strong>USER_UPDATE_PASSWORD</strong> = '/details/update/password'<br>
+<strong>api</strong> = &lt;flask_restx.api.Api object&gt;<br>
+<strong>app</strong> = &lt;Flask 'endpoints'&gt;<br>
+<strong>coins</strong> = &lt;flask_restx.namespace.Namespace object&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>user_fields</strong> = {'name': &lt;class 'flask_restx.fields.String'&gt;, 'p...'&gt;, 'email': &lt;class 'flask_restx.fields.String'&gt;}<br>
+<strong>user_update_email_fields</strong> = {'name': &lt;class 'flask_restx.fields.String'&gt;, 'email': &lt;class 'flask_restx.fields.String'&gt;}<br>
+<strong>user_update_password_field</strong> = {'name': &lt;class 'flask_restx.fields.String'&gt;, 'password': &lt;class 'flask_restx.fields.String'&gt;}<br>
+<strong>users</strong> = &lt;flask_restx.namespace.Namespace object&gt;</td></tr></table>
 </body></html>
