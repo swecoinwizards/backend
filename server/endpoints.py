@@ -222,7 +222,7 @@ class UserFollow(Resource):
         Make one user follow another
         """
         try:
-            return user.add_follower(user_type, user_type2)
+            return user.add_following(user_type, user_type2)
         except Exception as e:
             raise wz.NotFound(f'Cannot modify: {e}')
 

@@ -6,7 +6,7 @@ import pymongo as pm
 LOCAL = "0"
 CLOUD = "1"
 
-USER_DB = 'userdb'
+USER_DB = 'coinwiz_user_db'
 COIN_DB = 'coindb'
 
 client = None
