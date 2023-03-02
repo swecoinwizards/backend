@@ -43,7 +43,7 @@ USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{DETAILS}'
 USER_ADD = f'/{ADD}'
-USER_REMOVE = f'/{REMOVE}'
+REMOVE_USER = f'/{REMOVE}'
 USER_FOLLOW = f'/{FOLLOW}'
 USER_FOLLOWERS = f'/{FOLLOWERS}'
 USER_REMOVE_FOLLOW = f'/{REMOVE}/{FOLLOW}'
@@ -52,7 +52,7 @@ USER_LOGIN = f'/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
 USER_UPDATE_PASSWORD = f'/{DETAILS}/{UPDATE}/{PASSWORD}'
 USER_POSTS = f'/{POSTS}'
-# COINS_NS = 'coins'
+
 COIN_LIST = f'/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
 COIN_TICKERS_LIST = f'/{TICKERS}/{LIST}'
@@ -65,6 +65,24 @@ COIN_REMOVE_FOLLOW = f'/{COIN_REMOVE}/{FOLLOW}'
 DICT = 'dict'
 USER_DICT = f'/{DICT}'
 COIN_DICT = f'/{DICT}'
+
+user_fields = api.model('NewUser', {
+    user.NAME: fields.String,
+    user.PASSWORD: fields.String,
+    user.EMAIL: fields.String,
+})
+
+
+user_update_email_fields = api.model('UpdateUserEmail', {
+    user.NAME: fields.String,
+    user.EMAIL: fields.String,
+})
+
+
+user_update_password_field = api.model('UpdateUserPassword', {
+    user.NAME: fields.String,
+    user.PASSWORD: fields.String,
+})
 
 
 @api.route(HELLO)
@@ -88,12 +106,12 @@ class MainMenu(Resource):
     """
     def get(self):
         """
-        Gets the main game menu.
+        Gets the main menu.
         """
         return {'Title': MAIN_MENU_NM,
                 'Default': 1,
                 'Choices': {
-                    '1': {'url': f'/{USER_DICT}',
+                    '1': {'url': f'/{USER_LIST}',
                           'method': 'get', 'text': 'List Active Users'},
                     '2': {'url': f'/{COIN_DICT}',
                           'method': 'get', 'text': 'List Active Coins'},
@@ -109,154 +127,105 @@ class MainMenu(Resource):
 
 @users.route(USER_LIST)
 class UserList(Resource):
-    """
-    This will get a list of currrent users.
-    """
     def get(self):
         """
         Returns a list of current users.
         """
         data = user.get_users()
-        print(data)
-        return {USER_LIST_NM: data}
+        return {'Data': data}
 
 
-@users.route(USER_DICT)
-class ActiveUsers(Resource):
-    """
-    FOR MENU
-    This will get a list of currrent users in db.
-    """
-    def get(self):
-        """
-        Returns a list of current users.
-        """
-        return {'Data': user.get_users_dict(),
-                'Type': 'Data',
-                'Title': 'Active Users'}
-
-
-@users.route(f'{USER_DETAILS}/<user_type>')
-class UserTypeDetails(Resource):
-    """
-    For Menu
-    This will return details on user.
-    """
+@users.route(f'{USER_DETAILS}/<username>')
+class UserDetails(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, user_type):
+    def get(self, username):
         """
-        Details on user.
+        Returns details about a user.
         """
-        if user.user_exists(user_type):
-            return {'Data': {user_type: {"Name": user.get_user(user_type)}},
+        if user.user_exists(username):
+            return {'Data': {username: {"Name": user.get_user(username)}},
                     'Type': 'Data', 'Title': 'User Type Details'}
         else:
-            raise wz.NotFound(f'{user_type} not found.')
-
-
-user_fields = api.model('NewUser', {
-    user.NAME: fields.String,
-    user.PASSWORD: fields.String,
-    user.EMAIL: fields.String,
-})
-
-
-user_update_email_fields = api.model('UpdateUserEmail', {
-    user.NAME: fields.String,
-    user.EMAIL: fields.String,
-})
-
-
-user_update_password_field = api.model('UpdateUserPassword', {
-    user.NAME: fields.String,
-    user.PASSWORD: fields.String,
-})
+            raise wz.NotFound(f'{user} not found.')
 
 
 @users.route(USER_ADD)
 class AddUser(Resource):
-    """
-    Add a user.
-    """
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.CONFLICT.value, 'Conflict')
     @api.expect(user_fields)
     def post(self):
         """
-        Add a user.
+        Add a new user.
         """
         print(f'{request.json=}')
         name = request.json[user.NAME]
         try:
             return user.add_user(name, request.json)
         except Exception as e:
-            raise wz.BadRequest(f'{e}')
+            raise wz.Conflict(f'{e}')
 
 
-@users.route(f'{USER_REMOVE}/<user_type>')
-class UserRemove(Resource):
-    """
-    Remove User
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, user_type):
+@users.route(f'{REMOVE_USER}/<username>')
+class RemoveUser(Resource):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
+    @api.expect(user_fields)
+    def get(self, username):
         """
-        This will return details on a character type
+        Remove an existing user.
         """
         try:
             # does not remove user existence in other users
-            return user.del_user(user_type)
+            return user.del_user(username)
         except Exception:
-            raise wz.NotFound(f'{user_type} not found.')
+            raise wz.NotFound(f'{username} not found.')
 
 
-@users.route(f'{USER_FOLLOW}/<user_type>/<user_type2>')
+@users.route(f'{USER_FOLLOW}/<userA>/<userB>')
 class UserFollow(Resource):
     """
-    Follow User
+    Create follow relationship between two users.
     """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
-    def get(self, user_type, user_type2):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED.value, 'Not Modified')
+    def get(self, userA, userB):
         """
-        Make one user follow another
+        Make userA follow userB.
         """
         try:
-            return user.add_following(user_type, user_type2)
+            return user.add_following(userA, userB)
         except Exception as e:
             raise wz.NotFound(f'Cannot modify: {e}')
 
 
-@users.route(f'{USER_REMOVE_FOLLOW}/<user_type>/<user_type2>')
+@users.route(f'{USER_REMOVE_FOLLOW}/<userA>/<userB>')
 class UserRemoveFollow(Resource):
     """
-    Remove follow
+    Remove a follow relationship between two users.
     """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
-    def get(self, user_type, user_type2):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED.value, 'Not Modified')
+    def get(self, userA, userB):
         """
-        Add a user.
+        Make userA unfollow userB.
         """
         try:
-            return user.remove_follower(user_type, user_type2)
+            return user.remove_follow(userA, userB)
         except Exception as e:
             raise wz.NotFound(f'Cannot modify: {e}')
 
 
 @users.route(USER_UPDATE_EMAIL)
 class UserUpdateEmail(Resource):
-    """
-    Update a user's email
-    """
     @api.expect(user_update_email_fields)
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_MODIFIED.value, 'Not Modified')
     def put(self):
         """
-        Update email
+        Update an existing user's email.
         """
-        print(f'{request.json=}')
         try:
             return user.update_email(request.json[user.NAME],
                                      request.json[user.EMAIL])
@@ -266,18 +235,16 @@ class UserUpdateEmail(Resource):
 
 @users.route(f'{USER_UPDATE_PASSWORD}')
 class UserUpdatePassword(Resource):
-    """
-    Update a user's password
-    """
     @api.expect(user_update_password_field)
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
     def put(self):
         """
-        Update password
+        Update an existing user's password
         """
         print(f'{request.json=}')
         try:
+            # Probably should authenticate old password first
             return user.update_password(request.json[user.NAME],
                                         request.json[user.PASSWORD])
         except Exception as e:
@@ -286,33 +253,24 @@ class UserUpdatePassword(Resource):
 
 @coins.route(COIN_LIST)
 class CoinList(Resource):
-    """
-    This will get a list of names of current coins.
-    """
     def get(self):
         """
-        Returns a list of full names of current coins
+        Returns a list of full names of current coins.
         """
         return {COIN_LIST_NM: coin.get_coins()}
 
 
 @coins.route(COIN_TICKERS_LIST)
 class CoinTickersList(Resource):
-    """
-    This will get a list of the tickers associated with current coins
-    """
     def get(self):
         """
-        Returns a list of coin tickers
+        Returns a list of existing coin tickers.
         """
         return {COIN_TICKERS_LIST_NM: coin.get_all_coin_tickers()}
 
 
 @coins.route(COIN_DICT)
 class CoinsDict(Resource):
-    """
-    This will get a list of currrent coins in database.
-    """
     def get(self):
         """
         Returns a detailed list of coins in the database.
@@ -322,62 +280,59 @@ class CoinsDict(Resource):
                 'Title': 'Active Coins'}
 
 
-@coins.route(f'{COIN_DETAILS}/<coin_type>')
+@coins.route(f'{COIN_DETAILS}/<coin>')
 class CoinTypeDetails(Resource):
-    """
-    This will return details on a coin given the full coin name.
-    """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, coin_type):
+    def get(self, coin):
         """
-        Returns details of a coin given the full coin name.
+        Returns details of a coin given the coin name.
         """
-        ct = coin.coin_details(coin_type)
+        ct = coin.coin_details(coin)
         if ct is not None:
-            return {coin_type: ct}
+            return {coin: ct}
         else:
-            raise wz.NotFound(f'{coin_type} not found.')
+            raise wz.NotFound(f'{coin} not found.')
 
 
-@users.route(f'{COIN_FOLLOW}/<user_type>/<coin_type>')
+@users.route(f'{COIN_FOLLOW}/<username>/<coin>')
 class CoinFollow(Resource):
     """
-    Follow Coin
+    Adds a follow relationship between a user and coin.
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
-    def get(self, user_type, coin_type):
+    def get(self, username, coin):
         """
-        Make a user follow a coin
+        Make a user follow a coin.
         """
-        if (not coin.coin_exists(coin_type)):
-            raise wz.NotFound(f'{coin_type} not found.')
-        elif (not user.user_exists(user_type)):
+        if (not coin.coin_exists(coin)):
+            raise wz.NotFound(f'{coin} not found.')
+        elif (not user.user_exists(username)):
             raise wz.NotAcceptable("User does not exists")
-        elif (user.user_coin_exists(user_type, coin_type)):
+        elif (user.user_coin_exists(username, coin)):
             raise wz.NotAcceptable("Already following coin")
         else:
-            return user.add_coin(user_type, coin_type)
+            return user.add_coin(username, coin)
 
 
-@users.route(f'{COIN_REMOVE_FOLLOW}/<user_type>/<coin_type>')
+@users.route(f'{COIN_REMOVE_FOLLOW}/<username>/<coin>')
 class CoinRemoveFollow(Resource):
     """
-    Remove follow
+    Removes a follow relationship between a user and coin.
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
-    def get(self, user_type, coin_type):
+    def get(self, username, coin):
         """
-        Remove coin from user
+        Make a user unfollow a coin.
         """
-        if (not user.user_exists(user_type)):
-            raise wz.NotAcceptable("User does not exists")
-        elif (not user.user_coin_exists(user_type, coin_type)):
+        if (not user.user_exists(username)):
+            raise wz.NotAcceptable("User does not exist")
+        elif (not user.user_coin_exists(username, coin)):
             raise wz.NotAcceptable("Not following coin")
         else:
-            return user.remove_coin(user_type, coin_type)
+            return user.remove_coin(username, coin)
 
 
 @users.route(f'{USER_LOGIN}/<username>/<password>')
@@ -386,12 +341,9 @@ class UserLogin(Resource):
     @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
     def get(self, username, password):
         """
-        Login
+        User login authentication
         """
         try:
-            """
-            Login to user
-            """
             return {'Data': {username: user.user_login(username, password)},
                     'Type': 'Data',
                     'Title': 'User Login'}
@@ -407,7 +359,7 @@ class UserFollowers(Resource):
     @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
     def get(self, username):
         """
-        Get a list of people who follows the given user
+        Return a list of a user's followers.
         """
         try:
             return {'Data': {username:
@@ -420,20 +372,20 @@ class UserFollowers(Resource):
                     'Title': 'User Followers'}
 
 
-@users.route(f'{USER_POSTS}/<user_type>')
+@users.route(f'{USER_POSTS}/<username>')
 class UserPosts(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, user_type):
+    def get(self, username):
         """
-        This will return details on a user post.
+        Returns a list of a user's posts.
         """
-        posts = user.get_posts(user_type)
+        posts = user.get_posts(username)
         if posts is not None:
             return {'Data': {'Posts:': posts},
                     'Type': 'Data', 'Title': 'Post History'}
         else:
-            raise wz.NotFound(f'{user_type} not found.')
+            raise wz.NotFound(f'{username} not found.')
 
 
 @api.route('/endpoints')

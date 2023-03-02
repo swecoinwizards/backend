@@ -71,14 +71,6 @@ def get_posts(userName):
     return temp[POSTS]
 
 
-def get_users_dict():
-    '''
-    FOR MENU
-    '''
-    dbc.connect_db()
-    return dbc.fetch_all_as_dict(USER_KEY, USERS_COLLECT)
-
-
 def get_user(username):
     if not user_exists(username):
         raise ValueError(f'User {username=} does not exist')
@@ -147,6 +139,7 @@ def add_user(name, details):
 
 
 def del_user(name):
+    # Should authenticate before deletion
     dbc.connect_db()
     if not user_exists(name):
         raise ValueError(f'User {name} does not exist')
