@@ -49,13 +49,6 @@ def test_get_posts_fail():
         usr.get_posts(" ")
 
 
-# can remove this bc already have db one
-def test_get_users_dict(temp_user):
-    usrs = usr.get_users_dict()
-    assert isinstance(usrs, dict)
-    assert len(usrs) >= 1
-
-
 def test_add_wrong_name_type():
     with pytest.raises(TypeError):
         usr.add_user(7, {'name': 7,

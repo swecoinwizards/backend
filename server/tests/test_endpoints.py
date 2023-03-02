@@ -78,14 +78,11 @@ def test_get_user_type_details(temp_user):
     """
     resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_DETAILS}'
                                 + f'/{SAMPLE_USER_NM}').get_json()
+    print(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_DETAILS}'
+                                + f'/{SAMPLE_USER_NM}')
+    print(resp_json)
     assert SAMPLE_USER_NM in resp_json['Data']
     assert isinstance(resp_json['Data'][SAMPLE_USER_NM], dict)
-
-
-def test_get_users_dict():
-    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_DICT}'
-                                ).get_json()
-    assert isinstance(resp_json, dict)
 
 
 def test_add_follower():
