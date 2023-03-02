@@ -45,7 +45,7 @@ def test_get_user_list():
     """
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_LIST}').get_json()
-    assert isinstance(resp_json['Data'], list)
+    assert isinstance(resp_json[ep.USER_LIST_NM], list)
 
 
 def test_add_user():

@@ -132,7 +132,7 @@ class UserList(Resource):
         Returns a list of current users.
         """
         data = user.get_users()
-        return {'Data': data}
+        return {USER_LIST_NM: data}
 
 
 @users.route(f'{USER_DETAILS}/<username>')
