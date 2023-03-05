@@ -115,7 +115,7 @@ Database design update:
 | Search bar functionality | 2/23 | Aruuke |
 | Home Page | 2/23 | Dayana |
 | Login Page + Registration Page | 2/23 | Ahnaf |
-| login/logout/reset functionality | 2/23 | |
+| login/logout/reset functionality | 2/23 | Ahnaf |
 | User Account Page | 2/23 | Darren |
 | Post/activity feed functionality | 2/23 | |
 | Coin Page | 3/9 | |
