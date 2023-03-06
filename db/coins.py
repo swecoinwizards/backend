@@ -1,10 +1,11 @@
+import os
 import db.db_connect as dbc
 from coinmarketcapapi import CoinMarketCapAPI
 
 # from config import API_KEY
 # https://pypi.org/project/python-coinmarketcap/
 
-API_KEY = ''
+API_KEY = os.environ.get("CMC_KEY")
 COINS_COLLECT = 'coins'
 COIN_DB = 'coindb'
 ID = 'id'
@@ -25,11 +26,18 @@ def coinapi_setup():
     cmc = CoinMarketCapAPI(API_KEY)
     r = cmc.cryptocurrency_map()
     # only using first 10 coins for now
+    temp_lst = []
+    dbc.connect_db()
     for line in r.data[2:10]:
         quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
-        price = quote.data[line['symbol']]['quote']['USD']['price']
-        return save_coin(line['name'], {ID: line['id'], NAME: line['name'],
-                                        SYMBOL: line['symbol'], PRICE: price})
+        price = quote.data[line['symbol']][0]['quote']['USD']['price']
+        print(price)
+        if not coin_exists(line['name']):
+            dets = {ID: line['id'], NAME: line['name'],
+                    SYMBOL: line['symbol'], PRICE: price}
+            temp_lst.append(dets)
+            dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
+    return temp_lst
 
 
 def save_coin(name, dets):

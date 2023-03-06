@@ -22,7 +22,17 @@ def test_coinapi_setup():
     # assert isinstance(cn.coin_type, dict)
     # since data will be stored in db
     # api key will not be needed later on
-    return True
+    dets = cn.coinapi_setup()
+    assert isinstance(dets, list)
+
+
+def test_coinapi_setup_empty():
+    # cn.coinapi_setup()
+    # assert isinstance(cn.coin_type, dict)
+    # since data will be stored in db
+    # api key will not be needed later on
+    dets = cn.coinapi_setup()
+    assert len(dets)==0
 
 
 def test_coin_exists(temp_coin):
