@@ -38,6 +38,8 @@ jobs:
 
       - name: Run Python tests.
         run: make all_tests
+        env:
+          CMC_KEY: ${{secrets.CMC_KEY}}
 
       # Deploy to PythonAnywhere
       - name: Deploy to PythonAnywhere
