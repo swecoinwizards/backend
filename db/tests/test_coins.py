@@ -7,7 +7,7 @@ TEST_COIN_TICKER = 'TCN'
 TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
                   'price': 1000}
 INVALID_SYMBOL = '123'
-VALID_SYMBOL = "NMC"
+VALID_SYMBOL = "ETH"
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 
 

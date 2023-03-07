@@ -40,6 +40,7 @@ jobs:
         run: make all_tests
         env:
           CMC_KEY: ${{secrets.CMC_KEY}}
+          USE_CMC: ${{secrets.USE_CMC}}
 
       # Deploy to PythonAnywhere
       - name: Deploy to PythonAnywhere
