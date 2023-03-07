@@ -278,7 +278,7 @@ class CoinsDict(Resource):
         """
         Returns a detailed list of coins in the database.
         """
-        return {'Data': coin.get_coin_dict(),
+        return {'Data': coin.get_coins(),
                 'Type': 'Data',
                 'Title': 'Active Coins'}
 
@@ -300,15 +300,27 @@ class CoinTypeDetails(Resource):
 
 @coins.route(f'{COIN_UPDATE}/<coinSymbol>')
 class CoinPriceUpdate(Resource):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, coinSymbol):
         """
         Returns coin with updated price.
         """
-        ct = coin.update_price(coinSymbol)
-        if ct is not None:
+        try:
+            ct = coin.update_price(coinSymbol)
             return {coinSymbol: ct}
-        else:
-            raise wz.NotFound(f'{coinSymbol} not found.')
+        except Exception as e:
+            raise wz.BadRequest(f'{e}')
+
+
+@coins.route(f'{COIN_LIST}/{UPDATE}')
+class GETLASTESTCOINS(Resource):
+    def get(self):
+        """
+        Returns 10 latests quotes from coinmarket api
+        """
+        ct = coin.get_latests_quotes()
+        return ct
 
 
 @users.route(f'{COIN_FOLLOW}/<username>/<coin>')

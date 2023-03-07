@@ -23,6 +23,13 @@ coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
              'name': 'Litecoin', 'symbol': 'LTC', 'price': 62.885530866205976}}
 
 
+# helper function for inputting user data to db
+def coin_dets_cleanUp(coin):
+    if 'id' in coin:
+        del coin['_id']
+    return coin
+
+
 def coinapi_setup():
     if os.environ.get("USE_CMC", USE_FALSE) == USE_TRUE:
         cmc = CoinMarketCapAPI(API_KEY)
@@ -30,19 +37,30 @@ def coinapi_setup():
         # only using first 10 coins for now
         temp_lst = []
         dbc.connect_db()
-        for line in r.data[2:10]:
+        for line in r.data[0:10]:
             quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
             price = quote.data[line['symbol']][0]['quote']['USD']['price']
             print(price)
             if not coin_exists(line['name']):
                 dets = {ID: line['id'], NAME: line['name'],
                         SYMBOL: line['symbol'], PRICE: price}
-                temp_lst.append(dets)
+                temp_lst.append({NAME: line['name'],
+                                 SYMBOL: line['symbol'], PRICE: price})
                 dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
         return temp_lst
     else:
         print("Did not fetch CoinMarketCap data.")
         return []
+
+
+def get_latests_quotes():
+    os.environ["USE_CMC"] = "1"
+    # os.environ["CLOUD_MONGO"] = "1"
+    coin_lst = coinapi_setup()
+    os.environ["USE_CMC"] = "0"
+    # os.environ["CLOUD_MONGO"] = "0"c
+
+    return coin_lst
 
 
 def coinapi_price(symb):
@@ -68,7 +86,7 @@ def update_price(symbol):
     temp["price"] = newPrice
     dbc.remove_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
     dbc.insert_one(COINS_COLLECT, temp, COIN_DB)
-    return temp
+    return coin_dets_cleanUp(temp)
 
 
 def save_coin(name, dets):
@@ -111,13 +129,6 @@ def get_coins():
     dbc.connect_db()
     return dbc.fetch_all(COINS_COLLECT, COIN_DB)
     # return list(coin_type.keys())
-
-
-def get_coin_dict():
-    '''
-    FOR MENU
-    '''
-    return coin_type
 
 
 def count_coins():

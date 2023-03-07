@@ -61,11 +61,6 @@ def test_get_coins():
     assert isinstance(coins, list)
 
 
-def test_get_coins_dict():
-    coins = cn.get_coin_dict()
-    assert isinstance(coins, dict)
-
-
 def test_count_coins():
     num = cn.count_coins()
     assert isinstance(num, int)
