@@ -14,6 +14,8 @@ SYMBOL = 'symbol'
 PRICE = 'price'
 TEST_COIN = 'Bitcoin'
 REQUIRED_FIELDS = [ID, NAME, SYMBOL, PRICE]
+USE_TRUE = "1"
+USE_FALSE = "0"
 
 # database will use
 coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
@@ -23,21 +25,25 @@ coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
 
 # should save to a database in the future
 def coinapi_setup():
-    cmc = CoinMarketCapAPI(API_KEY)
-    r = cmc.cryptocurrency_map()
-    # only using first 10 coins for now
-    temp_lst = []
-    dbc.connect_db()
-    for line in r.data[2:10]:
-        quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
-        price = quote.data[line['symbol']][0]['quote']['USD']['price']
-        print(price)
-        if not coin_exists(line['name']):
-            dets = {ID: line['id'], NAME: line['name'],
-                    SYMBOL: line['symbol'], PRICE: price}
-            temp_lst.append(dets)
-            dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
-    return temp_lst
+    if os.environ.get("USE_CMC", USE_FALSE) == USE_TRUE:
+        cmc = CoinMarketCapAPI(API_KEY)
+        r = cmc.cryptocurrency_map()
+        # only using first 10 coins for now
+        temp_lst = []
+        dbc.connect_db()
+        for line in r.data[2:10]:
+            quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
+            price = quote.data[line['symbol']][0]['quote']['USD']['price']
+            print(price)
+            if not coin_exists(line['name']):
+                dets = {ID: line['id'], NAME: line['name'],
+                        SYMBOL: line['symbol'], PRICE: price}
+                temp_lst.append(dets)
+                dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
+        return temp_lst
+    else:
+        print("Did not fetch CoinMarketCap data.")
+        return []
 
 
 def save_coin(name, dets):

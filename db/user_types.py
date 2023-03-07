@@ -1,4 +1,5 @@
 import db.db_connect as dbc
+import db.coins as cn
 
 NAME = 'name'
 EMAIL = 'email'
@@ -306,13 +307,18 @@ def user_coin_exists(userName, coin):
 
 
 def add_coin(userName, coin):
+    if not cn.coin_exists(coin):
+        raise ValueError("Coin does not exist!")
+
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     if not user_exists(userName):
         raise ValueError("User does not exists")
+
     if coin in user[COINS]:
         raise ValueError("Already Following Coin")
+
     # check if coin is valid
     user[COINS].append(coin)
     # is there a better way to modify obj in db?

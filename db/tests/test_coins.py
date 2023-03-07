@@ -32,7 +32,7 @@ def test_coinapi_setup_empty():
     # since data will be stored in db
     # api key will not be needed later on
     dets = cn.coinapi_setup()
-    assert len(dets)==0
+    assert len(dets) == 0
 
 
 def test_coin_exists(temp_coin):

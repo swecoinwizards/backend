@@ -32,6 +32,23 @@ def temp_user2():
     usr.del_user(TEST_USER_NAME2)
 
 
+TEST_COIN = 'TEST_COIN'
+TEST_COIN_TICKER = 'TCN'
+TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
+                  'price': 1000}
+RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
+
+
+@pytest.fixture(scope='function')
+def temp_user_coin():
+    usr.add_user(TEST_USER_NAME, NEW_USER_DET)
+    cn.save_coin(TEST_COIN, TEST_COIN_DETS)
+    yield
+    cn.remove_coin(TEST_COIN)
+    if (usr.user_exists(TEST_USER_NAME)):
+        usr.del_user(TEST_USER_NAME)
+
+
 def test_get_users(temp_user):
     usrs = usr.get_users()
     assert isinstance(usrs, list)
@@ -239,16 +256,16 @@ def test_update_password_fail_type(temp_user):
         usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
 
 
-def test_add_coin(temp_user):
-    usr.add_coin(TEST_USER_NAME, cn.coin_type['Bitcoin'])
-    assert usr.user_coin_exists(TEST_USER_NAME, cn.coin_type['Bitcoin'])
-    usr.remove_coin(TEST_USER_NAME, cn.coin_type['Bitcoin'])
+def test_add_coin(temp_user_coin):
+    usr.add_coin(TEST_USER_NAME, TEST_COIN)
+    assert usr.user_coin_exists(TEST_USER_NAME, TEST_COIN)
+    usr.remove_coin(TEST_USER_NAME, TEST_COIN)
 
 
-def test_user_coin_evaluation(temp_user):
-    usr.add_coin(TEST_USER_NAME, cn.coin_type['Bitcoin'])
+def test_user_coin_evaluation(temp_user_coin):
+    usr.add_coin(TEST_USER_NAME, TEST_COIN)
     assert usr.user_coin_valuation(TEST_USER_NAME) >= 0
-    usr.remove_coin(TEST_USER_NAME, cn.coin_type['Bitcoin'])
+    usr.remove_coin(TEST_USER_NAME, TEST_COIN)
 
 
 def test_profile_add_post(temp_user):

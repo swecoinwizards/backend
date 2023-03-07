@@ -34,6 +34,7 @@ HELLO = '/hello'
 MESSAGE = 'message'
 FOLLOW = 'follow'
 FOLLOWERS = 'followers'
+FOLLOWINGS = 'followings'
 LOGIN = 'login'
 TICKERS = 'tickers'
 POSTS = 'posts'
@@ -46,6 +47,7 @@ USER_ADD = f'/{ADD}'
 REMOVE_USER = f'/{REMOVE}'
 USER_FOLLOW = f'/{FOLLOW}'
 USER_FOLLOWERS = f'/{FOLLOWERS}'
+USER_FOLLOWINGS = f'/{FOLLOWINGS}'
 USER_REMOVE_FOLLOW = f'/{REMOVE}/{FOLLOW}'
 USER_UPDATE_EMAIL = f'/{DETAILS}/{UPDATE}/{EMAIL}'
 USER_LOGIN = f'/{LOGIN}'
@@ -300,20 +302,16 @@ class CoinFollow(Resource):
     """
     Adds a follow relationship between a user and coin.
     """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, username, coin):
         """
         Make a user follow a coin.
         """
-        if (not coin.coin_exists(coin)):
-            raise wz.NotFound(f'{coin} not found.')
-        elif (not user.user_exists(username)):
-            raise wz.NotAcceptable("User does not exists")
-        elif (user.user_coin_exists(username, coin)):
-            raise wz.NotAcceptable("Already following coin")
-        else:
+        try:
             return user.add_coin(username, coin)
+        except Exception as e:
+            raise wz.BadRequest(f'{e}')
 
 
 @users.route(f'{COIN_REMOVE_FOLLOW}/<username>/<coin>')
@@ -327,12 +325,10 @@ class CoinRemoveFollow(Resource):
         """
         Make a user unfollow a coin.
         """
-        if (not user.user_exists(username)):
-            raise wz.NotAcceptable("User does not exist")
-        elif (not user.user_coin_exists(username, coin)):
-            raise wz.NotAcceptable("Not following coin")
-        else:
+        try:
             return user.remove_coin(username, coin)
+        except Exception as e:
+            wz.BadRequest(e)
 
 
 @users.route(f'{USER_LOGIN}/<username>/<password>')
@@ -370,6 +366,25 @@ class UserFollowers(Resource):
             return {'Data': f"Error: {e}",
                     'Type': 'Form',
                     'Title': 'User Followers'}
+
+
+@users.route(f'{USER_FOLLOWINGS}/<username>')
+class UserFollowings(Resource):
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
+    def get(self, username):
+        """
+        Return a list of a user's followings.
+        """
+        try:
+            return {'Data': {username:
+                    {"followers": user.get_followings(username)}},
+                    'Type': 'Data',
+                    'Title': 'User Followings'}
+        except Exception as e:
+            return {'Data': f"Error: {e}",
+                    'Type': 'Form',
+                    'Title': 'User Followings'}
 
 
 @users.route(f'{USER_POSTS}/<username>')
