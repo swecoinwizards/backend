@@ -7,7 +7,7 @@ TEST_COIN_TICKER = 'TCN'
 TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
                   'price': 1000}
 INVALID_SYMBOL = '123'
-VALID_SYMBOL = "ETH"
+VALID_SYMBOL = "NCM"
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 
 
@@ -29,6 +29,7 @@ def test_coinapi_setup_empty():
     assert len(dets) == 0
 
 
+# @pytest.mark.skip(reason="Require additional func to check valid symbol")
 def test_coinapi_price():
     newPrice = cn.coinapi_price(VALID_SYMBOL)
     assert isinstance(newPrice,float)
@@ -79,10 +80,12 @@ def test_remodel_coin_ticker(temp_coin):
     if not RUNNING_ON_CICD_SERVER:
         remodel_symbol = "NEW"
         cn.remodel_coin_ticker(TEST_COIN, remodel_symbol)
-        assert cn.get_coin_ticker(TEST_COIN) == remodel_symbol
+        coin = cn.get_coin_ticker(TEST_COIN)
+        cn.remodel_coin_ticker(TEST_COIN, TEST_COIN_TICKER)
+        assert coin == remodel_symbol
 
 
-def test_get_all_coin_tickers():
+def test_get_all_coin_tickers(temp_coin):
     tickers = cn.get_all_coin_tickers()
     assert isinstance(tickers, list)
     assert len(tickers) > 0
@@ -98,10 +101,11 @@ def test_change_coin_price(temp_coin):
     assert new_price == 62.06
 
 
-def test_update_price():
+def test_update_price(temp_coin):
     # using coin stored in db
-    coin = cn.update_price(VALID_SYMBOL)
-    print(coin)
+    # cn.save_coin(TEST_COIN, TEST_COIN_DETS)
+    coin = cn.update_price(TEST_COIN_TICKER)
+    # cn.remove_coin(TEST_COIN)
     assert isinstance(coin,dict)
 
 

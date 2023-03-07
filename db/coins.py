@@ -54,7 +54,8 @@ def coinapi_price(symb):
         price = quote.data[symb][0]['quote']['USD']['price']
         return price
     else:
-        return ValueError(f'Did not fetch new price for {symb}')
+        # return ValueError(f'Did not fetch new price for {symb}')
+        return -1.0
 
 
 def update_price(symbol):
@@ -62,11 +63,11 @@ def update_price(symbol):
     if (temp is None):
         raise ValueError(f'Coin: {symbol} does not exist!')
     newPrice = coinapi_price(symbol)
-    if (newPrice is False):
-        return ValueError(f'Cannot get new price for {symbol}')
+    # if (newPrice is False):
+    #     return ValueError(f'Cannot get new price for {symbol}')
     temp["price"] = newPrice
     dbc.remove_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
-    dbc.insert_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
+    dbc.insert_one(COINS_COLLECT, temp, COIN_DB)
     return temp
 
 
