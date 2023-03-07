@@ -23,7 +23,6 @@ coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
              'name': 'Litecoin', 'symbol': 'LTC', 'price': 62.885530866205976}}
 
 
-# should save to a database in the future
 def coinapi_setup():
     if os.environ.get("USE_CMC", USE_FALSE) == USE_TRUE:
         cmc = CoinMarketCapAPI(API_KEY)
@@ -44,6 +43,31 @@ def coinapi_setup():
     else:
         print("Did not fetch CoinMarketCap data.")
         return []
+
+
+def coinapi_price(symb):
+    # Helper function for update_price
+    if os.environ.get("USE_CMC", USE_FALSE) == USE_TRUE:
+        cmc = CoinMarketCapAPI(API_KEY)
+        # only using first 10 coins for now
+        quote = cmc.cryptocurrency_quotes_latest(symbol=symb)
+        price = quote.data[symb][0]['quote']['USD']['price']
+        return price
+    else:
+        return ValueError(f'Did not fetch new price for {symb}')
+
+
+def update_price(symbol):
+    temp = dbc.fetch_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
+    if (temp is None):
+        raise ValueError(f'Coin: {symbol} does not exist!')
+    newPrice = coinapi_price(symbol)
+    if (newPrice is False):
+        return ValueError(f'Cannot get new price for {symbol}')
+    temp["price"] = newPrice
+    dbc.remove_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
+    dbc.insert_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
+    return temp
 
 
 def save_coin(name, dets):
@@ -123,8 +147,10 @@ def remodel_coin_ticker(name, remodel_symbol):
 
 def get_all_coin_tickers():
     tickers = []
-    for coin in coin_type.keys():
-        tickers.append(coin_type[coin]['symbol'])
+    dbc.connect_db()
+    coins = dbc.fetch_all(COINS_COLLECT, COIN_DB)
+    for coin in coins:
+        tickers.append(coin['symbol'])
     return tickers
 
 

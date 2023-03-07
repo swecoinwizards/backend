@@ -6,6 +6,8 @@ TEST_COIN = 'TEST_COIN'
 TEST_COIN_TICKER = 'TCN'
 TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
                   'price': 1000}
+INVALID_SYMBOL = '123'
+VALID_SYMBOL = "NMC"
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 
 
@@ -18,21 +20,18 @@ def temp_coin():
 
 
 def test_coinapi_setup():
-    # cn.coinapi_setup()
-    # assert isinstance(cn.coin_type, dict)
-    # since data will be stored in db
-    # api key will not be needed later on
     dets = cn.coinapi_setup()
     assert isinstance(dets, list)
 
 
 def test_coinapi_setup_empty():
-    # cn.coinapi_setup()
-    # assert isinstance(cn.coin_type, dict)
-    # since data will be stored in db
-    # api key will not be needed later on
     dets = cn.coinapi_setup()
     assert len(dets) == 0
+
+
+def test_coinapi_price():
+    newPrice = cn.coinapi_price(VALID_SYMBOL)
+    assert isinstance(newPrice,float)
 
 
 def test_coin_exists(temp_coin):
@@ -97,3 +96,15 @@ def test_coin_price(temp_coin):
 def test_change_coin_price(temp_coin):
     new_price = cn.change_coin_price(TEST_COIN, 62.06)
     assert new_price == 62.06
+
+
+def test_update_price():
+    # using coin stored in db
+    coin = cn.update_price(VALID_SYMBOL)
+    print(coin)
+    assert isinstance(coin,dict)
+
+
+def test_update_price_fail():
+    with pytest.raises(ValueError):
+        coin = cn.update_price(INVALID_SYMBOL)

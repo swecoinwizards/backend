@@ -63,6 +63,7 @@ COIN_DETAILS = f'/{DETAILS}'
 COIN_REMOVE = f'{COINS_NS}/{REMOVE}'
 COIN_FOLLOW = f'/{COINS_NS}/{FOLLOW}'
 COIN_REMOVE_FOLLOW = f'/{COIN_REMOVE}/{FOLLOW}'
+COIN_UPDATE = f'{DETAILS}/price'
 
 DICT = 'dict'
 USER_DICT = f'/{DICT}'
@@ -282,19 +283,32 @@ class CoinsDict(Resource):
                 'Title': 'Active Coins'}
 
 
-@coins.route(f'{COIN_DETAILS}/<coin>')
+@coins.route(f'{COIN_DETAILS}/<coinName>')
 class CoinTypeDetails(Resource):
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, coin):
+    def get(self, coinName):
         """
         Returns details of a coin given the coin name.
         """
-        ct = coin.coin_details(coin)
+        ct = coin.coin_details(coinName)
         if ct is not None:
-            return {coin: ct}
+            return {coinName: ct}
         else:
-            raise wz.NotFound(f'{coin} not found.')
+            raise wz.NotFound(f'{coinName} not found.')
+
+
+@coins.route(f'{COIN_UPDATE}/<coinSymbol>')
+class CoinPriceUpdate(Resource):
+    def get(self, coinSymbol):
+        """
+        Returns coin with updated price.
+        """
+        ct = coin.update_price(coinSymbol)
+        if ct is not None:
+            return {coinSymbol: ct}
+        else:
+            raise wz.NotFound(f'{coinSymbol} not found.')
 
 
 @users.route(f'{COIN_FOLLOW}/<username>/<coin>')
