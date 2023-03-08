@@ -239,8 +239,8 @@ class UserUpdateEmail(Resource):
 @users.route(f'{USER_UPDATE_PASSWORD}')
 class UserUpdatePassword(Resource):
     @api.expect(user_update_password_field)
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.BAD_REQUEST, 'Bad Request')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def put(self):
         """
         Update an existing user's password
@@ -285,8 +285,8 @@ class CoinsDict(Resource):
 
 @coins.route(f'{COIN_DETAILS}/<coinName>')
 class CoinTypeDetails(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, coinName):
         """
         Returns details of a coin given the coin name.
@@ -345,8 +345,8 @@ class CoinRemoveFollow(Resource):
     """
     Removes a follow relationship between a user and coin.
     """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_ACCEPTABLE, 'Not Modified')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_ACCEPTABLE.value, 'Not Modified')
     def get(self, username, coin):
         """
         Make a user unfollow a coin.
@@ -359,8 +359,8 @@ class CoinRemoveFollow(Resource):
 
 @users.route(f'{USER_LOGIN}/<username>/<password>')
 class UserLogin(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.EXPECTATION_FAILED.value, 'Unsuccessful')
     def get(self, username, password):
         """
         User login authentication
@@ -377,8 +377,8 @@ class UserLogin(Resource):
 
 @users.route(f'{USER_FOLLOWERS}/<username>')
 class UserFollowers(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.EXPECTATION_FAILED.value, 'Unsuccessful')
     def get(self, username):
         """
         Return a list of a user's followers.
@@ -396,8 +396,8 @@ class UserFollowers(Resource):
 
 @users.route(f'{USER_FOLLOWINGS}/<username>')
 class UserFollowings(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.EXPECTATION_FAILED, 'Unsuccessful')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.EXPECTATION_FAILED.value, 'Unsuccessful')
     def get(self, username):
         """
         Return a list of a user's followings.
@@ -415,8 +415,8 @@ class UserFollowings(Resource):
 
 @users.route(f'{USER_POSTS}/<username>')
 class UserPosts(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, username):
         """
         Returns a list of a user's posts.
