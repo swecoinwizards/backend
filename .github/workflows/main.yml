@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
 
 env:
-  DEMO_HOME: /home/runner/work/swecoinwizards/backend/
-  PYTHONPATH: /home/runner/work/swecoinwizards/backend/
+  DEMO_HOME: /home/runner/work/backend/backend/
+  PYTHONPATH: /home/runner/work/backend/backend/
     # MONGO_PASSWD: ${{secrets.MONGO_PASSWD}}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
