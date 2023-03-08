@@ -11,5 +11,5 @@ fi
 
 echo "SSHing to PythonAnywhere."
 sshpass -p $PA_PWD ssh -o "StrictHostKeyChecking no" $PA_USER@ssh.pythonanywhere.com << EOF
-    cd mysite/monitoring-crypto; ./rebuild.sh
+    cd mysite/backend; ./rebuild.sh
 EOF
