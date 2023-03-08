@@ -192,7 +192,7 @@ class UserFollow(Resource):
     Create follow relationship between two users.
     """
     @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED.value, 'Not Modified')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, userA, userB):
         """
         Make userA follow userB.
@@ -200,7 +200,7 @@ class UserFollow(Resource):
         try:
             return user.add_following(userA, userB)
         except Exception as e:
-            raise wz.NotFound(f'Cannot modify: {e}')
+            raise wz.BadRequest(f'Cannot modify: {e}')
 
 
 @users.route(f'{USER_REMOVE_FOLLOW}/<userA>/<userB>')
@@ -209,7 +209,7 @@ class UserRemoveFollow(Resource):
     Remove a follow relationship between two users.
     """
     @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED.value, 'Not Modified')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, userA, userB):
         """
         Make userA unfollow userB.
@@ -217,14 +217,14 @@ class UserRemoveFollow(Resource):
         try:
             return user.remove_follow(userA, userB)
         except Exception as e:
-            raise wz.NotFound(f'Cannot modify: {e}')
+            raise wz.BadRequest(f'Cannot modify: {e}')
 
 
 @users.route(USER_UPDATE_EMAIL)
 class UserUpdateEmail(Resource):
     @api.expect(user_update_email_fields)
     @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED.value, 'Not Modified')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def put(self):
         """
         Update an existing user's email.
@@ -240,7 +240,7 @@ class UserUpdateEmail(Resource):
 class UserUpdatePassword(Resource):
     @api.expect(user_update_password_field)
     @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_MODIFIED, 'Not Modified')
+    @api.response(HTTPStatus.BAD_REQUEST, 'Bad Request')
     def put(self):
         """
         Update an existing user's password
