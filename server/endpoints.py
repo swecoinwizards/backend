@@ -18,7 +18,7 @@ api = Api(app, doc='/api/doc', prefix='/api')
 USERS_NS = 'users'
 COINS_NS = 'coins'
 
-users = Namespace(USERS_NS, 'Character Types')
+users = Namespace(USERS_NS, 'Users Type')
 api.add_namespace(users)
 coins = Namespace(COINS_NS, 'Coins Type')
 api.add_namespace(coins)
