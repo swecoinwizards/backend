@@ -37,6 +37,8 @@ def coinapi_setup():
         # only using first 10 coins for now
         temp_lst = []
         dbc.connect_db()
+        temp_lst.append({NAME: line['name'],
+                    SYMBOL: line['symbol'], PRICE: price})
         for line in r.data[0:10]:
             quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
             price = quote.data[line['symbol']][0]['quote']['USD']['price']
