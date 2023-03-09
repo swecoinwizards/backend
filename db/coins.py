@@ -41,25 +41,27 @@ def coinapi_setup():
             quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
             price = quote.data[line['symbol']][0]['quote']['USD']['price']
             print(price)
+            temp_lst.append({NAME: line['name'],
+                            SYMBOL: line['symbol'], PRICE: price})
             if not coin_exists(line['name']):
                 dets = {ID: line['id'], NAME: line['name'],
                         SYMBOL: line['symbol'], PRICE: price}
-                temp_lst.append({NAME: line['name'],
-                                 SYMBOL: line['symbol'], PRICE: price})
+
                 dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
+            else:
+                dbc.update_one(COINS_COLLECT, {'symbol': line['symbol']}, {
+                    '$set': {PRICE: price}}, COIN_DB)
+
         return temp_lst
     else:
         print("Did not fetch CoinMarketCap data.")
         return []
 
 
-def get_latests_quotes():
-    os.environ["USE_CMC"] = "1"
-    # os.environ["CLOUD_MONGO"] = "1"
+def get_latest_quotes():
+    # os.environ["USE_CMC"] = "1"
     coin_lst = coinapi_setup()
-    os.environ["USE_CMC"] = "0"
-    # os.environ["CLOUD_MONGO"] = "0"c
-
+    # os.environ["USE_CMC"] = "0"
     return coin_lst
 
 
@@ -70,6 +72,9 @@ def coinapi_price(symb):
         # only using first 10 coins for now
         quote = cmc.cryptocurrency_quotes_latest(symbol=symb)
         price = quote.data[symb][0]['quote']['USD']['price']
+        dbc.connect_db()
+        dbc.update_one(COINS_COLLECT, {'symbol': symb}, {
+            '$pull': {'price': price}}, COIN_DB)
         return price
     else:
         # return ValueError(f'Did not fetch new price for {symb}')
@@ -77,16 +82,13 @@ def coinapi_price(symb):
 
 
 def update_price(symbol):
+    dbc.connect_db()
     temp = dbc.fetch_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
     if (temp is None):
         raise ValueError(f'Coin: {symbol} does not exist!')
-    newPrice = coinapi_price(symbol)
-    # if (newPrice is False):
-    #     return ValueError(f'Cannot get new price for {symbol}')
-    temp["price"] = newPrice
-    dbc.remove_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
-    dbc.insert_one(COINS_COLLECT, temp, COIN_DB)
-    return coin_dets_cleanUp(temp)
+
+    coinapi_price(symbol)
+    return dbc.fetch_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
 
 
 def save_coin(name, dets):

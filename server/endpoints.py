@@ -63,7 +63,7 @@ COIN_DETAILS = f'/{DETAILS}'
 COIN_REMOVE = f'{COINS_NS}/{REMOVE}'
 COIN_FOLLOW = f'/{COINS_NS}/{FOLLOW}'
 COIN_REMOVE_FOLLOW = f'/{COIN_REMOVE}/{FOLLOW}'
-COIN_UPDATE = f'{DETAILS}/price'
+COIN_UPDATE = f'/{DETAILS}/price'
 
 DICT = 'dict'
 USER_DICT = f'/{DICT}'
@@ -319,7 +319,7 @@ class GETLASTESTCOINS(Resource):
         """
         Returns 10 latests quotes from coinmarket api
         """
-        ct = coin.get_latests_quotes()
+        ct = coin.get_latest_quotes()
         return ct
 
 
