@@ -75,9 +75,9 @@ def test_remodel_coin_ticker(temp_coin):
     if not RUNNING_ON_CICD_SERVER:
         remodel_symbol = "NEW"
         cn.remodel_coin_ticker(TEST_COIN, remodel_symbol)
-        coin = cn.get_coin_ticker(TEST_COIN)
+        coin_symbol = cn.get_coin_ticker(TEST_COIN)
         cn.remodel_coin_ticker(TEST_COIN, TEST_COIN_TICKER)
-        assert coin == remodel_symbol
+        assert coin_symbol == remodel_symbol
 
 
 def test_get_all_coin_tickers(temp_coin):
@@ -89,11 +89,6 @@ def test_get_all_coin_tickers(temp_coin):
 def test_coin_price(temp_coin):
     price = cn.coin_price(TEST_COIN)
     assert price == TEST_COIN_DETS['price']
-
-
-def test_change_coin_price(temp_coin):
-    new_price = cn.change_coin_price(TEST_COIN, 62.06)
-    assert new_price == 62.06
 
 
 def test_update_price(temp_coin):

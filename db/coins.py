@@ -18,9 +18,10 @@ USE_TRUE = "1"
 USE_FALSE = "0"
 
 # database will use
-coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
-             'price': 20237.84301693455}, 'Litecoin': {'id': 2,
-             'name': 'Litecoin', 'symbol': 'LTC', 'price': 62.885530866205976}}
+# coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
+#              'price': 20237.84301693455}, 'Litecoin': {'id': 2,
+#              'name': 'Litecoin', 'symbol': 'LTC',
+#              ß'price': 62.885530866205976}}
 
 
 # helper function for inputting user data to db
@@ -100,7 +101,7 @@ def save_coin(name, dets):
         raise TypeError(f'Wrong type for coin details: {type(dets)=}')
     if coin_exists(name):
         raise ValueError("Coin with name %s already exists!", name)
-    coin_type[name] = dets
+    # coin_type[name] = dets
     dbc.connect_db()
     dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
     return True
@@ -111,7 +112,7 @@ def remove_coin(name):
     if not coin_exists(name):
         raise ValueError(f'Coin: {name} does not exist!')
     dbc.remove_one(COINS_COLLECT, {"name": name}, COIN_DB)
-    del coin_type[name]
+    # del coin_type[name]
     return True
 
 
@@ -153,11 +154,17 @@ def get_coin_ticker(name):
     temp = dbc.fetch_one(COINS_COLLECT, {"name": name}, COIN_DB)
     if temp is None:
         raise ValueError(f'Coin: {name} does not exist!')
-    return coin_type[name]['symbol']
+    return temp['symbol']
 
 
 def remodel_coin_ticker(name, remodel_symbol):
-    coin_type[name]['symbol'] = remodel_symbol
+    dbc.connect_db()
+    temp = dbc.fetch_one(COINS_COLLECT, {"name": name}, COIN_DB)
+    if temp is None:
+        raise ValueError(f'Coin: {name} does not exist!')
+    temp['symbol'] = remodel_symbol
+    dbc.update_one(COINS_COLLECT, {'name': name}, {
+            '$set': {'symbol': remodel_symbol}}, COIN_DB)
     return True
 
 
@@ -168,11 +175,6 @@ def get_all_coin_tickers():
     for coin in coins:
         tickers.append(coin['symbol'])
     return tickers
-
-
-def change_coin_price(name, new_price):
-    coin_type[name]['price'] = new_price
-    return coin_type[name]['price']
 
 
 def main():
