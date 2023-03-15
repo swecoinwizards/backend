@@ -59,22 +59,24 @@ def coinapi_setup():
                         URLS: urls, LOGO: logo,
                         TAGS: tags, DA: dateAdded}
                 temp_lst.append({NAME: line['name'],
-                        SYMBOL: line['symbol'], PRICE: price,
-                        DESCRIPTION: description,
-                        URLS: urls, LOGO: logo,
-                        TAGS: tags, DA: dateAdded})
+                                SYMBOL: line['symbol'], PRICE: price,
+                                DESCRIPTION: description,
+                                URLS: urls, LOGO: logo,
+                                TAGS: tags, DA: dateAdded})
                 dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
             else:
-                dbc.update_one(COINS_COLLECT, {'symbol': line['symbol']}, {
-                    '$set': {PRICE: price,
-                        DESCRIPTION: description,
-                        URLS: urls, LOGO: logo,
-                        TAGS: tags, DA: dateAdded}}, COIN_DB)
+                dbc.update_one(COINS_COLLECT, {'symbol': line['symbol']},
+                                              {'$set': {
+                                                PRICE: price,
+                                                DESCRIPTION: description,
+                                                URLS: urls, LOGO: logo,
+                                                TAGS: tags, DA: dateAdded}},
+                               COIN_DB)
                 temp_lst.append({NAME: line['name'],
-                        SYMBOL: line['symbol'], PRICE: price,
-                        DESCRIPTION: description,
-                        URLS: urls, LOGO: logo,
-                        TAGS: tags, DA: dateAdded})
+                                SYMBOL: line['symbol'], PRICE: price,
+                                DESCRIPTION: description,
+                                URLS: urls, LOGO: logo,
+                                TAGS: tags, DA: dateAdded})
 
         return temp_lst
     else:
