@@ -12,8 +12,13 @@ ID = 'id'
 NAME = 'name'
 SYMBOL = 'symbol'
 PRICE = 'price'
+DESCRIPTION = 'description'
+URLS = "urls"
+LOGO = "logo"
+TAGS = "tags"
+DA = "dateAdded"
 TEST_COIN = 'Bitcoin'
-REQUIRED_FIELDS = [ID, NAME, SYMBOL, PRICE]
+REQUIRED_FIELDS = [ID, NAME, SYMBOL, PRICE, DESCRIPTION, URLS, LOGO, TAGS, DA]
 USE_TRUE = "1"
 USE_FALSE = "0"
 
@@ -41,19 +46,35 @@ def coinapi_setup():
         for line in r.data[0:10]:
             quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
             price = quote.data[line['symbol']][0]['quote']['USD']['price']
-            print(price)
-            temp_lst.append({NAME: line['name'],
-                            SYMBOL: line['symbol'], PRICE: price})
+            coin_dets = cmc.cryptocurrency_info(symbol=line['symbol']).data
+            description = coin_dets[line['symbol']][0]['description']
+            urls = coin_dets[line['symbol']][0]['urls']
+            logo = coin_dets[line['symbol']][0]['logo']
+            tags = coin_dets[line['symbol']][0]['tags']
+            dateAdded = coin_dets[line['symbol']][0]['date_added']
             if not coin_exists(line['name']):
                 dets = {ID: line['id'], NAME: line['name'],
-                        SYMBOL: line['symbol'], PRICE: price}
-
+                        SYMBOL: line['symbol'], PRICE: price,
+                        DESCRIPTION: description,
+                        URLS: urls, LOGO: logo,
+                        TAGS: tags, DA: dateAdded}
+                temp_lst.append({NAME: line['name'],
+                        SYMBOL: line['symbol'], PRICE: price,
+                        DESCRIPTION: description,
+                        URLS: urls, LOGO: logo,
+                        TAGS: tags, DA: dateAdded})
                 dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
             else:
                 dbc.update_one(COINS_COLLECT, {'symbol': line['symbol']}, {
-                    '$set': {PRICE: price}}, COIN_DB)
+                    '$set': {PRICE: price,
+                        DESCRIPTION: description,
+                        URLS: urls, LOGO: logo,
+                        TAGS: tags, DA: dateAdded}}, COIN_DB)
                 temp_lst.append({NAME: line['name'],
-                                SYMBOL: line['symbol'], PRICE: price})
+                        SYMBOL: line['symbol'], PRICE: price,
+                        DESCRIPTION: description,
+                        URLS: urls, LOGO: logo,
+                        TAGS: tags, DA: dateAdded})
 
         return temp_lst
     else:
@@ -62,9 +83,9 @@ def coinapi_setup():
 
 
 def get_latest_quotes():
-    # os.environ["USE_CMC"] = "1"
+    os.environ["USE_CMC"] = "1"
     coin_lst = coinapi_setup()
-    # os.environ["USE_CMC"] = "0"
+    os.environ["USE_CMC"] = "0"
     return coin_lst
 
 
