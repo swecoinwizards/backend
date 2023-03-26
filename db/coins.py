@@ -36,7 +36,7 @@ def coin_dets_cleanUp(coin):
     return coin
 
 
-def coinapi_setup(quotes):
+def coinapi_setup(quotes=10):
     if os.environ.get("USE_CMC", USE_FALSE) == USE_TRUE:
         cmc = CoinMarketCapAPI(API_KEY)
         r = cmc.cryptocurrency_map()

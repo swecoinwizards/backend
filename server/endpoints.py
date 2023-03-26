@@ -317,7 +317,7 @@ class CoinPriceUpdate(Resource):
 
 @coins.route(f'{COIN_LIST}/{UPDATE}/<numer_quotes>')
 class GetLatestCoins(Resource):
-    def get(self,numer_quotes):
+    def get(self, numer_quotes):
         """
         Returns # of quotes from coinmarket api
         """
