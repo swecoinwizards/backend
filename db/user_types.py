@@ -124,8 +124,8 @@ def add_user(name, details):
     if (' ' in name):
         raise ValueError('Invalid Name')
 
-    if ('@' not in details[EMAIL]) or ('.' not in details[EMAIL]):
-        raise ValueError('Invalid Email')
+    #if ('@' not in details[EMAIL]) or ('.' not in details[EMAIL]):
+    #    raise ValueError('Invalid Email')
 
     # new users will start with no coins, followers/following
     if len(details) == 3:
