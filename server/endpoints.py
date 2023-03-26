@@ -25,6 +25,7 @@ api.add_namespace(coins)
 
 LIST = 'list'
 DETAILS = 'details'
+EXIST = 'exist'
 ADD = 'add'
 REMOVE = 'remove'
 UPDATE = 'update'
@@ -64,6 +65,7 @@ COIN_REMOVE = f'{COINS_NS}/{REMOVE}'
 COIN_FOLLOW = f'/{COINS_NS}/{FOLLOW}'
 COIN_REMOVE_FOLLOW = f'/{COIN_REMOVE}/{FOLLOW}'
 COIN_UPDATE = f'/{DETAILS}/price'
+COIN_EXISTS = f'/{COINS_NS}/{EXIST}'
 
 DICT = 'dict'
 USER_DICT = f'/{DICT}'
@@ -313,14 +315,24 @@ class CoinPriceUpdate(Resource):
             raise wz.BadRequest(f'{e}')
 
 
-@coins.route(f'{COIN_LIST}/{UPDATE}')
-class GETLASTESTCOINS(Resource):
-    def get(self):
+@coins.route(f'{COIN_LIST}/{UPDATE}/<numer_quotes>')
+class GetLatestCoins(Resource):
+    def get(self,numer_quotes):
         """
-        Returns 10 latests quotes from coinmarket api
+        Returns # of quotes from coinmarket api
         """
-        ct = coin.get_latest_quotes()
+        ct = coin.get_latest_quotes(numer_quotes)
         return ct
+
+
+@users.route(f'{COIN_EXISTS}/<username>/<coin>')
+class CoinExists(Resource):
+    """
+    Check if user follows coin
+    """
+    @api.response(HTTPStatus.OK.value, 'Success')
+    def get(self, username, coin):
+        return user.user_coin_exists(username, coin)
 
 
 @users.route(f'{COIN_FOLLOW}/<username>/<coin>')

@@ -36,14 +36,14 @@ def coin_dets_cleanUp(coin):
     return coin
 
 
-def coinapi_setup():
+def coinapi_setup(quotes):
     if os.environ.get("USE_CMC", USE_FALSE) == USE_TRUE:
         cmc = CoinMarketCapAPI(API_KEY)
         r = cmc.cryptocurrency_map()
         # only using first 10 coins for now
         temp_lst = []
         dbc.connect_db()
-        for line in r.data[0:10]:
+        for line in r.data[0:quotes]:
             quote = cmc.cryptocurrency_quotes_latest(symbol=line['symbol'])
             price = quote.data[line['symbol']][0]['quote']['USD']['price']
             coin_dets = cmc.cryptocurrency_info(symbol=line['symbol']).data
@@ -84,9 +84,9 @@ def coinapi_setup():
         return []
 
 
-def get_latest_quotes():
+def get_latest_quotes(quotes=10):
     os.environ["USE_CMC"] = "1"
-    coin_lst = coinapi_setup()
+    coin_lst = coinapi_setup(int(quotes))
     os.environ["USE_CMC"] = "0"
     return coin_lst
 
