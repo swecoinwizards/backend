@@ -117,7 +117,7 @@ Database design update:
 | Login Page + Registration Page | 2/23 | Ahnaf |
 | login/logout/reset functionality | 2/23 | Ahnaf |
 | User Account Page | 2/23 | Darren |
-| Post/activity feed functionality | 2/23 | |
+| Post/activity feed functionality | 4/17 | Dipu |
 | Coin Page | 3/9 | Dayana |
 | Account Settings functionality | 3/9 | |
 | Email/text notification | 3/9 | |ß
