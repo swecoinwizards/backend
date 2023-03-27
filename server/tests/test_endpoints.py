@@ -143,7 +143,7 @@ def test_user_login_fail(temp_user):
 
 def test_user_update_password():
     resp_json = TEST_CLIENT.get(
-        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_UPDATE_PASSWORD}', json={}
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_UPDATE}', json={}
         ).get_json()
     assert isinstance(resp_json, dict)
 
