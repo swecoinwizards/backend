@@ -51,10 +51,9 @@ USER_FOLLOW = f'/{FOLLOW}'
 USER_FOLLOWERS = f'/{FOLLOWERS}'
 USER_FOLLOWINGS = f'/{FOLLOWINGS}'
 USER_REMOVE_FOLLOW = f'/{REMOVE}/{FOLLOW}'
-USER_UPDATE_EMAIL = f'/{DETAILS}/{UPDATE}/{EMAIL}'
+USER_UPDATE = f'/{DETAILS}/{UPDATE}'
 USER_LOGIN = f'/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
-USER_UPDATE_PASSWORD = f'/{DETAILS}/{UPDATE}/{PASSWORD}'
 USER_POSTS = f'/{POSTS}'
 
 COIN_LIST = f'/{LIST}'
@@ -72,22 +71,19 @@ DICT = 'dict'
 USER_DICT = f'/{DICT}'
 COIN_DICT = f'/{DICT}'
 
+USER_UPDATE_DOC = {
+    "description": "Not all fields required; leave blank if not updating"
+}
+
 user_fields = api.model('NewUser', {
     user.NAME: fields.String,
     user.PASSWORD: fields.String,
     user.EMAIL: fields.String,
 })
 
-
-user_update_email_fields = api.model('UpdateUserEmail', {
-    user.NAME: fields.String,
-    user.EMAIL: fields.String,
-})
-
-
-user_update_password_field = api.model('UpdateUserPassword', {
-    user.NAME: fields.String,
-    user.PASSWORD: fields.String,
+user_update_fields = api.model('UpdateUser', {
+    'new_password': fields.String(default='', required=False),
+    'new_email': fields.String(default='', required=False),
 })
 
 
@@ -161,17 +157,17 @@ class UserList(Resource):
 
 @users.route(f'{USER_DETAILS}/<username>')
 class UserDetails(Resource):
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, username):
         """
         Returns details about a user.
         """
-        if user.user_exists(username):
+        try:
             return {'Data': {username: {"Name": user.get_user(username)}},
                     'Type': 'Data', 'Title': 'User Type Details'}
-        else:
-            raise wz.NotFound(f'{user} not found.')
+        except Exception as e:
+            raise wz.BadRequest(f'Could not fetch user: {e}')
 
 
 @users.route(USER_ADD)
@@ -241,38 +237,22 @@ class UserRemoveFollow(Resource):
             raise wz.BadRequest(f'Cannot modify: {e}')
 
 
-@users.route(USER_UPDATE_EMAIL)
-class UserUpdateEmail(Resource):
-    @api.expect(user_update_email_fields)
+@users.route(f'{USER_UPDATE}/<username>', doc=USER_UPDATE_DOC)
+class UserUpdate(Resource):
+    @api.expect(user_update_fields)
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def put(self):
+    def put(self, username):
         """
-        Update an existing user's email.
+        Update a user's details.
         """
         try:
-            return user.update_email(request.json[user.NAME],
-                                     request.json[user.EMAIL])
-        except Exception as e:
-            raise wz.BadRequest(e)
+            new_password = request.json['new_password']
+            new_email = request.json['new_email']
 
-
-@users.route(f'{USER_UPDATE_PASSWORD}')
-class UserUpdatePassword(Resource):
-    @api.expect(user_update_password_field)
-    @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def put(self):
-        """
-        Update an existing user's password
-        """
-        print(f'{request.json=}')
-        try:
-            # Probably should authenticate old password first
-            return user.update_password(request.json[user.NAME],
-                                        request.json[user.PASSWORD])
+            return user.update_fields(username, new_password, new_email)
         except Exception as e:
-            raise wz.BadRequest(e)
+            raise wz.BadRequest(f'Update failed: {e}')
 
 
 @coins.route(COIN_LIST)

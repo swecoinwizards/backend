@@ -66,7 +66,7 @@ def get_users():
 def get_posts(userName):
     dbc.connect_db()
     if not user_exists(userName):
-        raise ValueError(f'User {userName=} does not exist')
+        raise ValueError(f'User {userName} does not exist')
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     return temp[POSTS]
@@ -74,7 +74,7 @@ def get_posts(userName):
 
 def get_user(username):
     if not user_exists(username):
-        raise ValueError(f'User {username=} does not exist')
+        raise ValueError(f'User {username} does not exist')
     dbc.connect_db()
     return dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
@@ -82,7 +82,7 @@ def get_user(username):
 
 def get_user_email(username):
     if not user_exists(username):
-        raise ValueError(f'User {username=} does not exist')
+        raise ValueError(f'User {username} does not exist')
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
     return user[EMAIL]
@@ -90,7 +90,7 @@ def get_user_email(username):
 
 def get_user_password(username):
     if not user_exists(username):
-        raise ValueError(f'User {username=} does not exist')
+        raise ValueError(f'User {username} does not exist')
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
@@ -248,22 +248,39 @@ def remove_follow(userName, followName):
     return res
 
 
-def update_email(userName, newEmail):
-    user = get_user(userName)
-    del_user(userName)
-    currentEmail = user[EMAIL]
-    if currentEmail == newEmail:
-        raise ValueError("New email must be different from the previous!")
-    # check email meets requirements
-    if not isinstance(newEmail, str):
-        raise TypeError(f'Wrong type for email: {type(newEmail)=}')
-    if ('@' not in newEmail) or ('.' not in newEmail):
-        raise ValueError('Invalid Email')
-    user[EMAIL] = newEmail
+def update_fields(userName, new_password, new_email):
+    if not isinstance(new_password, str):
+        raise TypeError(f'Wrong type for password: {type(new_password)}')
 
-    add_user(user["name"], user)
-    # return {userName: user_types[userName]}
-    return {userName: user_cleanUp(user)}
+    if not isinstance(new_email, str):
+        raise TypeError(f'Wrong type for email: {type(new_email)}')
+
+    if new_email and (('@' not in new_email) or ('.' not in new_email)):
+        raise ValueError('Invalid formatting for email, expected @ and .')
+
+    dbc.connect_db()
+    user = dbc.fetch_one(USERS_COLLECT,
+                         {NAME: userName})
+
+    current_email = user[EMAIL]
+    current_password = user[PASSWORD]
+
+    if (new_email and new_email == current_email):
+        raise ValueError("New email must be different from the previous")
+
+    if (new_password and new_password == current_password):
+        raise ValueError("New password must be different from the previous")
+
+    if new_email and not dbc.update_one(USERS_COLLECT, {NAME: userName},
+                                        {'$set': {EMAIL: new_email}}):
+        raise ValueError('Error updating email')
+
+    if new_password and not dbc.update_one(USERS_COLLECT, {NAME: userName},
+                                           {'$set': {PASSWORD: new_password}}):
+        raise ValueError('Error updating password')
+
+    res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
+    return res
 
 
 def get_password(userName):
@@ -275,28 +292,6 @@ def get_password(userName):
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     return user[PASSWORD]
-
-
-def update_password(userName, newPassword):
-    dbc.connect_db()
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": userName})
-    currentPassword = user[PASSWORD]
-    if (not isinstance(newPassword, str)):
-        raise TypeError(f'Wrong type for new password: {type(newPassword)=}')
-    if currentPassword == newPassword:
-        raise ValueError("New password must be different from the previous!")
-    del_user(userName)
-    # dbc.remove_one(USERS_COLLECT, PASSWORD)
-    # userName.remove(userName)
-    if (' ' in newPassword):
-        raise ValueError("New password cannot have any empty spaces")
-    if (len(newPassword) == 0):
-        raise ValueError("New password cannot be empty")
-    user[PASSWORD] = newPassword
-    add_user(user["name"], user)
-    # return {userName: user_types[userName]}
-    return {userName: user_cleanUp(user)}
 
 
 def user_coin_exists(userName, coin):

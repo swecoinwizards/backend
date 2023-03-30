@@ -170,21 +170,21 @@ def test_user_email_fail(temp_user):
 
 def test_update_email(temp_user):
     TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
-    usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
+    usr.update_fields(TEST_USER_NAME, "", TEST_NEW_EMAIL)
     assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
 
 
 def test_update_email_fail(temp_user):
     TEST_NEW_EMAIL = 'NEWSAMPLEtest.com'
     with pytest.raises(ValueError):
-        usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
+        usr.update_fields(TEST_USER_NAME, "", TEST_NEW_EMAIL)
         assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
 
 
 def test_update_email_fail_type(temp_user):
     TEST_NEW_EMAIL = 123
     with pytest.raises(TypeError):
-        usr.update_email(TEST_USER_NAME, TEST_NEW_EMAIL)
+        usr.update_fields(TEST_USER_NAME, "", TEST_NEW_EMAIL)
         assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
 
 
@@ -238,22 +238,22 @@ def test_get_password_fail():
 
 def test_update_password(temp_user):
     TEST_NEW_PASSWORD = 'abc123'
-    usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
+    usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
     assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
 
 
 def test_update_password_fail(temp_user):
-    TEST_NEW_PASSWORD1 = ' '
-    TEST_NEW_PASSWORD2 = ''
+    TEST_NEW_PASSWORD1 = 'a'
+    TEST_NEW_PASSWORD2 = 'a'
     with pytest.raises(ValueError):
-        usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD1)
-        usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD2)
+        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD1, "")
+        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD2, "")
 
 
 def test_update_password_fail_type(temp_user):
     TEST_NEW_PASSWORD = 123
     with pytest.raises(TypeError):
-        usr.update_password(TEST_USER_NAME, TEST_NEW_PASSWORD)
+        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
 
 
 def test_add_coin(temp_user_coin):
