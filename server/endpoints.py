@@ -31,6 +31,7 @@ REMOVE = 'remove'
 UPDATE = 'update'
 MAIN_MENU = '/main_menu'
 MAIN_MENU_NM = 'Main Menu'
+OPTIONS = '/options'
 HELLO = '/hello'
 MESSAGE = 'message'
 FOLLOW = 'follow'
@@ -128,6 +129,24 @@ class MainMenu(Resource):
                           'method': 'get', 'text': 'User Investor Details'},
                     'X': {'text': 'Exit'},
                 }}
+
+
+@api.route(OPTIONS)
+class OptionsMenu(Resource):
+    """
+    This will deliver our options menu.
+    """
+    def get(self):
+        """
+        Gets the main menu.
+        """
+        return {'Title': "Options Menu",
+                'Default': 1,
+                'Choices': [
+                    {"value": "users_list", "label": "users"},
+                    {"value": "coins_list", "label": "coins"},
+                    {"value": "posts_list", "label": "posts"}
+                ]}
 
 
 @users.route(USER_LIST)
