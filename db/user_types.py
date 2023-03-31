@@ -1,5 +1,6 @@
 import db.db_connect as dbc
 import db.coins as cn
+import bcrypt
 
 NAME = 'name'
 EMAIL = 'email'
@@ -60,7 +61,7 @@ def update_username(username, newUsername):
 
 def get_users():
     dbc.connect_db()
-    return dbc.fetch_all(USERS_COLLECT)
+    return dbc.fetch_all_proj(USERS_COLLECT, {"password": 0})
 
 
 def get_posts(userName):
@@ -76,8 +77,9 @@ def get_user(username):
     if not user_exists(username):
         raise ValueError(f'User {username} does not exist')
     dbc.connect_db()
-    return dbc.fetch_one(USERS_COLLECT,
-                         {"name": username})
+    return dbc.fetch_one_proj(USERS_COLLECT,
+                              {"name": username},
+                              {"password": 0})
 
 
 def get_user_email(username):
@@ -127,6 +129,8 @@ def add_user(name, details):
     if ('@' not in details[EMAIL]) or ('.' not in details[EMAIL]):
         raise ValueError('Invalid Email')
 
+    details[PASSWORD] = details[PASSWORD].encode('utf-8')
+    details[PASSWORD] = bcrypt.hashpw(details[PASSWORD], bcrypt.gensalt(10))
     # new users will start with no coins, followers/following
     if len(details) == 3:
         details[FOLLOWERS] = []
@@ -136,6 +140,7 @@ def add_user(name, details):
     dbc.connect_db()
     # including user_cleanUp as extra safety
     dbc.insert_one(USERS_COLLECT, user_cleanUp(details))
+    details[PASSWORD] = str(details[PASSWORD])
     return {name: user_cleanUp(details)}
 
 
@@ -263,35 +268,28 @@ def update_fields(userName, new_password, new_email):
                          {NAME: userName})
 
     current_email = user[EMAIL]
-    current_password = user[PASSWORD]
+    hash_pw = user[PASSWORD]
 
     if (new_email and new_email == current_email):
         raise ValueError("New email must be different from the previous")
 
-    if (new_password and new_password == current_password):
+    encoded_new_password = new_password.encode('utf-8')
+
+    if new_password and bcrypt.checkpw(encoded_new_password, hash_pw):
         raise ValueError("New password must be different from the previous")
 
     if new_email and not dbc.update_one(USERS_COLLECT, {NAME: userName},
                                         {'$set': {EMAIL: new_email}}):
         raise ValueError('Error updating email')
 
+    hash_new_pw = bcrypt.hashpw(encoded_new_password, bcrypt.gensalt(10))
+
     if new_password and not dbc.update_one(USERS_COLLECT, {NAME: userName},
-                                           {'$set': {PASSWORD: new_password}}):
+                                           {'$set': {PASSWORD: hash_new_pw}}):
         raise ValueError('Error updating password')
 
     res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
     return res
-
-
-def get_password(userName):
-    dbc.connect_db()
-    if not isinstance(userName, str):
-        raise TypeError(f'Wrong type for userName: {type(userName)=}')
-    if not user_exists(userName):
-        raise ValueError(f'{userName} does not exists')
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": userName})
-    return user[PASSWORD]
 
 
 def user_coin_exists(userName, coin):
@@ -306,19 +304,20 @@ def add_coin(userName, coin):
         raise ValueError("Coin does not exist!")
 
     dbc.connect_db()
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": userName})
+    user = dbc.fetch_one_proj(USERS_COLLECT,
+                              {"name": userName},
+                              {"password": 0})
+
     if not user_exists(userName):
         raise ValueError("User does not exists")
 
     if coin in user[COINS]:
         raise ValueError("Already Following Coin")
 
-    # check if coin is valid
-    user[COINS].append(coin)
-    # is there a better way to modify obj in db?
-    del_user(userName)
-    add_user(user["name"], user)
+    if not dbc.update_one(USERS_COLLECT, {'name': userName},
+                          {'$push': {COINS: coin}}):
+        raise ValueError("Error following coin")
+
     return {userName: user_cleanUp(user)}
 
 
@@ -327,12 +326,13 @@ def remove_coin(userName, coin):
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     if not user_exists(userName):
-        raise ValueError("User does not exists")
+        raise ValueError("User does not exist")
     if coin not in user[COINS]:
         raise ValueError("Not Following Coin!")
-    user[COINS].remove(coin)
-    del_user(userName)
-    add_user(user["name"], user)
+
+    if not dbc.update_one(USERS_COLLECT, {'name': userName},
+                          {'$pull': {COINS: coin}}):
+        raise ValueError("Error unfollowing coin")
     return {userName: user_cleanUp(user)}
 
 
@@ -404,13 +404,15 @@ def profile_add_post(userName, content):
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     if not user_exists(userName):
-        raise ValueError("User does not exists")
-    if content == "":
+        raise ValueError("User does not exist")
+
+    if not content:
         raise ValueError("There is no content in the post")
-    user[POSTS].append(content)
-    del_user(userName)
-    add_user(user["name"], user)
-    # return {userName: user_types[userName]}
+
+    if not dbc.update_one(USERS_COLLECT, {'name': userName},
+                          {'$push': {POSTS: content}}):
+        raise ValueError("Error adding post")
+
     return {userName: user_cleanUp(user)}
 
 
@@ -419,17 +421,27 @@ def profile_delete_post(userName, postNumber):
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
     if not user_exists(userName):
-        raise ValueError("User does not exists")
+        raise ValueError("User does not exist")
     if postNumber < 0 or postNumber >= len(user[POSTS]):
         raise ValueError("Post not found")
-    print("POST NUMBER", postNumber)
+
     user[POSTS].remove(user[POSTS][postNumber])
-    del_user(userName)
-    add_user(user["name"], user)
+    if not dbc.update_one(USERS_COLLECT, {'name': userName},
+                          {'$set': {POSTS: user[POSTS]}}):
+        raise ValueError("Error removing post")
+
     return True
 
 
 def user_login(userName, password):
-    if get_user_password(userName) == password:
-        return get_user(userName)
-    raise Exception("Wrong Password")
+    if not user_exists(userName):
+        raise ValueError("Login authentication failed")
+
+    dbc.connect_db()
+    data = dbc.fetch_one(USERS_COLLECT,
+                         {"name": userName})
+    hash_pw = data[PASSWORD]
+    if bcrypt.checkpw(password.encode('utf-8'), hash_pw):
+        return True
+    else:
+        raise Exception("Login authentication failed")

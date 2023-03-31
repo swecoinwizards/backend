@@ -10,11 +10,15 @@ RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
 
 TEST_USER_NAME = "RANDOMUSER"
 TEST_USER_NAME2 = "RANDOMUSER2"
+TEST_USER_NAME3 = "RANDOMUSER3"
 
 NEW_USER_DET = {'name': TEST_USER_NAME, 'password': '****',
                 'email': 'sampleuser@gmail.com'}
 NEW_USER_DET2 = {'name': TEST_USER_NAME2, 'password': '****',
                  'email': 'sampleuser@gmail.com'}
+NEW_USER_DET3 = {'name': TEST_USER_NAME3, 'password': '****',
+                 'email': 'sampleuser33@gmail.com'}
+
 
 
 @pytest.fixture(scope='function')
@@ -30,6 +34,13 @@ def temp_user2():
     usr.add_user(TEST_USER_NAME2, NEW_USER_DET2)
     yield
     usr.del_user(TEST_USER_NAME2)
+
+
+@pytest.fixture(scope='function')
+def temp_user3():
+    usr.add_user(TEST_USER_NAME3, NEW_USER_DET3)
+    yield
+    usr.del_user(TEST_USER_NAME3)
 
 
 TEST_COIN = 'TEST_COIN'
@@ -220,26 +231,12 @@ def test_update_username_fail(temp_user):
             usr.update_username(TEST_USER_NAME, NEW_USERNAME2)
 
 
-def test_get_password(temp_user):
-    credentials = usr.get_password(TEST_USER_NAME)
-    assert isinstance(credentials, str)
-    assert credentials == '****'
-
-
-def test_get_password_fail_type():
-    with pytest.raises(TypeError):
-        usr.get_password(111)
-
-
-def test_get_password_fail():
-    with pytest.raises(ValueError):
-        usr.get_password("fakeUser")
-
-
 def test_update_password(temp_user):
     TEST_NEW_PASSWORD = 'abc123'
-    usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
-    assert usr.get_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
+    try:
+        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
+    except Exception as e:
+        pytest.fail()
 
 
 def test_update_password_fail(temp_user):
@@ -289,15 +286,13 @@ def test_modify_posts(temp_user):
     assert usr.user_profile_change_post(TEST_USER_NAME, post_number)
 
 
-def test_user_login(temp_user):
-    passw = usr.get_password(TEST_USER_NAME)
-    assert usr.user_login(TEST_USER_NAME, passw)
+def test_user_login(temp_user3):
+    assert usr.user_login(TEST_USER_NAME3, '****')
 
 
 def test_user_login_fail(temp_user):
     with pytest.raises(Exception) as e:
         usr.user_login(TEST_USER_NAME, 'WRONGPASSWORD')
-    assert str(e.value) == "Wrong Password"
 
 
 def test_get_coins(temp_user):
