@@ -64,6 +64,16 @@ def fetch_one(collection, filt, db=USER_DB):
         return doc
 
 
+def fetch_one_proj(collection, filt, proj, db=USER_DB):
+    """
+    Find with a filter and return on the first doc found.
+    """
+    print("filt", filt)
+    for doc in client[db][collection].find(filt, proj):
+        del doc['_id']
+        return doc
+
+
 def update_one(collection, filt, op, db=USER_DB):
     try:
         res = client[db][collection].update_one(filt, op)
@@ -75,6 +85,14 @@ def update_one(collection, filt, op, db=USER_DB):
 def fetch_all(collection, db=USER_DB):
     ret = []
     for doc in client[db][collection].find():
+        del doc['_id']
+        ret.append(doc)
+    return ret
+
+
+def fetch_all_proj(collection, proj, db=USER_DB):
+    ret = []
+    for doc in client[db][collection].find({}, proj):
         del doc['_id']
         ret.append(doc)
     return ret

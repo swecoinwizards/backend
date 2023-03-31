@@ -4,6 +4,8 @@ import server.endpoints as ep
 import db.user_types as user
 import db.coins as cn
 
+from http import HTTPStatus
+
 TEST_CLIENT = ep.app.test_client()
 
 TEST_COIN = 'TEST_COIN'
@@ -36,8 +38,10 @@ SAMPLE_USER2 = {
 @pytest.fixture(scope='function')
 def temp_user():
     user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
+    user.add_user(SAMPLE_USER_NM2, SAMPLE_USER2)
     yield
     user.del_user(SAMPLE_USER_NM)
+    user.del_user(SAMPLE_USER_NM2)
 
 
 @pytest.fixture(scope='function')
@@ -102,23 +106,23 @@ def test_get_user_type_details(temp_user):
     assert isinstance(resp_json['Data'][SAMPLE_USER_NM], dict)
 
 
-def test_add_follower():
+def test_add_follower(temp_user):
     resp_json = TEST_CLIENT.get(
-        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER}/'
-        + f'{SAMPLE_USER2}').get_json()
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER_NM}/'
+        + f'{SAMPLE_USER_NM2}').get_json()
     assert isinstance(resp_json, dict)
 
 
-def test_remove_follower():
+def test_remove_follower(temp_user):
     resp_json = TEST_CLIENT.get(
-        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER}' +
-        f'/{SAMPLE_USER2}').get_json()
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER_NM}' +
+        f'/{SAMPLE_USER_NM2}').get_json()
     assert isinstance(resp_json, dict)
 
 
-def test_user_followers():
+def test_user_followers(temp_user):
     resp_json = TEST_CLIENT.get(
-        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOWERS}/{SAMPLE_USER}'
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOWERS}/{SAMPLE_USER_NM}'
         ).get_json()
     assert isinstance(resp_json, dict)
 
@@ -134,14 +138,14 @@ def test_user_login(temp_user):
 
 def test_user_login_fail(temp_user):
     password = "WRONGPASSWORD"
-    resp_json = TEST_CLIENT.get(
+    resp = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_LOGIN}'
         + f'/{SAMPLE_USER_NM}/{password}'
-        ).get_json()
-    assert resp_json['Data'] == "Cannot login: Wrong Password"
+        )
+    assert resp.status_code == HTTPStatus.UNAUTHORIZED
 
 
-def test_user_update_password():
+def test_user_update_password(temp_user):
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_UPDATE}', json={}
         ).get_json()

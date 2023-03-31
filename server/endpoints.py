@@ -371,19 +371,15 @@ class CoinRemoveFollow(Resource):
 @users.route(f'{USER_LOGIN}/<username>/<password>')
 class UserLogin(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.EXPECTATION_FAILED.value, 'Unsuccessful')
+    @api.response(HTTPStatus.UNAUTHORIZED.value, 'Unauthorized')
     def get(self, username, password):
         """
         User login authentication
         """
         try:
-            return {'Data': {username: user.user_login(username, password)},
-                    'Type': 'Data',
-                    'Title': 'User Login'}
+            return user.user_login(username, password)
         except Exception as e:
-            return {'Data': f"Cannot login: {e}",
-                    'Type': 'Form',
-                    'Title': 'User Login'}
+            raise wz.Unauthorized(f'{e}')
 
 
 @users.route(f'{USER_FOLLOWERS}/<username>')
