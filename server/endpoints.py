@@ -411,7 +411,7 @@ class UserFollowings(Resource):
         """
         try:
             return {'Data': {username:
-                    {"followers": user.get_followings(username)}},
+                    {"followings": user.get_followings(username)}},
                     'Type': 'Data',
                     'Title': 'User Followings'}
         except Exception as e:

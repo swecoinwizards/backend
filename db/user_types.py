@@ -201,7 +201,7 @@ def add_following(userName, followName):
     if (not user_exists(followName)):
         raise ValueError(f'{followName} does not exist')
 
-    if follower_exists(userName, followName):
+    if follower_exists(followName, userName):
         raise ValueError(f'{userName} is already following {followName}')
 
     dbc.connect_db()
@@ -214,7 +214,9 @@ def add_following(userName, followName):
                           {'$push': {FOLLOWERS: userName}}):
         raise ValueError(f'Error adding {userName} to {followName} follower')
 
-    res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
+    res = dbc.fetch_one_proj(USERS_COLLECT,
+                             {"name": userName},
+                             {"password": 0})
 
     if not res:
         raise ValueError(f'Error fetching {userName} updated data')
@@ -249,7 +251,9 @@ def remove_follow(userName, followName):
                           {'$pull': {FOLLOWERS: userName}}):
         raise ValueError(f'Error removing {userName}-{followName} follower')
 
-    res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
+    res = dbc.fetch_one_proj(USERS_COLLECT,
+                             {"name": userName},
+                             {"password": 0})
     return res
 
 
@@ -288,7 +292,9 @@ def update_fields(userName, new_password, new_email):
                                            {'$set': {PASSWORD: hash_new_pw}}):
         raise ValueError('Error updating password')
 
-    res = dbc.fetch_one(USERS_COLLECT, {'name': userName})
+    res = dbc.fetch_one_proj(USERS_COLLECT,
+                             {"name": userName},
+                             {"password": 0})
     return res
 
 
