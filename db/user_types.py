@@ -18,8 +18,6 @@ REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]
 def user_cleanUp(user):
     if '_id' in user:
         del user['_id']
-    if 'password' in user:
-        del user['password']
     return user
 
 
@@ -141,7 +139,7 @@ def add_user(name, details):
         details[POSTS] = []
     dbc.connect_db()
     # including user_cleanUp as extra safety
-    dbc.insert_one(USERS_COLLECT, user_cleanUp(details))
+    dbc.insert_one(USERS_COLLECT, details)
     details[PASSWORD] = str(details[PASSWORD])
     return {name: user_cleanUp(details)}
 
