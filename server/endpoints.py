@@ -347,7 +347,7 @@ class CoinFollow(Resource):
         """
         try:
             return user.add_coin(username, coin)
-        except Exception as e:
+        except ValueError as e:
             raise wz.BadRequest(f'{e}')
 
 
@@ -365,7 +365,7 @@ class CoinRemoveFollow(Resource):
         try:
             return user.remove_coin(username, coin)
         except Exception as e:
-            wz.BadRequest(e)
+            raise wz.BadRequest(f'Error {e}')
 
 
 @users.route(f'{USER_LOGIN}/<username>/<password>')

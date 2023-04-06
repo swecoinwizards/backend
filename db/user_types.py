@@ -18,6 +18,8 @@ REQUIRED_FIELDS = [NAME, PASSWORD, EMAIL]
 def user_cleanUp(user):
     if '_id' in user:
         del user['_id']
+    if 'password' in user:
+        del user['password']
     return user
 
 
@@ -339,7 +341,10 @@ def remove_coin(userName, coin):
     if not dbc.update_one(USERS_COLLECT, {'name': userName},
                           {'$pull': {COINS: coin}}):
         raise ValueError("Error unfollowing coin")
-    return {userName: user_cleanUp(user)}
+    # user = dbc.fetch_one(USERS_COLLECT,
+    #                      {"name": userName})
+    # return {userName: user_cleanUp(user)}
+    return True
 
 
 def follower_count(userName, followName):
