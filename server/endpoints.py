@@ -155,6 +155,16 @@ class UserList(Resource):
         return {USER_LIST_NM: data}
 
 
+@users.route(f'{USER_LIST}/names')
+class UserListNames(Resource):
+    def get(self):
+        """
+        Returns a list of only names from current users.
+        """
+        data = user.get_user_names()
+        return data
+
+
 @users.route(f'{USER_DETAILS}/<username>')
 class UserDetails(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')

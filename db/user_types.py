@@ -64,6 +64,15 @@ def get_users():
     return dbc.fetch_all_proj(USERS_COLLECT, {"password": 0})
 
 
+def get_user_names():
+    dbc.connect_db()
+    names = []
+    users = dbc.fetch_all_proj(USERS_COLLECT, {"password": 0})
+    for user in users:
+        names.append(user["name"])
+    return names
+
+
 def get_posts(userName):
     dbc.connect_db()
     if not user_exists(userName):
