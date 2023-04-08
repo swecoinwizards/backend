@@ -139,6 +139,7 @@ class OptionsMenu(Resource):
         return {'Title': "Options Menu",
                 'Default': 1,
                 'Choices': [
+                    {"value": "all", "label": "all"},
                     {"value": "users_list", "label": "users"},
                     {"value": "coins_list", "label": "coins"},
                     {"value": "posts_list", "label": "posts"}

@@ -60,8 +60,13 @@ def temp_user_coin():
         usr.del_user(TEST_USER_NAME)
 
 
-def test_get_users(temp_user):
+def test_get_users():
     usrs = usr.get_users()
+    assert isinstance(usrs, list)
+
+
+def test_get_user_names():
+    usrs = usr.get_user_names()
     assert isinstance(usrs, list)
 
 
