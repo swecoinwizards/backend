@@ -200,5 +200,39 @@ def get_all_coin_tickers():
     return tickers
 
 
+def new_coin_details(coinName):
+    # Coin name has to be lowercase
+    # did not add test since it is a api request
+    cmc = CoinMarketCapAPI(API_KEY)
+    # r = cmc.cryptocurrency_map()
+    dbc.connect_db()
+    coin_dets = {}
+    quote = cmc.cryptocurrency_info(slug=coinName.lower()).data
+    # print("quote", quote)
+    for key in quote:
+        for item in REQUIRED_FIELDS:
+            if item in quote[key]:
+                coin_dets[item] = quote[key][item]
+            else:
+                if item in [NAME, ID, SYMBOL, PRICE, DESCRIPTION, LOGO, DA]:
+                    coin_dets[item] = ""
+                else:
+                    coin_dets[item] = {}
+
+    if not coin_exists(coin_dets['name']):
+        dbc.insert_one(COINS_COLLECT, coin_dets, COIN_DB)
+    else:
+        dbc.update_one(COINS_COLLECT, {'symbol': coin_dets['symbol']},
+                       {'$set': {
+                                PRICE: coin_dets['price'],
+                                DESCRIPTION: coin_dets['description'],
+                                URLS: coin_dets['urls'],
+                                LOGO: coin_dets['logo'],
+                                TAGS: coin_dets['tags'],
+                                DA: coin_dets['dateAdded']}}, COIN_DB)
+
+    return coin_dets_cleanUp(coin_dets)
+
+
 def main():
     coinapi_setup()

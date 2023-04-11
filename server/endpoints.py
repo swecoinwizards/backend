@@ -42,6 +42,7 @@ TICKERS = 'tickers'
 POSTS = 'posts'
 EMAIL = 'email'
 PASSWORD = 'password'
+ADVANCED = 'advanced'
 USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{DETAILS}'
@@ -333,6 +334,21 @@ class GetLatestCoins(Resource):
         """
         ct = coin.get_latest_quotes(numer_quotes)
         return ct
+
+
+@coins.route(f'{COIN_DETAILS}/{ADVANCED}/<coinName>')
+class getCoinDetailsAdv(Resource):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
+    def get(self, coinName):
+        """
+        Returns details of any coin using api request
+        """
+        # ct = coin.coin_exists(coinName)
+        # if ct is not None:
+        #     return {coinName: coin.coin_details(coinName)}
+        # else:
+        return {coinName: coin.new_coin_details(coinName)}
 
 
 @users.route(f'{COIN_EXISTS}/<username>/<coin>')

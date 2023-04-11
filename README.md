@@ -112,14 +112,15 @@ Database design update:
 | ---- | ---- | ---- |
 | ~~Setup React Home Page~~ | ~~2/14~~ | |
 | ~~Setup w/ Python Anywhere~~ | ~~2/16~~ | |
-| Search bar functionality | 2/23 | Aruuke |
+| ~~Search bar functionality~~ | 2/23 | Aruuke + Dayana|
 | ~~Home Page~~ | 2/23 | Dayana |
 | Login Page + Registration Page | 2/23 | Ahnaf |
 | login/logout/reset functionality | 2/23 | Ahnaf |
 | User Account Page | 2/23 | Darren |
 | Post/activity feed functionality | 4/17 | Dipu |
-| Coin Page | 3/9 | Dayana |
+| ~~Coin Page~~ | 3/9 | Dayana |
+| ~~Search Page~~ | 3/9 | Aruuke + Dayana|
 | Account Settings functionality | 3/9 | |
-| Email/text notification | 3/9 | |ß
+| Email/text notification | 3/9 | |
 | MVP | 3/23 | |
 | Final modifications/additions | TBD | |
