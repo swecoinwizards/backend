@@ -31,7 +31,7 @@ USE_FALSE = "0"
 
 # helper function for inputting user data to db
 def coin_dets_cleanUp(coin):
-    if 'id' in coin:
+    if '_id' in coin:
         del coin['_id']
     return coin
 
@@ -202,7 +202,7 @@ def get_all_coin_tickers():
 
 def new_coin_details(coinName):
     # Coin name has to be lowercase
-    # did not add test since it is a api request
+    # did not add test yet since it is a api request
     cmc = CoinMarketCapAPI(API_KEY)
     # r = cmc.cryptocurrency_map()
     dbc.connect_db()

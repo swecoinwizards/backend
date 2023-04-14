@@ -194,6 +194,13 @@ def test_remove_coin(temp_coin):
     assert isinstance(resp_json, dict)
 
 
+def test_coin_exists():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.COINS_NS}/{ep.EXIST}/{TEST_COIN}'
+        ).get_json()
+    assert isinstance(resp_json, bool)
+    
+
 def test_get_coin_dict():
     resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_DICT}'
                                 ).get_json()

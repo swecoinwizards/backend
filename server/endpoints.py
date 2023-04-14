@@ -42,7 +42,6 @@ TICKERS = 'tickers'
 POSTS = 'posts'
 EMAIL = 'email'
 PASSWORD = 'password'
-ADVANCED = 'advanced'
 USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{DETAILS}'
@@ -57,6 +56,7 @@ USER_LOGIN = f'/{LOGIN}'
 USER_LOGIN_MN = f'/{USERS_NS}'
 USER_POSTS = f'/{POSTS}'
 
+COIN_ADD = f'/{ADD}'
 COIN_LIST = f'/{LIST}'
 COIN_LIST_NM = f'{COINS_NS}_list'
 COIN_TICKERS_LIST = f'/{TICKERS}/{LIST}'
@@ -138,12 +138,12 @@ class OptionsMenu(Resource):
         Gets the main menu.
         """
         return {'Title': "Options Menu",
-                'Default': 1,
+                'Default': {"value": "all", "label": "All"},
                 'Choices': [
-                    {"value": "all", "label": "all"},
-                    {"value": "users_list", "label": "users"},
-                    {"value": "coins_list", "label": "coins"},
-                    {"value": "posts_list", "label": "posts"}
+                    {"value": "all", "label": "All"},
+                    {"value": "users_list", "label": "Users"},
+                    {"value": "coins_list", "label": "Coins"},
+                    {"value": "posts_list", "label": "Posts"}
                 ]}
 
 
@@ -302,13 +302,13 @@ class CoinTypeDetails(Resource):
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, coinName):
         """
-        Returns details of a coin given the coin name.
+        Returns details from db of coin.
         """
-        ct = coin.coin_details(coinName)
-        if ct is not None:
-            return {coinName: ct}
-        else:
-            raise wz.NotFound(f'{coinName} not found.')
+        try:
+            ct = coin.coin_details(coinName)
+            return ct
+        except ValueError as e:
+            raise wz.BadRequest(f'{e}')
 
 
 @coins.route(f'{COIN_UPDATE}/<coinSymbol>')
@@ -336,25 +336,27 @@ class GetLatestCoins(Resource):
         return ct
 
 
-@coins.route(f'{COIN_DETAILS}/{ADVANCED}/<coinName>')
-class getCoinDetailsAdv(Resource):
+@coins.route(f'{COIN_ADD}/<coinName>')
+class getNewCoin(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, coinName):
         """
-        Returns details of any coin using api request
+        Adds/updates any coin details using api request.
         """
-        # ct = coin.coin_exists(coinName)
-        # if ct is not None:
-        #     return {coinName: coin.coin_details(coinName)}
-        # else:
-        return {coinName: coin.new_coin_details(coinName)}
+        try:
+            new_coin_details = coin.new_coin_details(coinName)
+            return new_coin_details
+        except Exception:
+            raise wz.BadRequest(
+                f'{coinName} does not exists, check caps and spelling'
+                )
 
 
 @users.route(f'{COIN_EXISTS}/<username>/<coin>')
-class CoinExists(Resource):
+class CoinExistsInUser(Resource):
     """
-    Check if user follows coin
+    Check if user follows coin.
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     def get(self, username, coin):
@@ -461,6 +463,16 @@ class UserPosts(Resource):
                     'Type': 'Data', 'Title': 'Post History'}
         else:
             raise wz.NotFound(f'{username} not found.')
+
+
+@coins.route(f'/{EXIST}/<coin_name>')
+class CoinExists(Resource):
+    def get(self, coin_name):
+        """
+        For developer use to check if coin in db quickly.
+        """
+        cn = coin.coin_exists(coin_name)
+        return cn
 
 
 @api.route('/endpoints')
