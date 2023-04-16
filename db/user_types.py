@@ -411,11 +411,19 @@ def user_coin_valuation(userName):
     return value
 
 
-def access_profile_posts(userName, postNumber):
+def access_profile_posts(post_id):
     dbc.connect_db()
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": userName})
-    return user[POSTS][postNumber-1]
+    post = dbc.fetch_one_proj(USERS_COLLECT,
+                              {'posts.post_id': post_id},
+                              {'posts': {
+                                 '$elemMatch': {
+                                     'post_id': post_id
+                                 }
+                              }})
+    if not post:
+        raise ValueError("Post does not exist")
+
+    return post
 
 
 def profile_add_post(userName, title, content, tags):
@@ -423,7 +431,7 @@ def profile_add_post(userName, title, content, tags):
         raise ValueError("Empty fields are not allowed")
 
     if not user_exists(userName):
-        raise ValueError("User does not exist") 
+        raise ValueError("User does not exist")
 
     dbc.connect_db()
 
