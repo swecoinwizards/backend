@@ -7,6 +7,7 @@ from flask_restx import Resource, Api, fields, Namespace
 from db import user_types as user
 from db import coins as coin
 import werkzeug.exceptions as wz
+from db import db_connect as dbc
 from http import HTTPStatus
 
 API_DOC = '/api/doc'
@@ -69,6 +70,7 @@ COIN_UPDATE = f'/{DETAILS}/price'
 COIN_EXISTS = f'/{COINS_NS}/{EXIST}'
 
 DICT = 'dict'
+DB_INFO = '/dbinfo'
 USER_DICT = f'/{DICT}'
 COIN_DICT = f'/{DICT}'
 
@@ -109,7 +111,7 @@ class MainMenu(Resource):
     """
     def get(self):
         """
-        Gets the main menu.
+        Gets the main menu (HATEOAS)
         """
         return {'Title': MAIN_MENU_NM,
                 'Default': 1,
@@ -131,11 +133,11 @@ class MainMenu(Resource):
 @api.route(OPTIONS)
 class OptionsMenu(Resource):
     """
-    This will deliver our options menu.
+    This will deliver our options menu
     """
     def get(self):
         """
-        Gets the main menu.
+        Gets the options menu (HATEOAS)
         """
         return {'Title': "Options Menu",
                 'Default': {"value": "all", "label": "All"},
@@ -151,7 +153,7 @@ class OptionsMenu(Resource):
 class UserList(Resource):
     def get(self):
         """
-        Returns a list of current users.
+        Returns a list of current users
         """
         data = user.get_users()
         return {USER_LIST_NM: data}
@@ -161,7 +163,7 @@ class UserList(Resource):
 class UserListNames(Resource):
     def get(self):
         """
-        Returns a list of only names from current users.
+        Returns a list of only names from current users
         """
         data = user.get_user_names()
         return data
@@ -173,7 +175,7 @@ class UserDetails(Resource):
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, username):
         """
-        Returns details about a user.
+        Returns details about a user
         """
         try:
             return {'Data': {username: {"Name": user.get_user(username)}},
@@ -189,7 +191,7 @@ class AddUser(Resource):
     @api.expect(user_fields)
     def post(self):
         """
-        Add a new user.
+        Add a new user
         """
         print(f'{request.json=}')
         name = request.json[user.NAME]
@@ -204,9 +206,9 @@ class RemoveUser(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     @api.expect(user_fields)
-    def get(self, username):
+    def delete(self, username):
         """
-        Remove an existing user.
+        Remove an existing user
         """
         try:
             # does not remove user existence in other users
@@ -218,13 +220,13 @@ class RemoveUser(Resource):
 @users.route(f'{USER_FOLLOW}/<userA>/<userB>')
 class UserFollow(Resource):
     """
-    Create follow relationship between two users.
+    Create follow relationship between two users
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def get(self, userA, userB):
+    def put(self, userA, userB):
         """
-        Make userA follow userB.
+        Make userA follow userB
         """
         try:
             return user.add_following(userA, userB)
@@ -235,11 +237,11 @@ class UserFollow(Resource):
 @users.route(f'{USER_REMOVE_FOLLOW}/<userA>/<userB>')
 class UserRemoveFollow(Resource):
     """
-    Remove a follow relationship between two users.
+    Remove a follow relationship between two users
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def get(self, userA, userB):
+    def put(self, userA, userB):
         """
         Make userA unfollow userB.
         """
@@ -256,7 +258,7 @@ class UserUpdate(Resource):
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def put(self, username):
         """
-        Update a user's details.
+        Update a user's details
         """
         try:
             new_password = request.json['new_password']
@@ -271,7 +273,7 @@ class UserUpdate(Resource):
 class CoinList(Resource):
     def get(self):
         """
-        Returns a list of full names of current coins.
+        Returns a list of full names of current coins
         """
         return {COIN_LIST_NM: coin.get_coins()}
 
@@ -280,7 +282,7 @@ class CoinList(Resource):
 class CoinTickersList(Resource):
     def get(self):
         """
-        Returns a list of existing coin tickers.
+        Returns a list of existing coin tickers
         """
         return {COIN_TICKERS_LIST_NM: coin.get_all_coin_tickers()}
 
@@ -289,7 +291,7 @@ class CoinTickersList(Resource):
 class CoinsDict(Resource):
     def get(self):
         """
-        Returns a detailed list of coins in the database.
+        Returns a detailed list of coins in the database
         """
         return {'Data': coin.get_coins(),
                 'Type': 'Data',
@@ -302,7 +304,7 @@ class CoinTypeDetails(Resource):
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, coinName):
         """
-        Returns details from db of coin.
+        Returns details from db of coin
         """
         try:
             ct = coin.coin_details(coinName)
@@ -317,7 +319,7 @@ class CoinPriceUpdate(Resource):
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
     def get(self, coinSymbol):
         """
-        Returns coin with updated price.
+        Returns coin with updated price
         """
         try:
             ct = coin.update_price(coinSymbol)
@@ -330,19 +332,51 @@ class CoinPriceUpdate(Resource):
 class GetLatestCoins(Resource):
     def get(self, numer_quotes):
         """
-        Returns # of quotes from coinmarket api
+        Returns # of quotes from coinmarket api (DEVELOPER ENDPOINT)
         """
         ct = coin.get_latest_quotes(numer_quotes)
         return ct
+
+
+@api.route(f'{DB_INFO}')
+class GetDatabaseInfo(Resource):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.INTERNAL_SERVER_ERROR.value,
+                  'Internal Server Error')
+    def get(self):
+        """
+        Returns database information (DEVELOPER ENDPOINT)
+        """
+        try:
+            user_info = user.get_users()
+            coin_info = coin.get_coins()
+            print(user_info)
+            print(coin_info)
+            return {
+                dbc.USER_DB: {
+                    user.USERS_COLLECT: {
+                        "num_stored:": len(user_info)
+                    }
+                },
+                dbc.COIN_DB: {
+                    coin.COINS_COLLECT: {
+                        "num_stored:": len(coin_info)
+                    }
+                }
+            }
+
+        except Exception:
+            raise wz.InternalServerError(
+                'Failed to fetch database information')
 
 
 @coins.route(f'{COIN_ADD}/<coinName>')
 class getNewCoin(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
-    def get(self, coinName):
+    def put(self, coinName):
         """
-        Adds/updates any coin details using api request.
+        Adds/updates any coin details using api request
         """
         try:
             new_coin_details = coin.new_coin_details(coinName)
@@ -356,7 +390,7 @@ class getNewCoin(Resource):
 @users.route(f'{COIN_EXISTS}/<username>/<coin>')
 class CoinExistsInUser(Resource):
     """
-    Check if user follows coin.
+    Check if user follows coin
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     def get(self, username, coin):
@@ -366,13 +400,13 @@ class CoinExistsInUser(Resource):
 @users.route(f'{COIN_FOLLOW}/<username>/<coin>')
 class CoinFollow(Resource):
     """
-    Adds a follow relationship between a user and coin.
+    Adds a follow relationship between a user and coin
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def get(self, username, coin):
+    def put(self, username, coin):
         """
-        Make a user follow a coin.
+        Make a user follow a coin
         """
         try:
             return user.add_coin(username, coin)
@@ -383,13 +417,13 @@ class CoinFollow(Resource):
 @users.route(f'{COIN_REMOVE_FOLLOW}/<username>/<coin>')
 class CoinRemoveFollow(Resource):
     """
-    Removes a follow relationship between a user and coin.
+    Removes a follow relationship between a user and coin
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_ACCEPTABLE.value, 'Not Modified')
-    def get(self, username, coin):
+    def put(self, username, coin):
         """
-        Make a user unfollow a coin.
+        Make a user unfollow a coin
         """
         try:
             return user.remove_coin(username, coin)
@@ -417,7 +451,7 @@ class UserFollowers(Resource):
     @api.response(HTTPStatus.EXPECTATION_FAILED.value, 'Unsuccessful')
     def get(self, username):
         """
-        Return a list of a user's followers.
+        Return a list of a user's followers
         """
         try:
             return {'Data': {username:
@@ -436,7 +470,7 @@ class UserFollowings(Resource):
     @api.response(HTTPStatus.EXPECTATION_FAILED.value, 'Unsuccessful')
     def get(self, username):
         """
-        Return a list of a user's followings.
+        Return a list of a user's followings
         """
         try:
             return {'Data': {username:
@@ -455,7 +489,7 @@ class UserPosts(Resource):
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, username):
         """
-        Returns a list of a user's posts.
+        Returns a list of a user's posts
         """
         posts = user.get_posts(username)
         if posts is not None:
@@ -469,7 +503,7 @@ class UserPosts(Resource):
 class CoinExists(Resource):
     def get(self, coin_name):
         """
-        For developer use to check if coin in db quickly.
+        Check if coin in db quickly (DEVELOPER ENDPOINT)
         """
         cn = coin.coin_exists(coin_name)
         return cn
@@ -479,7 +513,7 @@ class CoinExists(Resource):
 class Endpoints(Resource):
     """
     This class will serve as live, fetchable documentation of what endpoints
-    are available in the system.
+    are available in the system
     """
     def get(self):
         """
