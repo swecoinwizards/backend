@@ -1,5 +1,6 @@
 import db.db_connect as dbc
 import db.coins as cn
+import datetime
 import bcrypt
 import uuid
 
@@ -411,15 +412,15 @@ def user_coin_valuation(userName):
     return value
 
 
-def access_profile_posts(post_id):
+def get_post_by_id(post_id):
     dbc.connect_db()
     post = dbc.fetch_one_proj(USERS_COLLECT,
                               {'posts.post_id': post_id},
-                              {'posts': {
+                              {'name': 1,
+                               'posts': {
                                  '$elemMatch': {
                                      'post_id': post_id
-                                 }
-                              }})
+                                 }}})
     if not post:
         raise ValueError("Post does not exist")
 
@@ -427,7 +428,7 @@ def access_profile_posts(post_id):
 
 
 def profile_add_post(userName, title, content, tags):
-    if not title or not content or not tags:
+    if not title or not content:
         raise ValueError("Empty fields are not allowed")
 
     if not user_exists(userName):
@@ -437,6 +438,7 @@ def profile_add_post(userName, title, content, tags):
 
     new_post = {
         "post_id": str(uuid.uuid4()),
+        "timestamp": str(datetime.datetime.now().isoformat()),
         "title": title,
         "content": content,
         "tags": tags

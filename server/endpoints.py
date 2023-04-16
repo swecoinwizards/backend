@@ -260,6 +260,20 @@ class UserRemoveFollow(Resource):
             raise wz.BadRequest(f'Cannot modify: {e}')
 
 
+@users.route(f'{USER_POSTS}/<post_id>')
+class GetPostById(Resource):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
+    def get(self, post_id):
+        """
+        Returns a post by post id
+        """
+        try:
+            return user.get_post_by_id(post_id)
+        except Exception:
+            raise wz.NotFound(f'Did not find post with id: {post_id}')
+
+
 @users.route(f'{USER_POSTS}/<username>/{ADD}')
 class UserAddPost(Resource):
     """
@@ -511,7 +525,7 @@ class UserFollowings(Resource):
                     'Title': 'User Followings'}
 
 
-@users.route(f'{USER_POSTS}/<username>')
+@users.route(f'{USER_POSTS}/<username>/{LIST}')
 class UserPosts(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
