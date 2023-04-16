@@ -1,6 +1,7 @@
 import db.db_connect as dbc
 import db.coins as cn
 import bcrypt
+import uuid
 
 NAME = 'name'
 EMAIL = 'email'
@@ -417,21 +418,26 @@ def access_profile_posts(userName, postNumber):
     return user[POSTS][postNumber-1]
 
 
-def profile_add_post(userName, content):
-    dbc.connect_db()
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": userName})
+def profile_add_post(userName, title, content, tags):
+    if not title or not content or not tags:
+        raise ValueError("Empty fields are not allowed")
+
     if not user_exists(userName):
-        raise ValueError("User does not exist")
+        raise ValueError("User does not exist") 
 
-    if not content:
-        raise ValueError("There is no content in the post")
+    dbc.connect_db()
 
+    new_post = {
+        "post_id": str(uuid.uuid4()),
+        "title": title,
+        "content": content,
+        "tags": tags
+    }
     if not dbc.update_one(USERS_COLLECT, {'name': userName},
-                          {'$push': {POSTS: content}}):
+                          {'$push': {POSTS: new_post}}):
         raise ValueError("Error adding post")
 
-    return {userName: user_cleanUp(user)}
+    return get_user(userName)
 
 
 def profile_delete_post(userName, postNumber):

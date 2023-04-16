@@ -43,6 +43,10 @@ TICKERS = 'tickers'
 POSTS = 'posts'
 EMAIL = 'email'
 PASSWORD = 'password'
+TITLE = 'title'
+CONTENT = 'content'
+TAGS = 'tags'
+USERNAME = 'username'
 USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{DETAILS}'
@@ -87,6 +91,12 @@ user_fields = api.model('NewUser', {
 user_update_fields = api.model('UpdateUser', {
     'new_password': fields.String(default='', required=False),
     'new_email': fields.String(default='', required=False),
+})
+
+post_fields = api.model('NewPost', {
+    'title': fields.String(default='Title Here'),
+    'content': fields.String(default=''),
+    'tags': fields.List(fields.String(), default=[]),
 })
 
 
@@ -193,7 +203,6 @@ class AddUser(Resource):
         """
         Add a new user
         """
-        print(f'{request.json=}')
         name = request.json[user.NAME]
         try:
             return user.add_user(name, request.json)
@@ -249,6 +258,27 @@ class UserRemoveFollow(Resource):
             return user.remove_follow(userA, userB)
         except Exception as e:
             raise wz.BadRequest(f'Cannot modify: {e}')
+
+
+@users.route(f'{USER_POSTS}/<username>/{ADD}')
+class UserAddPost(Resource):
+    """
+    Adds a new post for a user
+    """
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.CONFLICT.value, 'Conflict')
+    @api.expect(post_fields)
+    def post(self, username):
+        """
+        Adds a new post for a user
+        """
+        title = request.json[TITLE]
+        content = request.json[CONTENT]
+        tags = request.json[TAGS]
+        try:
+            return user.profile_add_post(username, title, content, tags)
+        except ValueError as e:
+            raise wz.BadRequest(f'{e}')
 
 
 @users.route(f'{USER_UPDATE}/<username>', doc=USER_UPDATE_DOC)
@@ -350,8 +380,6 @@ class GetDatabaseInfo(Resource):
         try:
             user_info = user.get_users()
             coin_info = coin.get_coins()
-            print(user_info)
-            print(coin_info)
             return {
                 dbc.USER_DB: {
                     user.USERS_COLLECT: {
@@ -493,8 +521,8 @@ class UserPosts(Resource):
         """
         posts = user.get_posts(username)
         if posts is not None:
-            return {'Data': {'Posts:': posts},
-                    'Type': 'Data', 'Title': 'Post History'}
+            return {'Title': 'Post History',
+                    'Data': {'posts': posts}}
         else:
             raise wz.NotFound(f'{username} not found.')
 
