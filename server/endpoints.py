@@ -99,6 +99,10 @@ post_fields = api.model('NewPost', {
     'tags': fields.List(fields.String(), default=[]),
 })
 
+remove_post_fields = api.model('RemovePost', {
+    'post_id': fields.String(default=''),
+})
+
 
 @api.route(HELLO)
 class HelloWorld(Resource):
@@ -233,7 +237,7 @@ class UserFollow(Resource):
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def put(self, userA, userB):
+    def post(self, userA, userB):
         """
         Make userA follow userB
         """
@@ -250,7 +254,7 @@ class UserRemoveFollow(Resource):
     """
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def put(self, userA, userB):
+    def delete(self, userA, userB):
         """
         Make userA unfollow userB.
         """
@@ -260,21 +264,30 @@ class UserRemoveFollow(Resource):
             raise wz.BadRequest(f'Cannot modify: {e}')
 
 
-@users.route(f'{USER_POSTS}/<post_id>')
-class GetPostById(Resource):
+@users.route(f'{USER_POSTS}/<username>/<post_id>')
+class UserPostId(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
-    def get(self, post_id):
+    def get(self, username, post_id):
         """
-        Returns a post by post id
+        Returns a user's post by post id
         """
         try:
-            return user.get_post_by_id(post_id)
+            return user.get_post_by_id(username, post_id)
         except Exception:
             raise wz.NotFound(f'Did not find post with id: {post_id}')
 
+    def delete(self, username, post_id):
+        """
+        Removes a user's post by post id
+        """
+        try:
+            return user.profile_remove_post(username, post_id)
+        except ValueError as e:
+            raise wz.BadRequest(f'{e}')
 
-@users.route(f'{USER_POSTS}/<username>/{ADD}')
+
+@users.route(f'{USER_POSTS}/{ADD}/<username>')
 class UserAddPost(Resource):
     """
     Adds a new post for a user
@@ -525,7 +538,7 @@ class UserFollowings(Resource):
                     'Title': 'User Followings'}
 
 
-@users.route(f'{USER_POSTS}/<username>/{LIST}')
+@users.route(f'{USER_POSTS}/<username>')
 class UserPosts(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
@@ -533,12 +546,12 @@ class UserPosts(Resource):
         """
         Returns a list of a user's posts
         """
-        posts = user.get_posts(username)
-        if posts is not None:
+        try:
+            posts = user.get_posts(username)
             return {'Title': 'Post History',
                     'Data': {'posts': posts}}
-        else:
-            raise wz.NotFound(f'{username} not found.')
+        except Exception as e:
+            raise wz.NotFound(f'{e}')
 
 
 @coins.route(f'/{EXIST}/<coin_name>')

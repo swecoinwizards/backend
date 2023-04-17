@@ -77,10 +77,13 @@ def get_user_names():
 
 def get_posts(userName):
     dbc.connect_db()
+
     if not user_exists(userName):
         raise ValueError(f'User {userName} does not exist')
+
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
+
     return temp[POSTS]
 
 
@@ -96,6 +99,7 @@ def get_user(username):
 def get_user_email(username):
     if not user_exists(username):
         raise ValueError(f'User {username} does not exist')
+
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": username})
     return user[EMAIL]
@@ -412,10 +416,11 @@ def user_coin_valuation(userName):
     return value
 
 
-def get_post_by_id(post_id):
+def get_post_by_id(username, post_id):
     dbc.connect_db()
     post = dbc.fetch_one_proj(USERS_COLLECT,
-                              {'posts.post_id': post_id},
+                              {'name': username,
+                               'posts.post_id': post_id},
                               {'name': 1,
                                'posts': {
                                  '$elemMatch': {
@@ -425,6 +430,18 @@ def get_post_by_id(post_id):
         raise ValueError("Post does not exist")
 
     return post
+
+
+def profile_remove_post(username, post_id):
+    if not user_exists(username):
+        raise ValueError(f'User {username} does not exist')
+
+    dbc.connect_db()
+    if not dbc.update_one(USERS_COLLECT, {'name': username},
+                          {'$pull': {'posts': {'post_id': post_id}}}):
+        raise ValueError('Post does not exist')
+
+    return get_user(username)
 
 
 def profile_add_post(userName, title, content, tags):
@@ -448,23 +465,6 @@ def profile_add_post(userName, title, content, tags):
         raise ValueError("Error adding post")
 
     return get_user(userName)
-
-
-def profile_delete_post(userName, postNumber):
-    dbc.connect_db()
-    user = dbc.fetch_one(USERS_COLLECT,
-                         {"name": userName})
-    if not user_exists(userName):
-        raise ValueError("User does not exist")
-    if postNumber < 0 or postNumber >= len(user[POSTS]):
-        raise ValueError("Post not found")
-
-    user[POSTS].remove(user[POSTS][postNumber])
-    if not dbc.update_one(USERS_COLLECT, {'name': userName},
-                          {'$set': {POSTS: user[POSTS]}}):
-        raise ValueError("Error removing post")
-
-    return True
 
 
 def user_login(userName, password):
