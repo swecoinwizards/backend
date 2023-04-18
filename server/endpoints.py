@@ -3,6 +3,7 @@ This is the file containing all of the endpoints for our flask app.
 The endpoint called `endpoints` will return all available endpoints.
 """
 from flask import Flask, request
+from flask_cors import CORS
 from flask_restx import Resource, Api, fields, Namespace
 from db import user_types as user
 from db import coins as coin
@@ -14,6 +15,7 @@ API_DOC = '/api/doc'
 API_PFX = '/api'
 
 app = Flask(__name__)
+CORS(app, resources={r'/api/*': {'origins': '*'}})
 api = Api(app, doc='/api/doc', prefix='/api')
 
 USERS_NS = 'users'
