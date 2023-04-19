@@ -4,3 +4,4 @@ pytest
 pytest-cov
 python-coinmarketcap
 bcrypt
+Flask-Cors

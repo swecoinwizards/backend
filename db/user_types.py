@@ -339,6 +339,9 @@ def add_coin(userName, coin):
                           {'$push': {COINS: coin}}):
         raise ValueError("Error following coin")
 
+    user = dbc.fetch_one_proj(USERS_COLLECT,
+                              {"name": userName},
+                              {"password": 0})
     return {userName: user_cleanUp(user)}
 
 
