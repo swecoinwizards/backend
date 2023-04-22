@@ -17,7 +17,7 @@ API_PFX = '/api'
 app = Flask(__name__)
 CORS(app, resources={r'*': {'origins':
                             ['http://localhost:3000',
-                             'https://coinwizards.herokuapp.com/']}})
+                             'https://coinwizards.herokuapp.com']}})
 api = Api(app, doc='/api/doc', prefix='/api')
 
 USERS_NS = 'users'
