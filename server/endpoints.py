@@ -48,6 +48,7 @@ PASSWORD = 'password'
 TITLE = 'title'
 CONTENT = 'content'
 TAGS = 'tags'
+NAMES = 'names'
 USERNAME = 'username'
 USER_LIST = f'/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
@@ -175,11 +176,12 @@ class UserList(Resource):
         return {USER_LIST_NM: data}
 
 
-@users.route(f'{USER_LIST}/names')
+@users.route(f'{USER_LIST}/{NAMES}')
 class UserListNames(Resource):
     def get(self):
         """
         Returns a list of only names from current users
+        For frontend search page list
         """
         data = user.get_user_names()
         return data
@@ -187,8 +189,8 @@ class UserListNames(Resource):
 
 @users.route(f'{USER_DETAILS}/<username>')
 class UserDetails(Resource):
-    @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, username):
         """
         Returns details about a user
@@ -197,13 +199,13 @@ class UserDetails(Resource):
             return {'Data': {username: {"Name": user.get_user(username)}},
                     'Type': 'Data', 'Title': 'User Type Details'}
         except Exception as e:
-            raise wz.BadRequest(f'Could not fetch user: {e}')
+            raise wz.NotFound(f'Could not fetch user: {e}')
 
 
 @users.route(USER_ADD)
 class AddUser(Resource):
-    @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.CONFLICT.value, 'Conflict')
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.CONFLICT, 'Conflict')
     @api.expect(user_fields)
     def post(self):
         """
@@ -218,9 +220,9 @@ class AddUser(Resource):
 
 @users.route(f'{REMOVE_USER}/<username>')
 class RemoveUser(Resource):
-    @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
-    @api.expect(user_fields)
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    # @api.expect(user_fields)
     def delete(self, username):
         """
         Remove an existing user

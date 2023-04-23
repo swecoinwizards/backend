@@ -1,5 +1,5 @@
 import pytest
-
+from unittest.mock import patch
 import server.endpoints as ep
 import db.user_types as user
 import db.coins as cn
@@ -23,6 +23,18 @@ SAMPLE_USER = {
     user.COINS: [],
 }
 
+NEW_USER_NM = 'NewUser'
+NEW_USER = {
+    user.NAME: NEW_USER_NM,
+    user.PASSWORD: '***',
+    user.EMAIL: '1@gmail.com',
+}
+
+BAD_USER_NM = 'BadNewUser'
+BAD_USER = {
+    user.NAME: BAD_USER_NM,
+    user.PASSWORD: '',
+}
 
 SAMPLE_USER_NM2 = 'SampleUserToo'
 SAMPLE_USER2 = {
@@ -76,34 +88,79 @@ def test_get_user_list():
     """
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_LIST}').get_json()
+    assert isinstance(resp_json, dict)
     assert isinstance(resp_json[ep.USER_LIST_NM], list)
+
+
+def test_get_user_names_list():
+    """
+    Check returns user name list
+    """
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_LIST}/{ep.NAMES}').get_json()
+    assert isinstance(resp_json, list)
 
 
 def test_add_user():
     """
     Test adding a user.
     """
-    user.add_user(SAMPLE_USER_NM, SAMPLE_USER)
-    assert user.user_exists(SAMPLE_USER_NM)
-    user.del_user(SAMPLE_USER_NM)
+    resp = TEST_CLIENT.post(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_ADD}', json=NEW_USER)
+    assert user.user_exists(NEW_USER_NM)
+    assert resp.status_code == HTTPStatus.OK
+    user.del_user(NEW_USER_NM)
 
 
-@pytest.mark.skip(reason="Will come back after adding remove func w/pymongo")
-def test_remove_user():
+def test_add_user_fail():
     """
     Test adding a user.
     """
-    user.del_user(SAMPLE_USER_NM)
+    with pytest.raises(Exception):
+        resp = TEST_CLIENT.post(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_ADD}', json=BAD_USER)
+        assert user.user_exists(BAD_USER_NM)
+        user.del_user(NEW_USER_NM)
+
+
+# @pytest.mark.skip(reason="Will come back after adding remove func w/pymongo")
+@patch('db.user_types.del_user', return_value=True)
+def test_remove_user(mock_user_details):
+    """
+    Test removing a user.
+    """
+    # user.del_user(SAMPLE_USER_NM)
+    resp = TEST_CLIENT.delete(f'{ep.API_PFX}/{ep.USERS_NS}{ep.REMOVE_USER}'
+                                + f'/{SAMPLE_USER_NM}')
     assert not user.user_exists(SAMPLE_USER_NM)
 
 
-def test_get_user_type_details(temp_user):
+def test_remove_user_fail():
     """
+    Test removing a user.
     """
-    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_DETAILS}'
-                                + f'/{SAMPLE_USER_NM}').get_json()
+    resp = TEST_CLIENT.delete(f'{ep.API_PFX}/{ep.USERS_NS}{ep.REMOVE_USER}/10x')
+    assert resp.status_code==HTTPStatus.NOT_FOUND
+
+
+@patch('db.user_types.get_user', return_value=SAMPLE_USER)
+def test_get_user_type_details(mock_user_details):
+    """
+    Testing getting user data using patch
+    """
+    resp = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_DETAILS}'
+                                + f'/{SAMPLE_USER_NM}')
+    resp_json = resp.get_json()
     assert SAMPLE_USER_NM in resp_json['Data']
     assert isinstance(resp_json['Data'][SAMPLE_USER_NM], dict)
+    assert resp.status_code == HTTPStatus.OK
+
+
+def test_get_user_type_details_null():
+    """
+    Testing getting user data using patch
+    """
+    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_DETAILS}'
+                                + f'/NotAUser')
+    assert resp_json.status_code == HTTPStatus.NOT_FOUND
 
 
 def test_add_follower(temp_user):
@@ -183,14 +240,12 @@ def test_add_coin(temp_coin_user):
     assert isinstance(resp_json, dict)
 
 
-@pytest.mark.skip(reason="Coindb empty at start; causes test to fail")
-def test_remove_coin(temp_coin):
+# @pytest.mark.skip(reason="Coindb empty at start; causes test to fail")
+def test_remove_coin(temp_coin_user):
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_REMOVE_FOLLOW}/' +
         f'{SAMPLE_USER_NM}/{TEST_COIN}'
         ).get_json()
-    
-    user.remove_coin(SAMPLE_USER_NM, TEST_COIN)
     assert isinstance(resp_json, dict)
 
 
