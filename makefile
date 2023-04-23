@@ -13,7 +13,7 @@ github: FORCE
 	git push origin master
 
 all_tests: FORCE
-	# cd $(DB_DIR);  make tests
+	cd $(DB_DIR);  make tests
 	cd $(SERVER_DIR); make tests
 
 dev_env: FORCE
