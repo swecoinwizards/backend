@@ -249,14 +249,42 @@ def test_remove_coin(temp_coin_user):
     assert isinstance(resp_json, dict)
 
 
-def test_coin_exists():
+@patch('db.coins.coin_exists', return_value=True)
+def test_coin_exists(mock_user_details):
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.COINS_NS}/{ep.EXIST}/{TEST_COIN}'
         ).get_json()
     assert isinstance(resp_json, bool)
-    
+    assert resp_json==True
+
+
+def test_coin_exists_false():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.COINS_NS}/{ep.EXIST}/{TEST_COIN}'
+        ).get_json()
+    assert isinstance(resp_json, bool)
+    assert resp_json==False  
+
 
 def test_get_coin_dict():
     resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_DICT}'
                                 ).get_json()
     assert isinstance(resp_json, dict)
+
+
+@patch('db.user_types.user_coin_exists', return_value=True)
+def test_coin_exists_in_user(mock_user_details):
+    print(f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_EXISTS}/{SAMPLE_USER_NM}/{TEST_COIN}')
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_EXISTS}/{SAMPLE_USER_NM}/{TEST_COIN}'
+        ).get_json()
+    assert isinstance(resp_json, bool)
+
+
+@patch('db.user_types.user_coin_exists', return_value=False)
+def test_coin_exists_in_user_false(mock_user_details):
+    print(f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_EXISTS}/{SAMPLE_USER_NM}/{TEST_COIN}')
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_EXISTS}/{SAMPLE_USER_NM}/{TEST_COIN}'
+        ).get_json()
+    assert isinstance(resp_json, bool)

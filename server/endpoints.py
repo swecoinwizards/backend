@@ -481,7 +481,7 @@ class CoinRemoveFollow(Resource):
     Removes a follow relationship between a user and coin
     """
     @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.NOT_ACCEPTABLE.value, 'Not Modified')
+    @api.response(HTTPStatus.BAD_REQUEST.value, 'Not Modified')
     def put(self, username, coin):
         """
         Make a user unfollow a coin
