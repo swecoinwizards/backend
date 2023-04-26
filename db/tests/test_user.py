@@ -3,6 +3,7 @@ import os
 
 import db.user_types as usr
 import db.coins as cn
+from unittest.mock import patch
 # import db.db_connect as dbc
 # from server.tests.test_endpoints import TEST_CLIENT
 
@@ -311,3 +312,14 @@ def test_get_followers(temp_user):
 
 def test_get_followings(temp_user):
     assert isinstance(usr.get_followings(TEST_USER_NAME), list)
+
+
+def test_get_all_posts(temp_user):
+    assert isinstance(usr.get_all_posts("term"), list)
+
+
+@patch('db.db_connect.fetch_all', return_value=[])
+def test_get_all_posts_no_users(mock_user_details):
+    with pytest.raises(Exception):
+        posts = usr.get_all_posts("term")
+        assert isinstance(posts, list)

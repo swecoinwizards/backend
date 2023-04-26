@@ -406,6 +406,27 @@ def get_coins(userName):
     raise Exception("User does not exist")
 
 
+def get_all_posts(term):
+    dbc.connect_db()
+    users = dbc.fetch_all(USERS_COLLECT)
+    # print(users)
+    posts_with_term = []
+    if len(users) > 0:
+        for user in users:
+            for post in user[POSTS]:
+                if term in post["title"]:
+                    post[NAME] = user[NAME]
+                    posts_with_term.append(post)
+                elif term in post["content"]:
+                    post[NAME] = user[NAME]
+                    posts_with_term.append(post)
+                elif term in post["tags"]:
+                    post[NAME] = user[NAME]
+                    posts_with_term.append(post)
+        return posts_with_term
+    raise Exception("No Users")
+
+
 def user_coin_valuation(userName):
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,

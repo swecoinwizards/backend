@@ -560,6 +560,23 @@ class UserPosts(Resource):
             raise wz.NotFound(f'{e}')
 
 
+@users.route(f'{USER_POSTS}/{LIST}/')
+@users.route(f'{USER_POSTS}/{LIST}/<term>')
+class GetPosts(Resource):
+    @api.response(HTTPStatus.OK.value, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
+    def get(self, term=""):
+        """
+        Returns a list of a posts w applicable term
+        """
+        try:
+            posts = user.get_all_posts(term)
+            return {'Title': 'All Posts',
+                    'Data': {'posts': posts}}
+        except Exception as e:
+            raise wz.NotFound(f'{e}')
+
+
 @coins.route(f'/{EXIST}/<coin_name>')
 class CoinExists(Resource):
     def get(self, coin_name):

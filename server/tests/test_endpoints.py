@@ -164,17 +164,42 @@ def test_get_user_type_details_null():
 
 
 def test_add_follower(temp_user):
-    resp_json = TEST_CLIENT.get(
+    resp_json = TEST_CLIENT.post(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER_NM}/'
         + f'{SAMPLE_USER_NM2}').get_json()
+    print(resp_json, f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER_NM}/{SAMPLE_USER_NM2}')
     assert isinstance(resp_json, dict)
+
+
+@patch('db.user_types.add_following', side_effect=ValueError())
+def test_add_follower_fail(mock_user_details):
+    resp = TEST_CLIENT.post(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER_NM}/{SAMPLE_USER_NM2}')
+    resp_json = resp.get_json()
+    print(resp_json, f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER_NM}/{SAMPLE_USER_NM2}')
+    assert isinstance(resp_json, dict)
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
 
 
 def test_remove_follower(temp_user):
-    resp_json = TEST_CLIENT.get(
+    follow_resp = TEST_CLIENT.post(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOW}/{SAMPLE_USER_NM}/{SAMPLE_USER_NM2}')
+
+    resp_json = TEST_CLIENT.delete(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER_NM}' +
         f'/{SAMPLE_USER_NM2}').get_json()
     assert isinstance(resp_json, dict)
+
+
+def test_remove_follower_fail(temp_user):
+    resp = resp_json = TEST_CLIENT.delete(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_REMOVE_FOLLOW}/{SAMPLE_USER_NM}' +
+        f'/{SAMPLE_USER_NM2}')
+    resp_json = resp.get_json()
+    print(resp_json)
+    assert isinstance(resp_json, dict)
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+
 
 
 def test_user_followers(temp_user):
@@ -288,3 +313,31 @@ def test_coin_exists_in_user_false(mock_user_details):
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_EXISTS}/{SAMPLE_USER_NM}/{TEST_COIN}'
         ).get_json()
     assert isinstance(resp_json, bool)
+
+
+def test_get_post_all():
+    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/'
+                                ).get_json()
+    assert isinstance(resp_json, dict)
+
+
+def test_get_post_empty():
+    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/badTerm'
+                                ).get_json()
+    assert isinstance(resp_json, dict)
+    assert len(resp_json["Data"]["posts"])==0
+
+
+@patch('db.user_types.get_all_posts', return_value=["post1"])
+def test_get_post_success(mock_user_details):
+    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/term'
+                                ).get_json()
+    assert isinstance(resp_json, dict)
+    assert len(resp_json["Data"]["posts"])>0
+
+
+@patch('db.user_types.get_all_posts', side_effect=Exception())
+def test_get_post_no_users(mock_user_details):
+    resp = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/term')
+    resp_json = resp.get_json()
+    assert resp.status_code == HTTPStatus.NOT_FOUND
