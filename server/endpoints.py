@@ -564,7 +564,7 @@ class UserPosts(Resource):
 @users.route(f'{USER_POSTS}/{LIST}/<term>')
 class GetPosts(Resource):
     @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
+    @api.response(HTTPStatus.CONFLICT.value, 'Not Found')
     def get(self, term=""):
         """
         Returns a list of a posts w applicable term
@@ -574,7 +574,7 @@ class GetPosts(Resource):
             return {'Title': 'All Posts',
                     'Data': {'posts': posts}}
         except Exception as e:
-            raise wz.NotFound(f'{e}')
+            raise wz.Conflict(f'{e}')
 
 
 @coins.route(f'/{EXIST}/<coin_name>')
