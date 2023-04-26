@@ -21,6 +21,7 @@ SAMPLE_USER = {
     user.FOLLOWERS: [],
     user.FOLLOWING: [],
     user.COINS: [],
+    user.POSTS: [],
 }
 
 NEW_USER_NM = 'NewUser'
@@ -44,6 +45,7 @@ SAMPLE_USER2 = {
     user.FOLLOWERS: [],
     user.FOLLOWING: [],
     user.COINS: [],
+    user.POSTS: [],
 }
 
 
@@ -321,6 +323,14 @@ def test_get_post_all():
     assert isinstance(resp_json, dict)
 
 
+def test_get_post_empty(temp_user):
+    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/badTerm'
+                                ).get_json()
+    print(resp_json)
+    assert isinstance(resp_json, dict)
+    assert len(resp_json["Data"]["posts"])==0
+
+
 @patch('db.user_types.get_all_posts', return_value=["post1"])
 def test_get_post_success(mock_user_details):
     resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/term'
@@ -333,4 +343,4 @@ def test_get_post_success(mock_user_details):
 def test_get_post_no_users(mock_user_details):
     resp = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/term')
     resp_json = resp.get_json()
-    assert resp.status_code == HTTPStatus.CONFLICT
+    assert resp.status_code == HTTPStatus.NOT_FOUND
