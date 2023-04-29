@@ -276,7 +276,7 @@ def test_update_username_fail(temp_user):
 def test_update_password(temp_user):
     TEST_NEW_PASSWORD = 'abc123'
     try:
-        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
+        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, NEW_USER_DET['email'])
     except Exception as e:
         pytest.fail()
 
