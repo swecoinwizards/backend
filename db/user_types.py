@@ -273,11 +273,17 @@ def remove_follow(userName, followName):
 
 
 def update_fields(userName, new_password, new_email):
+    print(new_password,new_email)
+    if new_password==None:
+        new_password = ""
     if not isinstance(new_password, str):
         raise TypeError(f'Wrong type for password: {type(new_password)}')
 
     if not isinstance(new_email, str):
         raise TypeError(f'Wrong type for email: {type(new_email)}')
+
+    if len(new_email)==0:
+        raise ValueError('Email cannot be empty')
 
     if new_email and (('@' not in new_email) or ('.' not in new_email)):
         raise ValueError('Invalid formatting for email, expected @ and .')
@@ -302,8 +308,12 @@ def update_fields(userName, new_password, new_email):
         message = "Updated Email and Password"
     elif new_email and new_email != current_email:
         message = "Updated Email"
-    elif new_password and not bcrypt.checkpw(encoded_new_password, hash_pw):
+    elif new_password!="" and not bcrypt.checkpw(encoded_new_password, hash_pw):
         message = "Updated Password"
+    elif new_password=="" and new_email == current_email:
+        raise ValueError(
+            "New email " +
+            "must be different from the previous")
     else:
         raise ValueError(
             "New email and password " +
