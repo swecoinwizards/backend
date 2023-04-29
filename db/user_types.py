@@ -288,14 +288,29 @@ def update_fields(userName, new_password, new_email):
 
     current_email = user[EMAIL]
     hash_pw = user[PASSWORD]
+    message = ""
 
-    if (new_email and new_email == current_email):
-        raise ValueError("New email must be different from the previous")
+    # if (new_email and new_email == current_email):
+    #     raise ValueError("New email must be different from the previous")
 
     encoded_new_password = new_password.encode('utf-8')
 
-    if new_password and bcrypt.checkpw(encoded_new_password, hash_pw):
-        raise ValueError("New password must be different from the previous")
+    if (new_email
+            and new_email != current_email) and (
+                new_password and not bcrypt.checkpw(
+                    encoded_new_password, hash_pw)):
+        message = "Updated Email and Password"
+    elif new_email and new_email != current_email:
+        message = "Updated Email"
+    elif new_password and not bcrypt.checkpw(encoded_new_password, hash_pw):
+        message = "Updated Password"
+    else:
+        raise ValueError(
+            "New email and password " +
+            "must be different from the previous")
+
+    # if new_password and bcrypt.checkpw(encoded_new_password, hash_pw):
+    #     raise ValueError("New password must be different from the previous")
 
     if new_email and not dbc.update_one(USERS_COLLECT, {NAME: userName},
                                         {'$set': {EMAIL: new_email}}):
@@ -310,7 +325,7 @@ def update_fields(userName, new_password, new_email):
     res = dbc.fetch_one_proj(USERS_COLLECT,
                              {"name": userName},
                              {"password": 0})
-    return res
+    return {"data": res, "message": message}
 
 
 def user_coin_exists(userName, coin):

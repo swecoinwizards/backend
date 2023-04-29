@@ -210,6 +210,37 @@ def test_update_email_fail_type(temp_user):
         assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
 
 
+def test_update_password(temp_user):
+    TEST_NEW_PASSWORD = 'string'
+    updated_dets = usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
+    assert isinstance(updated_dets,dict)
+    assert usr.get_user_password(TEST_USER_NAME) == TEST_NEW_PASSWORD
+
+
+def test_update_password_fail(temp_user):
+    with pytest.raises(ValueError):
+        TEST_NEW_PASSWORD = '****'
+        updated_dets = usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
+        assert isinstance(updated_dets,dict)
+
+
+def test_update_email_and_password(temp_user):
+    TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
+    TEST_NEW_PASSWORD = 'NEWPASSWORD'
+    updated_dets = usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, TEST_NEW_EMAIL)
+    assert isinstance(updated_dets,dict)
+    assert usr.get_user_email(TEST_USER_NAME) == TEST_NEW_EMAIL
+    assert "Password" in updated_dets["message"]
+
+
+def test_update_email_and_password_fail(temp_user):
+    with pytest.raises(ValueError):
+        TEST_NEW_PASSWORD = 'NEWPASSWORD'
+        usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
+        updated_dets = usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "sampleuser@gmail.com")
+        assert isinstance(updated_dets,dict)
+
+
 def test_get_user(temp_user):
     assert usr.get_user(TEST_USER_NAME) is not None
 
