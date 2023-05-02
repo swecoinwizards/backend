@@ -567,7 +567,7 @@ class GetPosts(Resource):
     @api.response(HTTPStatus.NOT_FOUND.value, 'Not Found')
     def get(self, term=""):
         """
-        Returns a list of a posts w applicable term
+        Returns a list of a posts with or without an applicable term
         """
         try:
             posts = user.get_all_posts(term)

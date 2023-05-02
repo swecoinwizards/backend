@@ -24,6 +24,9 @@ def user_cleanUp(user):
 
 
 def user_exists(name):
+    """
+    Returns true if a user exists, false if not
+    """
     dbc.connect_db()
     temp = dbc.fetch_one(USERS_COLLECT,
                          {"name": name})
@@ -31,6 +34,9 @@ def user_exists(name):
 
 
 def update_username(username, newUsername):
+    """
+    Updates a user's username with newUsername (must be unique)
+    """
     dbc.connect_db()
     if not isinstance(newUsername, str):
         raise TypeError(f'Wrong type for username: {type(newUsername)=}')
@@ -62,11 +68,17 @@ def update_username(username, newUsername):
 
 
 def get_users():
+    """
+    Returns all users from the database with details
+    """
     dbc.connect_db()
     return dbc.fetch_all_proj(USERS_COLLECT, {"password": 0})
 
 
 def get_user_names():
+    """
+    Returns a list of all usernames
+    """
     dbc.connect_db()
     names = []
     users = dbc.fetch_all_proj(USERS_COLLECT, {"password": 0})
@@ -76,6 +88,9 @@ def get_user_names():
 
 
 def get_posts(userName):
+    """
+    Returns a list of posts by a user
+    """
     dbc.connect_db()
 
     if not user_exists(userName):
@@ -88,6 +103,9 @@ def get_posts(userName):
 
 
 def get_user(username):
+    """
+    Returns a user and their details given their username
+    """
     if not user_exists(username):
         raise ValueError(f'User {username} does not exist')
     dbc.connect_db()
@@ -97,6 +115,9 @@ def get_user(username):
 
 
 def get_user_email(username):
+    """
+    Returns a user's email given their username
+    """
     if not user_exists(username):
         raise ValueError(f'User {username} does not exist')
 
@@ -106,6 +127,9 @@ def get_user_email(username):
 
 
 def get_user_password(username):
+    """
+    Return a user's password hash given their username
+    """
     if not user_exists(username):
         raise ValueError(f'User {username} does not exist')
     dbc.connect_db()
@@ -115,6 +139,9 @@ def get_user_password(username):
 
 
 def add_user(name, details):
+    """
+    Adds a new user to the database
+    """
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
 
@@ -160,6 +187,9 @@ def add_user(name, details):
 
 
 def del_user(name):
+    """
+    Deletes a user from the database
+    """
     # Should authenticate before deletion
     dbc.connect_db()
     if not user_exists(name):
@@ -273,6 +303,10 @@ def remove_follow(userName, followName):
 
 
 def update_fields(userName, new_password, new_email):
+    """
+    Update fields for a user, either their password or email.
+    All fields optional.
+    """
     if new_password is None:
         new_password = ""
     if not isinstance(new_password, str):
@@ -340,6 +374,9 @@ def update_fields(userName, new_password, new_email):
 
 
 def user_coin_exists(userName, coin):
+    """
+    Check if a coin exists in the database
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -347,6 +384,9 @@ def user_coin_exists(userName, coin):
 
 
 def add_coin(userName, coin):
+    """
+    Adds a new coin to a user's coin tracking
+    """
     if not cn.coin_exists(coin):
         raise ValueError("Coin does not exist!")
 
@@ -372,6 +412,9 @@ def add_coin(userName, coin):
 
 
 def remove_coin(userName, coin):
+    """
+    Removes a coin from a user's coin tracking
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -390,6 +433,9 @@ def remove_coin(userName, coin):
 
 
 def follower_count(userName, followName):
+    """
+    Returns the count of a user's followers
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -398,6 +444,9 @@ def follower_count(userName, followName):
 
 
 def following_count(userName, followName):
+    """
+    Returns the count of a user's followings
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -406,6 +455,9 @@ def following_count(userName, followName):
 
 
 def get_followers(userName):
+    """
+    Returns followers of a user
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -415,6 +467,9 @@ def get_followers(userName):
 
 
 def get_followings(userName):
+    """
+    Returns followings of a user
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -424,6 +479,9 @@ def get_followings(userName):
 
 
 def get_coins(userName):
+    """
+    Returns a list of a user's tracked coins
+    """
     dbc.connect_db()
     user = dbc.fetch_one(USERS_COLLECT,
                          {"name": userName})
@@ -433,6 +491,9 @@ def get_coins(userName):
 
 
 def get_all_posts(term):
+    """
+    Returns all posts made by a user
+    """
     dbc.connect_db()
     users = dbc.fetch_all(USERS_COLLECT)
     # print(users)
@@ -467,6 +528,9 @@ def user_coin_valuation(userName):
 
 
 def get_post_by_id(username, post_id):
+    """
+    Returns a post by id from a user
+    """
     dbc.connect_db()
     post = dbc.fetch_one_proj(USERS_COLLECT,
                               {'name': username,
@@ -483,6 +547,9 @@ def get_post_by_id(username, post_id):
 
 
 def profile_remove_post(username, post_id):
+    """
+    Removes a user's post by id
+    """
     if not user_exists(username):
         raise ValueError(f'User {username} does not exist')
 
@@ -495,6 +562,9 @@ def profile_remove_post(username, post_id):
 
 
 def profile_add_post(userName, title, content, tags):
+    """
+    Adds a new post for a user given a title, content, and list of tags
+    """
     if not title or not content:
         raise ValueError("Empty fields are not allowed")
 
@@ -518,6 +588,9 @@ def profile_add_post(userName, title, content, tags):
 
 
 def user_login(userName, password):
+    """
+    User authentication
+    """
     if not user_exists(userName):
         raise ValueError("Login authentication failed")
 

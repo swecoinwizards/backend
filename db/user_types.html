@@ -17,46 +17,51 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="db.db_connect.html">db.db_connect</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="bcrypt.html">bcrypt</a><br>
+<a href="db.coins.html">db.coins</a><br>
+</td><td width="25%" valign=top><a href="datetime.html">datetime</a><br>
+<a href="db.db_connect.html">db.db_connect</a><br>
+</td><td width="25%" valign=top><a href="uuid.html">uuid</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-access_profile_posts"><strong>access_profile_posts</strong></a>(userName, postNumber)</dt></dl>
- <dl><dt><a name="-add_coin"><strong>add_coin</strong></a>(userName, coin)</dt></dl>
+<td width="100%"><dl><dt><a name="-add_coin"><strong>add_coin</strong></a>(userName, coin)</dt><dd><tt>Adds&nbsp;a&nbsp;new&nbsp;coin&nbsp;to&nbsp;a&nbsp;user's&nbsp;coin&nbsp;tracking</tt></dd></dl>
  <dl><dt><a name="-add_following"><strong>add_following</strong></a>(userName, followName)</dt><dd><tt>userName&nbsp;will&nbsp;now&nbsp;be&nbsp;FOLLOWING&nbsp;followName<br>
 followName&nbsp;will&nbsp;now&nbsp;have&nbsp;userName&nbsp;as&nbsp;a&nbsp;FOLLOWER</tt></dd></dl>
- <dl><dt><a name="-add_user"><strong>add_user</strong></a>(name, details)</dt></dl>
- <dl><dt><a name="-del_user"><strong>del_user</strong></a>(name)</dt></dl>
- <dl><dt><a name="-follower_count"><strong>follower_count</strong></a>(userName, followName)</dt></dl>
+ <dl><dt><a name="-add_user"><strong>add_user</strong></a>(name, details)</dt><dd><tt>Adds&nbsp;a&nbsp;new&nbsp;user&nbsp;to&nbsp;the&nbsp;database</tt></dd></dl>
+ <dl><dt><a name="-del_user"><strong>del_user</strong></a>(name)</dt><dd><tt>Deletes&nbsp;a&nbsp;user&nbsp;from&nbsp;the&nbsp;database</tt></dd></dl>
+ <dl><dt><a name="-follower_count"><strong>follower_count</strong></a>(userName, followName)</dt><dd><tt>Returns&nbsp;the&nbsp;count&nbsp;of&nbsp;a&nbsp;user's&nbsp;followers</tt></dd></dl>
  <dl><dt><a name="-follower_exists"><strong>follower_exists</strong></a>(userName, followName)</dt><dd><tt>Checks&nbsp;if&nbsp;userName&nbsp;is&nbsp;BEING&nbsp;FOLLOWED&nbsp;by&nbsp;followName</tt></dd></dl>
- <dl><dt><a name="-following_count"><strong>following_count</strong></a>(userName, followName)</dt></dl>
+ <dl><dt><a name="-following_count"><strong>following_count</strong></a>(userName, followName)</dt><dd><tt>Returns&nbsp;the&nbsp;count&nbsp;of&nbsp;a&nbsp;user's&nbsp;followings</tt></dd></dl>
  <dl><dt><a name="-following_exists"><strong>following_exists</strong></a>(userName, followName)</dt><dd><tt>Checks&nbsp;if&nbsp;userName&nbsp;IS&nbsp;FOLLOWING&nbsp;followName</tt></dd></dl>
- <dl><dt><a name="-get_coins"><strong>get_coins</strong></a>(userName)</dt></dl>
- <dl><dt><a name="-get_followers"><strong>get_followers</strong></a>(userName)</dt></dl>
- <dl><dt><a name="-get_followings"><strong>get_followings</strong></a>(userName)</dt></dl>
- <dl><dt><a name="-get_password"><strong>get_password</strong></a>(userName)</dt></dl>
- <dl><dt><a name="-get_posts"><strong>get_posts</strong></a>(userName)</dt></dl>
- <dl><dt><a name="-get_user"><strong>get_user</strong></a>(username)</dt></dl>
- <dl><dt><a name="-get_user_email"><strong>get_user_email</strong></a>(username)</dt></dl>
- <dl><dt><a name="-get_user_password"><strong>get_user_password</strong></a>(username)</dt></dl>
- <dl><dt><a name="-get_users"><strong>get_users</strong></a>()</dt></dl>
- <dl><dt><a name="-profile_add_post"><strong>profile_add_post</strong></a>(userName, content)</dt></dl>
- <dl><dt><a name="-profile_delete_post"><strong>profile_delete_post</strong></a>(userName, postNumber)</dt></dl>
- <dl><dt><a name="-remove_coin"><strong>remove_coin</strong></a>(userName, coin)</dt></dl>
+ <dl><dt><a name="-get_all_posts"><strong>get_all_posts</strong></a>(term)</dt><dd><tt>Returns&nbsp;all&nbsp;posts&nbsp;made&nbsp;by&nbsp;a&nbsp;user</tt></dd></dl>
+ <dl><dt><a name="-get_coins"><strong>get_coins</strong></a>(userName)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;a&nbsp;user's&nbsp;tracked&nbsp;coins</tt></dd></dl>
+ <dl><dt><a name="-get_followers"><strong>get_followers</strong></a>(userName)</dt><dd><tt>Returns&nbsp;followers&nbsp;of&nbsp;a&nbsp;user</tt></dd></dl>
+ <dl><dt><a name="-get_followings"><strong>get_followings</strong></a>(userName)</dt><dd><tt>Returns&nbsp;followings&nbsp;of&nbsp;a&nbsp;user</tt></dd></dl>
+ <dl><dt><a name="-get_post_by_id"><strong>get_post_by_id</strong></a>(username, post_id)</dt><dd><tt>Returns&nbsp;a&nbsp;post&nbsp;by&nbsp;id&nbsp;from&nbsp;a&nbsp;user</tt></dd></dl>
+ <dl><dt><a name="-get_posts"><strong>get_posts</strong></a>(userName)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;posts&nbsp;by&nbsp;a&nbsp;user</tt></dd></dl>
+ <dl><dt><a name="-get_user"><strong>get_user</strong></a>(username)</dt><dd><tt>Returns&nbsp;a&nbsp;user&nbsp;and&nbsp;their&nbsp;details&nbsp;given&nbsp;their&nbsp;username</tt></dd></dl>
+ <dl><dt><a name="-get_user_email"><strong>get_user_email</strong></a>(username)</dt><dd><tt>Returns&nbsp;a&nbsp;user's&nbsp;email&nbsp;given&nbsp;their&nbsp;username</tt></dd></dl>
+ <dl><dt><a name="-get_user_names"><strong>get_user_names</strong></a>()</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;usernames</tt></dd></dl>
+ <dl><dt><a name="-get_user_password"><strong>get_user_password</strong></a>(username)</dt><dd><tt>Return&nbsp;a&nbsp;user's&nbsp;password&nbsp;hash&nbsp;given&nbsp;their&nbsp;username</tt></dd></dl>
+ <dl><dt><a name="-get_users"><strong>get_users</strong></a>()</dt><dd><tt>Returns&nbsp;all&nbsp;users&nbsp;from&nbsp;the&nbsp;database&nbsp;with&nbsp;details</tt></dd></dl>
+ <dl><dt><a name="-profile_add_post"><strong>profile_add_post</strong></a>(userName, title, content, tags)</dt><dd><tt>Adds&nbsp;a&nbsp;new&nbsp;post&nbsp;for&nbsp;a&nbsp;user&nbsp;given&nbsp;a&nbsp;title,&nbsp;content,&nbsp;and&nbsp;list&nbsp;of&nbsp;tags</tt></dd></dl>
+ <dl><dt><a name="-profile_remove_post"><strong>profile_remove_post</strong></a>(username, post_id)</dt><dd><tt>Removes&nbsp;a&nbsp;user's&nbsp;post&nbsp;by&nbsp;id</tt></dd></dl>
+ <dl><dt><a name="-remove_coin"><strong>remove_coin</strong></a>(userName, coin)</dt><dd><tt>Removes&nbsp;a&nbsp;coin&nbsp;from&nbsp;a&nbsp;user's&nbsp;coin&nbsp;tracking</tt></dd></dl>
  <dl><dt><a name="-remove_follow"><strong>remove_follow</strong></a>(userName, followName)</dt><dd><tt>userName&nbsp;will&nbsp;unfollow&nbsp;followName<br>
 followName&nbsp;will&nbsp;lose&nbsp;userName&nbsp;as&nbsp;a&nbsp;follower</tt></dd></dl>
- <dl><dt><a name="-update_email"><strong>update_email</strong></a>(userName, newEmail)</dt></dl>
- <dl><dt><a name="-update_password"><strong>update_password</strong></a>(userName, newPassword)</dt></dl>
- <dl><dt><a name="-update_username"><strong>update_username</strong></a>(username, newUsername)</dt></dl>
+ <dl><dt><a name="-update_fields"><strong>update_fields</strong></a>(userName, new_password, new_email)</dt><dd><tt>Update&nbsp;fields&nbsp;for&nbsp;a&nbsp;user,&nbsp;either&nbsp;their&nbsp;password&nbsp;or&nbsp;email.<br>
+All&nbsp;fields&nbsp;optional.</tt></dd></dl>
+ <dl><dt><a name="-update_username"><strong>update_username</strong></a>(username, newUsername)</dt><dd><tt>Updates&nbsp;a&nbsp;user's&nbsp;username&nbsp;with&nbsp;newUsername&nbsp;(must&nbsp;be&nbsp;unique)</tt></dd></dl>
  <dl><dt><a name="-user_cleanUp"><strong>user_cleanUp</strong></a>(user)</dt><dd><tt>#&nbsp;helper&nbsp;function&nbsp;for&nbsp;inputting&nbsp;user&nbsp;data&nbsp;to&nbsp;db</tt></dd></dl>
- <dl><dt><a name="-user_coin_exists"><strong>user_coin_exists</strong></a>(userName, coin)</dt></dl>
+ <dl><dt><a name="-user_coin_exists"><strong>user_coin_exists</strong></a>(userName, coin)</dt><dd><tt>Check&nbsp;if&nbsp;a&nbsp;coin&nbsp;exists&nbsp;in&nbsp;the&nbsp;database</tt></dd></dl>
  <dl><dt><a name="-user_coin_valuation"><strong>user_coin_valuation</strong></a>(userName)</dt></dl>
- <dl><dt><a name="-user_exists"><strong>user_exists</strong></a>(name)</dt></dl>
- <dl><dt><a name="-user_login"><strong>user_login</strong></a>(userName, password)</dt></dl>
+ <dl><dt><a name="-user_exists"><strong>user_exists</strong></a>(name)</dt><dd><tt>Returns&nbsp;true&nbsp;if&nbsp;a&nbsp;user&nbsp;exists,&nbsp;false&nbsp;if&nbsp;not</tt></dd></dl>
+ <dl><dt><a name="-user_login"><strong>user_login</strong></a>(userName, password)</dt><dd><tt>User&nbsp;authentication</tt></dd></dl>
 </td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
