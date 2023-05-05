@@ -202,22 +202,35 @@ def get_all_coin_tickers():
 
 def new_coin_details(coinName):
     # Coin name has to be lowercase
-    # did not add test yet since it is a api request
     cmc = CoinMarketCapAPI(API_KEY)
     # r = cmc.cryptocurrency_map()
     dbc.connect_db()
     coin_dets = {}
     quote = cmc.cryptocurrency_info(slug=coinName.lower()).data
-    # print("quote", quote)
     for key in quote:
+        coin_symbol = quote[key]['symbol']
+        quote2 = cmc.cryptocurrency_quotes_latest(symbol=coin_symbol).data
+        print(quote2)
         for item in REQUIRED_FIELDS:
-            if item in quote[key]:
+            if item == PRICE:
+                coin_dets[item] = quote2[coin_symbol][0]["quote"]["USD"][item]
+            elif item == DA:
+                coin_dets[item] = quote2[coin_symbol][0]["date_added"]
+            elif item in quote[key]:
                 coin_dets[item] = quote[key][item]
             else:
                 if item in [NAME, ID, SYMBOL, PRICE, DESCRIPTION, LOGO, DA]:
-                    coin_dets[item] = ""
+                    coin_dets[item] = "Unavailable"
                 else:
                     coin_dets[item] = {}
+        # for item in REQUIRED_FIELDS:
+        #     if item in quote[key]:
+        #         coin_dets[item] = quote[key][item]
+        #     else:
+        #         if item in [NAME, ID, SYMBOL, PRICE, DESCRIPTION, LOGO, DA]:
+        #             coin_dets[item] = "Unavailable"
+        #         else:
+        #             coin_dets[item] = {}
 
     if not coin_exists(coin_dets['name']):
         dbc.insert_one(COINS_COLLECT, coin_dets, COIN_DB)
