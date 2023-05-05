@@ -350,10 +350,13 @@ def test_get_all_posts_with_term(temp_user):
 
 
 @patch('db.user_types.parse_list', return_value=[])
-def test_get_no_posts_with_term(temp_user):
+def test_get_no_posts_with_term(mock_user_details):
+    usr.add_user(TEST_USER_NAME, NEW_USER_DET)
     lst = usr.get_all_posts("term")
     assert isinstance(lst, list)
     assert len(lst)==0
+    if (usr.user_exists(TEST_USER_NAME)):
+        usr.del_user(TEST_USER_NAME)
 
 
 def test_get_all_posts(temp_user):
