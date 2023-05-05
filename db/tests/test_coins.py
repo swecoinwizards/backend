@@ -1,11 +1,17 @@
 import os
 import pytest
 import db.coins as cn
+from unittest.mock import patch
+
 
 TEST_COIN = 'TEST_COIN'
 TEST_COIN_TICKER = 'TCN'
 TEST_COIN_DETS = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
-                  'price': 1000}
+                  'price': 1000, 'description':'', 'urls':{}, 'logo':'','tags':[],'dateAdded':''}
+TEST_COIN_DETS2 = {'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
+                  'price': 100, 'description':'', 'urls':{}, 'logo':'','tags':[],'dateAdded':''}
+TEST_COIN_TO_CLEAR = {"_id":"TEST", 'id': 3, 'name': TEST_COIN, 'symbol': TEST_COIN_TICKER,
+                  'price': 1000, 'description':'', 'urls':{}, 'logo':'','tags':[],'dateAdded':''}
 INVALID_SYMBOL = '123'
 VALID_SYMBOL = "NCM"
 RUNNING_ON_CICD_SERVER = os.environ.get('CI', False)
@@ -80,6 +86,16 @@ def test_remodel_coin_ticker(temp_coin):
         assert coin_symbol == remodel_symbol
 
 
+def test_remodel_coin_ticker_fail():
+    with pytest.raises(ValueError):
+        cn.remodel_coin_ticker(TEST_COIN, "RND")
+
+
+def test_get_coin_ticker_fail():
+    with pytest.raises(ValueError):
+        cn.get_coin_ticker(TEST_COIN)
+
+
 def test_get_all_coin_tickers(temp_coin):
     tickers = cn.get_all_coin_tickers()
     assert isinstance(tickers, list)
@@ -89,6 +105,11 @@ def test_get_all_coin_tickers(temp_coin):
 def test_coin_price(temp_coin):
     price = cn.coin_price(TEST_COIN)
     assert price == TEST_COIN_DETS['price']
+
+
+def test_coin_price_fail():
+    with pytest.raises(ValueError):
+        cn.coin_price(TEST_COIN)
 
 
 def test_update_price(temp_coin):
@@ -102,3 +123,50 @@ def test_update_price(temp_coin):
 def test_update_price_fail():
     with pytest.raises(ValueError):
         coin = cn.update_price(INVALID_SYMBOL)
+
+
+def test_coin_cleanUp_with_id():
+    coin = cn.coin_dets_cleanUp(TEST_COIN_TO_CLEAR)
+    assert isinstance(coin, dict)
+    assert "_id" not in coin
+
+
+def test_coin_cleanUp():
+    coin = cn.coin_dets_cleanUp(TEST_COIN_DETS)
+    assert isinstance(coin, dict)
+    assert "_id" not in coin
+
+
+@patch('db.coins.coinapi_setup', return_value=[])
+def test_get_latest_quotes(mock_user_details):
+    coins = cn.get_latest_quotes()
+    assert isinstance(coins,list)
+
+
+def test_save_coin():
+    coin = cn.save_coin(TEST_COIN, TEST_COIN_DETS)
+    assert isinstance(coin,bool)
+    assert coin == True
+    cn.remove_coin(TEST_COIN)
+
+
+def test_save_coin_exists(temp_coin):
+    coin = cn.save_coin(TEST_COIN, TEST_COIN_DETS2)
+    assert isinstance(coin,bool)
+    assert coin == True
+
+
+def test_save_coin_fail_typeError():
+    with pytest.raises(TypeError):
+        cn.save_coin([], TEST_COIN_DETS)
+        cn.save_coin(TEST_COIN, 123)
+
+
+def test_save_coin_fail_typeError2():
+    with pytest.raises(TypeError):
+        cn.save_coin(TEST_COIN, 123)
+
+
+def test_remove_coin():
+    with pytest.raises(ValueError):
+        cn.remove_coin(TEST_COIN)

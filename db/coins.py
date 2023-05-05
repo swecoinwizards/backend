@@ -117,17 +117,18 @@ def update_price(symbol):
     return dbc.fetch_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
 
 
-def save_coin(name, dets):
-    if not isinstance(name, str):
-        raise TypeError(f'Wrong type for name: {type(name)=}')
-    if not isinstance(dets, dict):
-        raise TypeError(f'Wrong type for coin details: {type(dets)=}')
-    if coin_exists(name):
-        raise ValueError("Coin with name %s already exists!", name)
-    # coin_type[name] = dets
-    dbc.connect_db()
-    dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
-    return True
+# def save_coin(name, dets):
+#     # using for tests
+#     if not isinstance(name, str):
+#         raise TypeError(f'Wrong type for name: {type(name)=}')
+#     if not isinstance(dets, dict):
+#         raise TypeError(f'Wrong type for coin details: {type(dets)=}')
+#     if coin_exists(name):
+#         raise ValueError("Coin with name %s already exists!", name)
+#     # coin_type[name] = dets
+#     dbc.connect_db()
+#     dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
+#     return True
 
 
 def remove_coin(name):
@@ -200,6 +201,31 @@ def get_all_coin_tickers():
     return tickers
 
 
+def save_coin(name, dets):
+    # using for tests
+    if not isinstance(name, str):
+        raise TypeError(f'Wrong type for name: {type(name)=}')
+    if not isinstance(dets, dict):
+        raise TypeError(f'Wrong type for coin details: {type(dets)=}')
+    # if coin_exists(name):
+    #     raise ValueError("Coin with name %s already exists!", name)
+    # coin_type[name] = dets
+    dbc.connect_db()
+    if not coin_exists(name):
+        dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
+    else:
+        dbc.update_one(COINS_COLLECT, {'symbol': dets['symbol']},
+                       {'$set': {
+                                PRICE: dets['price'],
+                                DESCRIPTION: dets['description'],
+                                URLS: dets['urls'],
+                                LOGO: dets['logo'],
+                                TAGS: dets['tags'],
+                                DA: dets['dateAdded']}}, COIN_DB)
+    # dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
+    return True
+
+
 def new_coin_details(coinName):
     # Coin name has to be lowercase
     cmc = CoinMarketCapAPI(API_KEY)
@@ -210,7 +236,6 @@ def new_coin_details(coinName):
     for key in quote:
         coin_symbol = quote[key]['symbol']
         quote2 = cmc.cryptocurrency_quotes_latest(symbol=coin_symbol).data
-        print(quote2)
         for item in REQUIRED_FIELDS:
             if item == PRICE:
                 coin_dets[item] = quote2[coin_symbol][0]["quote"]["USD"][item]
@@ -223,29 +248,17 @@ def new_coin_details(coinName):
                     coin_dets[item] = "Unavailable"
                 else:
                     coin_dets[item] = {}
-        # for item in REQUIRED_FIELDS:
-        #     if item in quote[key]:
-        #         coin_dets[item] = quote[key][item]
-        #     else:
-        #         if item in [NAME, ID, SYMBOL, PRICE, DESCRIPTION, LOGO, DA]:
-        #             coin_dets[item] = "Unavailable"
-        #         else:
-        #             coin_dets[item] = {}
-
-    if not coin_exists(coin_dets['name']):
-        dbc.insert_one(COINS_COLLECT, coin_dets, COIN_DB)
-    else:
-        dbc.update_one(COINS_COLLECT, {'symbol': coin_dets['symbol']},
-                       {'$set': {
-                                PRICE: coin_dets['price'],
-                                DESCRIPTION: coin_dets['description'],
-                                URLS: coin_dets['urls'],
-                                LOGO: coin_dets['logo'],
-                                TAGS: coin_dets['tags'],
-                                DA: coin_dets['dateAdded']}}, COIN_DB)
+    save_coin(coin_dets['name'], coin_dets)
+    # if not coin_exists(coin_dets['name']):
+    #     dbc.insert_one(COINS_COLLECT, coin_dets, COIN_DB)
+    # else:
+    #     dbc.update_one(COINS_COLLECT, {'symbol': coin_dets['symbol']},
+    #                    {'$set': {
+    #                             PRICE: coin_dets['price'],
+    #                             DESCRIPTION: coin_dets['description'],
+    #                             URLS: coin_dets['urls'],
+    #                             LOGO: coin_dets['logo'],
+    #                             TAGS: coin_dets['tags'],
+    #                             DA: coin_dets['dateAdded']}}, COIN_DB)
 
     return coin_dets_cleanUp(coin_dets)
-
-
-def main():
-    coinapi_setup()
