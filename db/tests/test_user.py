@@ -345,8 +345,19 @@ def test_get_followings(temp_user):
     assert isinstance(usr.get_followings(TEST_USER_NAME), list)
 
 
-def test_get_all_posts(temp_user):
+def test_get_all_posts_with_term(temp_user):
     assert isinstance(usr.get_all_posts("term"), list)
+
+
+@patch('db.user_types.parse_list', return_value=[])
+def test_get_no_posts_with_term(temp_user):
+    lst = usr.get_all_posts("term")
+    assert isinstance(lst, list)
+    assert len(lst)==0
+
+
+def test_get_all_posts(temp_user):
+    assert isinstance(usr.get_all_posts(""), list)
 
 
 @patch('db.db_connect.fetch_all', return_value=[])

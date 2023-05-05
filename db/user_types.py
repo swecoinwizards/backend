@@ -490,6 +490,22 @@ def get_coins(userName):
     raise Exception("User does not exist")
 
 
+def parse_list(term, posts, posts_with_term):
+    # helper function for get_all_posts
+    for post in posts:
+        if term in post["title"].lower():
+            # print("title:", post["title"].lower())
+            posts_with_term.append(post)
+        elif term in post["content"].lower():
+            # print("title:", post["title"].lower())
+            posts_with_term.append(post)
+        else:
+            tags_lower = [tag.lower() for tag in post["tags"]]
+            if term in tags_lower:
+                posts_with_term.append(post)
+    return posts_with_term
+
+
 def get_all_posts(term):
     """
     Returns all posts made by a user
@@ -498,19 +514,12 @@ def get_all_posts(term):
     users = dbc.fetch_all(USERS_COLLECT)
     # print(users)
     posts_with_term = []
+    term = term.lower()
+    print("term", term)
     if len(users) > 0:
         for user in users:
-            for post in user[POSTS]:
-                if term in post["title"]:
-                    post[NAME] = user[NAME]
-                    posts_with_term.append(post)
-                elif term in post["content"]:
-                    post[NAME] = user[NAME]
-                    posts_with_term.append(post)
-                elif term in post["tags"]:
-                    post[NAME] = user[NAME]
-                    posts_with_term.append(post)
-        return posts_with_term
+            lst = parse_list(term, user[POSTS], posts_with_term)
+        return lst
     raise Exception("No Users")
 
 
