@@ -112,19 +112,6 @@ def test_coin_price_fail():
         cn.coin_price(TEST_COIN)
 
 
-def test_update_price(temp_coin):
-    # using coin stored in db
-    # cn.save_coin(TEST_COIN, TEST_COIN_DETS)
-    coin = cn.update_price(TEST_COIN_TICKER)
-    # cn.remove_coin(TEST_COIN)
-    assert isinstance(coin,dict)
-
-
-def test_update_price_fail():
-    with pytest.raises(ValueError):
-        coin = cn.update_price(INVALID_SYMBOL)
-
-
 def test_coin_cleanUp_with_id():
     coin = cn.coin_dets_cleanUp(TEST_COIN_TO_CLEAR)
     assert isinstance(coin, dict)
@@ -138,7 +125,7 @@ def test_coin_cleanUp():
 
 
 @patch('db.coins.coinapi_setup', return_value=[])
-def test_get_latest_quotes(mock_user_details):
+def test_get_latest_quotes(mock_coin_details):
     coins = cn.get_latest_quotes()
     assert isinstance(coins,list)
 
@@ -170,3 +157,9 @@ def test_save_coin_fail_typeError2():
 def test_remove_coin():
     with pytest.raises(ValueError):
         cn.remove_coin(TEST_COIN)
+
+
+@patch('db.coins.coin_market_api_request', return_value=[])
+def test_new_coin_details_fail(mock_coin_details):
+    with pytest.raises(ValueError):
+        cn.new_coin_details(TEST_COIN)

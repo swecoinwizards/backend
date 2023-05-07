@@ -376,21 +376,6 @@ class CoinTypeDetails(Resource):
             raise wz.BadRequest(f'{e}')
 
 
-@coins.route(f'{COIN_UPDATE}/<coinSymbol>')
-class CoinPriceUpdate(Resource):
-    @api.response(HTTPStatus.OK.value, 'Success')
-    @api.response(HTTPStatus.BAD_REQUEST.value, 'Bad Request')
-    def get(self, coinSymbol):
-        """
-        Returns coin with updated price
-        """
-        try:
-            ct = coin.update_price(coinSymbol)
-            return {coinSymbol: ct}
-        except Exception as e:
-            raise wz.BadRequest(f'{e}')
-
-
 @coins.route(f'{COIN_LIST}/{UPDATE}/<numer_quotes>')
 class GetLatestCoins(Resource):
     def get(self, numer_quotes):

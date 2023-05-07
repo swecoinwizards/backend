@@ -107,30 +107,6 @@ def coinapi_price(symb):
         return -1.0
 
 
-def update_price(symbol):
-    dbc.connect_db()
-    temp = dbc.fetch_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
-    if (temp is None):
-        raise ValueError(f'Coin: {symbol} does not exist!')
-
-    coinapi_price(symbol)
-    return dbc.fetch_one(COINS_COLLECT, {"symbol": symbol}, COIN_DB)
-
-
-# def save_coin(name, dets):
-#     # using for tests
-#     if not isinstance(name, str):
-#         raise TypeError(f'Wrong type for name: {type(name)=}')
-#     if not isinstance(dets, dict):
-#         raise TypeError(f'Wrong type for coin details: {type(dets)=}')
-#     if coin_exists(name):
-#         raise ValueError("Coin with name %s already exists!", name)
-#     # coin_type[name] = dets
-#     dbc.connect_db()
-#     dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
-#     return True
-
-
 def remove_coin(name):
     dbc.connect_db()
     if not coin_exists(name):
@@ -226,39 +202,41 @@ def save_coin(name, dets):
     return True
 
 
-def new_coin_details(coinName):
+def coin_market_api_request(coinName):
     # Coin name has to be lowercase
     cmc = CoinMarketCapAPI(API_KEY)
     # r = cmc.cryptocurrency_map()
-    dbc.connect_db()
-    coin_dets = {}
     quote = cmc.cryptocurrency_info(slug=coinName.lower()).data
     for key in quote:
         coin_symbol = quote[key]['symbol']
         quote2 = cmc.cryptocurrency_quotes_latest(symbol=coin_symbol).data
-        for item in REQUIRED_FIELDS:
-            if item == PRICE:
-                coin_dets[item] = quote2[coin_symbol][0]["quote"]["USD"][item]
-            elif item == DA:
-                coin_dets[item] = quote2[coin_symbol][0]["date_added"]
-            elif item in quote[key]:
-                coin_dets[item] = quote[key][item]
-            else:
-                if item in [NAME, ID, SYMBOL, PRICE, DESCRIPTION, LOGO, DA]:
-                    coin_dets[item] = "Unavailable"
-                else:
-                    coin_dets[item] = {}
-    save_coin(coin_dets['name'], coin_dets)
-    # if not coin_exists(coin_dets['name']):
-    #     dbc.insert_one(COINS_COLLECT, coin_dets, COIN_DB)
-    # else:
-    #     dbc.update_one(COINS_COLLECT, {'symbol': coin_dets['symbol']},
-    #                    {'$set': {
-    #                             PRICE: coin_dets['price'],
-    #                             DESCRIPTION: coin_dets['description'],
-    #                             URLS: coin_dets['urls'],
-    #                             LOGO: coin_dets['logo'],
-    #                             TAGS: coin_dets['tags'],
-    #                             DA: coin_dets['dateAdded']}}, COIN_DB)
+    return [quote, quote2, coin_symbol, key]
 
+
+def new_coin_details(coinName):
+    dbc.connect_db()
+    coin_dets = {}
+    os.environ["USE_CMC"] = "1"
+    api_request_dets = coin_market_api_request(coinName)
+    if len(api_request_dets) == 0:
+        raise ValueError("Did not fetch CoinMarketCap data.")
+    os.environ["USE_CMC"] = "0"
+    # quote, quote2, coin_symbol, key = coin_market_api_request(coinName)
+    quote = api_request_dets[0]
+    quote2 = api_request_dets[1]
+    coin_symbol = api_request_dets[2]
+    key = api_request_dets[3]
+    for item in REQUIRED_FIELDS:
+        if item == PRICE:
+            coin_dets[item] = quote2[coin_symbol][0]["quote"]["USD"][item]
+        elif item == DA:
+            coin_dets[item] = quote2[coin_symbol][0]["date_added"]
+        elif item in quote[key]:
+            coin_dets[item] = quote[key][item]
+        else:
+            if item in [NAME, ID, SYMBOL, PRICE, DESCRIPTION, LOGO, DA]:
+                coin_dets[item] = "Unavailable"
+            else:
+                coin_dets[item] = {}
+    save_coin(coin_dets['name'], coin_dets)
     return coin_dets_cleanUp(coin_dets)
