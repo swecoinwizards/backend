@@ -429,7 +429,7 @@ class getNewCoin(Resource):
             return new_coin_details
         except Exception:
             raise wz.BadRequest(
-                f'{coinName} does not exists, check caps and spelling'
+                f'Error {coinName} does not exists, check caps and spelling'
                 )
 
 
@@ -457,7 +457,7 @@ class CoinFollow(Resource):
         try:
             return user.add_coin(username, coin)
         except ValueError as e:
-            raise wz.BadRequest(f'{e}')
+            raise wz.BadRequest(f'Error {e}')
 
 
 @users.route(f'{COIN_REMOVE_FOLLOW}/<username>/<coin>')

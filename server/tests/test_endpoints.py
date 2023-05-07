@@ -203,12 +203,36 @@ def test_remove_follower_fail(temp_user):
     assert resp.status_code == HTTPStatus.BAD_REQUEST
 
 
-
 def test_user_followers(temp_user):
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOWERS}/{SAMPLE_USER_NM}'
         ).get_json()
     assert isinstance(resp_json, dict)
+
+
+def test_user_followers_fail():
+    resp = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOWERS}/badUSER'
+        )
+    resp_json = resp.get_json()
+    assert isinstance(resp_json, dict)
+    assert "Error" in resp_json['Data']
+
+
+def test_user_followings(temp_user):
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOWINGS}/{SAMPLE_USER_NM}'
+        ).get_json()
+    assert isinstance(resp_json, dict)
+
+
+def test_user_followings_fail():
+    resp = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_FOLLOWINGS}/badUSER'
+        )
+    resp_json = resp.get_json()
+    assert isinstance(resp_json, dict)
+    assert "Error" in resp_json['Data']
 
 
 def test_user_login(temp_user):
@@ -236,15 +260,51 @@ def test_user_update_password(temp_user):
     assert isinstance(resp_json, dict)
 
 
-@pytest.mark.skip(reason="Coindb empty at start; causes test to fail")
-def test_coin_type_details():
+@patch('db.coins.coin_details', return_value={})
+def test_coin_type_details(mock_coin_details):
     """
     """
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_DETAILS}/'
         + f'{TEST_COIN}').get_json()
-    assert TEST_COIN in resp_json
-    assert isinstance(resp_json[TEST_COIN], dict)
+    assert isinstance(resp_json, dict)
+
+
+def test_coin_tickers_list():
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_TICKERS_LIST}').get_json()
+    assert isinstance(resp_json, dict)
+
+
+def test_coin_type_details_fail():
+    """
+    """
+    resp_json = TEST_CLIENT.get(
+        f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_DETAILS}/'
+        + f'{TEST_COIN}').get_json()
+    print(resp_json)
+    assert isinstance(resp_json["message"], str)
+
+
+@patch('db.coins.new_coin_details', return_value={})
+def test_get_new_coin(mock_coin_details):
+    resp = TEST_CLIENT.put(
+        f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_ADD}/'
+        + f'{TEST_COIN}')
+    resp_json = resp.get_json()
+    assert isinstance(resp_json, dict)
+    assert resp.status_code == HTTPStatus.OK
+
+
+@patch('db.coins.new_coin_details', side_effect=Exception())
+def test_get_new_coin_fail(mock_coin_details):
+    resp = TEST_CLIENT.put(
+        f'{ep.API_PFX}/{ep.COINS_NS}{ep.COIN_ADD}/'
+        + f'{TEST_COIN}')
+    resp_json = resp.get_json()
+    print(resp_json)
+    assert isinstance(resp_json["message"], str)
+    assert "Error" in resp_json["message"]
 
 
 def test_get_coin_list():
@@ -260,24 +320,42 @@ def test_get_coin_list():
 
 
 def test_add_coin(temp_coin_user):
-    resp_json = TEST_CLIENT.get(
+    resp_json = TEST_CLIENT.put(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_FOLLOW}/{SAMPLE_USER_NM}' +
         f'/{TEST_COIN}'
         ).get_json()
     assert isinstance(resp_json, dict)
 
 
-# @pytest.mark.skip(reason="Coindb empty at start; causes test to fail")
+def test_add_coin_fail():
+    resp_json = TEST_CLIENT.put(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_FOLLOW}/{SAMPLE_USER_NM}' +
+        f'/{TEST_COIN}'
+        ).get_json()
+    assert isinstance(resp_json['message'], str)
+    assert "Error" in resp_json['message']
+
+
 def test_remove_coin(temp_coin_user):
-    resp_json = TEST_CLIENT.get(
+    resp_json = TEST_CLIENT.put(
         f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_REMOVE_FOLLOW}/' +
         f'{SAMPLE_USER_NM}/{TEST_COIN}'
         ).get_json()
     assert isinstance(resp_json, dict)
 
 
+def test_remove_coin_fail():
+    resp_json = TEST_CLIENT.put(
+        f'{ep.API_PFX}/{ep.USERS_NS}{ep.COIN_REMOVE_FOLLOW}/' +
+        f'{SAMPLE_USER_NM}/{TEST_COIN}'
+        ).get_json()
+    assert isinstance(resp_json['message'], str)
+    assert "Error" in resp_json['message']
+
+
+
 @patch('db.coins.coin_exists', return_value=True)
-def test_coin_exists(mock_user_details):
+def test_coin_exists(mock_coin_details):
     resp_json = TEST_CLIENT.get(
         f'{ep.API_PFX}/{ep.COINS_NS}/{ep.EXIST}/{TEST_COIN}'
         ).get_json()
@@ -344,3 +422,31 @@ def test_get_post_no_users(mock_user_details):
     resp = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{ep.LIST}/term')
     resp_json = resp.get_json()
     assert resp.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_get_user_posts(temp_user):
+    resp = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/{SAMPLE_USER_NM}')
+    resp_json = resp.get_json()
+    assert isinstance(resp_json,dict)
+
+
+def test_get_user_posts_fail():
+    resp = TEST_CLIENT.get(f'{ep.API_PFX}/{ep.USERS_NS}{ep.USER_POSTS}/BADUSER')
+    resp_json = resp.get_json()
+    assert isinstance(resp_json["message"],str)
+    assert resp.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_main_menu():
+    resp_json = TEST_CLIENT.get(ep.API_PFX + ep.MAIN_MENU).get_json()
+    assert isinstance(resp_json,dict)
+
+
+def test_options_menu():
+    resp_json = TEST_CLIENT.get(ep.API_PFX + ep.OPTIONS).get_json()
+    assert isinstance(resp_json,dict)
+
+
+def test_endpoints_documentation():
+    resp_json = TEST_CLIENT.get(f'{ep.API_PFX}/endpoints').get_json()
+    assert isinstance(resp_json,dict)
