@@ -168,6 +168,11 @@ def test_add_user(temp_user):
     assert usr.user_exists(TEST_USER_NAME)
 
 
+def test_add_user_fail(temp_user):
+    with pytest.raises(ValueError):
+        usr.add_user(TEST_USER_NAME, NEW_USER_DET)
+
+
 def test_del_user(temp_user):
     # deleting user
     usr.del_user(TEST_USER_NAME)
@@ -223,6 +228,14 @@ def test_update_password_fail(temp_user):
         updated_dets = usr.update_fields(TEST_USER_NAME, TEST_NEW_PASSWORD, "")
         assert isinstance(updated_dets,dict)
 
+def test_get_user_password(temp_user):
+    assert usr.get_user_password(TEST_USER_NAME) is not None
+
+
+def test_get_user_password_fail(temp_user):
+    with pytest.raises(ValueError):
+        assert usr.get_user_password(' ')
+
 
 def test_update_email_and_password(temp_user):
     TEST_NEW_EMAIL = 'NEWSAMPLE@test.com'
@@ -255,6 +268,19 @@ def test_update_username(temp_user):
     usr.update_username(TEST_USER_NAME, NEW_USERNAME)
     assert usr.user_exists(NEW_USERNAME)
     usr.del_user(NEW_USERNAME)
+
+
+def test_update_username_fail_space(temp_user):
+    if not RUNNING_ON_CICD_SERVER:
+        NEW_USERNAME = ' '
+        with pytest.raises(ValueError):
+            usr.update_username(TEST_USER_NAME, NEW_USERNAME)
+
+
+def test_update_username_fail_dupe(temp_user):
+    if not RUNNING_ON_CICD_SERVER:
+        with pytest.raises(ValueError):
+            usr.update_username(TEST_USER_NAME, TEST_USER_NAME)
 
 
 def test_update_username_fail_type(temp_user):
@@ -310,6 +336,11 @@ def test_user_coin_evaluation(temp_user_coin):
 def test_profile_add_post(temp_user):
     res = usr.profile_add_post(TEST_USER_NAME, TEST_TITLE, TEST_CONTENT, TEST_TAGS)
     assert res['posts'] is not None
+
+
+def test_profile_add_post_fail(temp_user):
+    with pytest.raises(ValueError):
+        res = usr.profile_add_post(TEST_USER_NAME, "", "", "")
 
 
 @pytest.mark.skip(reason="Require remove post to work")

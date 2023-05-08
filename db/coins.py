@@ -22,12 +22,6 @@ REQUIRED_FIELDS = [ID, NAME, SYMBOL, PRICE, DESCRIPTION, URLS, LOGO, TAGS, DA]
 USE_TRUE = "1"
 USE_FALSE = "0"
 
-# database will use
-# coin_type = {'Bitcoin': {'id': 1, 'name': 'Bitcoin', 'symbol': 'BTC',
-#              'price': 20237.84301693455}, 'Litecoin': {'id': 2,
-#              'name': 'Litecoin', 'symbol': 'LTC',
-#              ß'price': 62.885530866205976}}
-
 
 # helper function for inputting user data to db
 def coin_dets_cleanUp(coin):
@@ -133,7 +127,6 @@ def coin_details(name):
 def get_coins():
     dbc.connect_db()
     return dbc.fetch_all(COINS_COLLECT, COIN_DB)
-    # return list(coin_type.keys())
 
 
 def count_coins():
@@ -178,14 +171,10 @@ def get_all_coin_tickers():
 
 
 def save_coin(name, dets):
-    # using for tests
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
     if not isinstance(dets, dict):
         raise TypeError(f'Wrong type for coin details: {type(dets)=}')
-    # if coin_exists(name):
-    #     raise ValueError("Coin with name %s already exists!", name)
-    # coin_type[name] = dets
     dbc.connect_db()
     if not coin_exists(name):
         dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
@@ -198,7 +187,6 @@ def save_coin(name, dets):
                                 LOGO: dets['logo'],
                                 TAGS: dets['tags'],
                                 DA: dets['dateAdded']}}, COIN_DB)
-    # dbc.insert_one(COINS_COLLECT, dets, COIN_DB)
     return True
 
 
