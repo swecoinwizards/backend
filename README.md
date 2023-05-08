@@ -9,6 +9,9 @@ To create the env for a new developer, run `make dev_env`.
 
 PythonAnywhere API: https://coinwizards.pythonanywhere.com/api/doc
 
+#### Note:
+When loading coins database locally, requires USE_CMC to be set to 1 and CMC_KEY to be set to your CoinMarketCap API key.
+
 ## Target Audience/Goal
 
 The target audiences are primarily crypto investors based on their investment portfolio
@@ -98,29 +101,15 @@ Database design update:
 * Set up coin API
   + Can request coin info
 * User functions (e.g create/delete account, follow, post, etc) 
-### Goals for Spring 2023 Semester
-* Setting up react
-  + Setting up Python Anywhere and getting react proj started
-  + Every week add an endpoint to the react page
-* Setting up authentication for user login/logout
-  + Setup function (maybe w js) - 2 weeks
-  + Add to react page
-* Set up user notifications/alerts
-  + Setup functions for each feature (e.g new posts, followers) - 4 weeks
 
-| Tasks | Timeline | Members |
-| ---- | ---- | ---- |
-| ~~Setup React Home Page~~ | ~~2/14~~ | |
-| ~~Setup w/ Python Anywhere~~ | ~~2/16~~ | |
-| ~~Search bar functionality~~ | 2/23 | Aruuke + Dayana|
-| ~~Home Page~~ | 2/23 | Dayana |
-| Login Page + Registration Page | 2/23 | Ahnaf |
-| login/logout/reset functionality | 2/23 | Ahnaf |
-| User Account Page | 2/23 | Darren |
-| Post/activity feed functionality | 4/17 | Dipu |
-| ~~Coin Page~~ | 3/9 | Dayana |
-| ~~Search Page~~ | 3/9 | Aruuke + Dayana|
-| Account Settings functionality | 3/9 | |
-| Email/text notification | 3/9 | |
-| MVP | 3/23 | |
-| Final modifications/additions | TBD | |
+### Spring 2023 Semester
+* Deployed API server to PythonAnywhere
+  + Set up authentication
+  + Set up user post functionality
+* Develop and deployed React application to Heroku
+  + Home page
+  + Search bar
+  + User account and coin pages
+  + Login/Logout/Authentication
+  + Account settings
+  + Post feed display
